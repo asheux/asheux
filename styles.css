@@ -1,0 +1,121 @@
+body {
+    margin: 0;
+    font-family: Roboto; 
+    background-color: #292a2d;
+    font-size: 20px;
+    color: #a9a9b3;
+}
+html {
+    min-height: 100%;
+}
+.anavbar {
+    background-color: #252627;
+    overflow: hidden;
+}
+.container {
+    margin: auto;
+    width: 50%;
+}
+.toggle {
+    display: flex;
+    align-items: center;
+    padding: 23px 16px;
+    justify-content: center;
+    line-height: 1;
+    cursor: pointer;
+}
+#nav a {
+    padding: 23px 16px;
+    float: left;
+    color: #a9a9b3;
+    text-align: center;
+    text-decoration: none;
+    font-size: 17px;
+}
+.container .home {
+    float: left;
+}
+.container .others {
+    float: right;
+}
+#blinker {
+    color: red;
+}
+.footer {
+    text-align: center;
+    color: #a9a9b3;
+}
+.content {
+    flex: 1;
+}
+.search {
+    margin-top: 6em;
+    margin-bottom: 2em;
+}
+.searchbar{
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 550px;
+    border-radius: 50px;
+    height: 40px;
+    border: 1px solid #dddddd;
+    outline: none;
+    padding-left: 40px;
+}
+
+ul {
+    padding-left: 2rem;
+    list-style-type: "→";;
+}
+
+ul li {
+    padding-left: 2rem;
+    padding-bottom: 5px;
+}
+ul a {
+    text-decoration: none;
+    color: green;
+}
+
+.link {
+    float: left;
+}
+
+.timer {
+    float: right;
+}
+
+.article-header {
+    font-weight: bold;
+}
+
+.article {
+    margin-top: 2em;
+    margin-bottom: 2em;
+}
+
+.pcontent {
+    width: 850px;
+}
+td {
+    border: 1px solid green;
+    padding: 5px 20px 5px 20px;
+}
+
+th {
+    border: 1px solid green;
+}
+
+.tabled {
+    margin: auto;
+}
+
+.code {
+    margin-left: -40em;
+    display: inline-block
+}
+
+.box {
+    background-color: black;
+}
