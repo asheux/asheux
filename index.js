@@ -1,6 +1,89 @@
 import { Main, Dictionary } from "wasm-router-handler";
+import "./styles.css";
+import article1 from "./articles/1.html";
+import darktheme from "./images/lighttheme.svg";
+import lighttheme from "./images/darktheme.svg";
 
-const themeToggle = document.getElementById('theme-toggler');
+const importCache = {};
+function importAll(r) {
+  r.keys().forEach((key) => (importCache[key] = r(key)));
+}
+importAll(require.context('./articles/', true, /\.html$/));
+
+const loadNavbar = () => {
+    const main = document.getElementById("main");
+    const div = createElement('div');
+    // parent
+    div.classList.add("anavbar");
+    div.setAttribute("id", "anavbar-id");
+    // child
+    const div2 = createElement('div');
+    div2.classList.add("container");
+    div2.setAttribute("id", "nav");
+    div.appendChild(div2);
+    // great child
+    const div3 = createElement('div');
+    div3.classList.add("home");
+    const a = createElement('a');
+    a.setAttribute("id", "navname");
+    a.href = "/";
+    a.textContent = "Asheux ";
+    const span = createElement('span');
+    span.setAttribute("id", "blinker");
+    span.style.pointerEvents = "none";
+    span.textContent = "? ";
+    a.appendChild(span)
+    writeName(a);
+    div3.appendChild(a);
+    div2.appendChild(div3);
+    // great child 2
+    const div4 = createElement('div');
+    div4.classList.add('others');
+    let aas = [createElement('a'), createElement('a')];
+    let rs = ['/About', '/Projects'];
+    for (let i = 0; i<aas.length; i++) {
+        let r = rs[i];
+        let _a = aas[i]
+        _a.setAttribute("id", "nav-item");
+        _a.href = r.toLowerCase();
+        _a.textContent = r.replace("/", "");
+        div4.appendChild(_a);
+    }
+    const _span = createElement('span');
+    _span.setAttribute("id", "theme-toggle");
+    _span.classList.add("toggle");
+    const img = createElement("img");
+    let themetoggler = darktheme;
+    if (isDark()) {
+        themetoggler = lighttheme;
+    }
+    img.src = themetoggler;
+    img.setAttribute("id", "theme-toggler");
+    _span.appendChild(img);
+    div4.appendChild(_span);
+    div2.appendChild(div4);
+    div.appendChild(div2);
+    main.appendChild(div);
+    // parent
+    const div5 = createElement('div');
+    div5.classList.add("container");
+    // child
+    const div6 = createElement('div');
+    div6.setAttribute("id", "content");
+    div5.appendChild(div6);
+    main.appendChild(div5);
+    const footer = createElement('footer');
+    footer.classList.add('anavbar');
+    footer.setAttribute('id', 'footer-id');
+    const div7 = createElement('div');
+    div7.classList.add('footer');
+    const p = createElement('p');
+    p.setAttribute('id', 'ptext');
+    p.textContent = '@ 2023 Brian.Mboya@Asheux.com';
+    div7.appendChild(p);
+    footer.appendChild(div7);
+    main.appendChild(footer);
+}
 
 // Initialize rust objects
 const home = new Main();
@@ -14,7 +97,9 @@ const setTheme = (e) => {
     let fill = "#ffffff";
     let textColor = "#a9a9b3";
     let articleColor = "a9a9b3";
+    let src = darktheme;
     const bodyElement = document.getElementById('body-id');
+    const themeToggle = document.getElementById('theme-toggler');
     const navbarElement = document.getElementById('anavbar-id');
     const footerElement = document.getElementById('footer-id');
     const nav = document.getElementById("nav");
@@ -27,6 +112,7 @@ const setTheme = (e) => {
             navbarColor = "#f0f0f0";
             fill = "#292a2d";
             textColor = "#000000";
+            src = lighttheme;
         }
     } else {
         if (!e) { 
@@ -34,6 +120,7 @@ const setTheme = (e) => {
             navbarColor = "#f0f0f0";
             fill = "#292a2d";
             textColor = "#000000";
+            src = lighttheme;
         }
     }
     if (e) {
@@ -44,15 +131,14 @@ const setTheme = (e) => {
     footerElement.style.backgroundColor = navbarColor; 
     footerElement.style.color = textColor; 
     ptext.style.color = textColor; 
-    themeToggle.style.fill = fill;
+    themeToggle.src = src;
     bodyElement.style.color = textColor;
     for (let i = 0; i < navItems.length; i++) {
         navItems[i].style.color = textColor;
     }
 }
 
-const writeName = () => {
-    const nameElement = document.getElementById("navname");
+const writeName = (nameElement) => {
     const name = home.get_name(); 
     let index = 0;
     const intervalId = setInterval(() => {
@@ -61,6 +147,8 @@ const writeName = () => {
             const span = createElement("span");
             span.textContent = letter;
             span.style.color = "green";
+            span.style.fontSize = true;
+            span.style.pointerEvents = "none";
             nameElement.appendChild(span);
             index++
         } else {
@@ -74,27 +162,37 @@ const createElement = (el) => {
 }
 
 const writeLinks = (out) => {
+    const ul = document.getElementById('links');
+    const h = createElement("h4");
+    h.textContent = "Programming & Artificial Intelligence";
+    ul.appendChild(h);
+    let isOldSet = false;
     for (let i = 0; i < out.length; i++) {
         const item = out[i];
         const {name, tag} = item;
-        const ul = document.getElementById('links');
+        const tags = tag.split(',');
+        const id = Number(tags[0]);
         const li = createElement('li');
         const a = createElement('a');
+        let h4 = null;
+        if (id === 0) {
+            h4 = createElement('h4');
+            h4.textContent = "Poetry & Essays";
+        }
         const span = createElement('span');
         a.textContent = name;
-        a.href = `/article#${i+1}`;
-        a.value = i+1;
+        a.href = `/articles/${id}`;
+        a.value = id;
         a.addEventListener("click", handleRouting);
-        const tags = tag.split(',');
-        for (let n = 0; n < tags.length; n++) {
+        for (let n = 1; n < tags.length; n++) {
             const small = createElement('small');
             const t = tags[n];
             small.textContent = t;
             small.style.padding = "3px";
             small.style.margin = "2px";
             small.style.borderRadius = "5%";
-            small.style.backgroundColor = "#41d8da";
-            small.style.color = "#000000";
+            small.style.backgroundColor = "#0f8c8e";
+            small.style.color = "#ffffff";
             span.appendChild(small);
         }
         const classes = ['link', 'timer']
@@ -107,7 +205,14 @@ const writeLinks = (out) => {
             div.append(el);
             li.appendChild(div);
         }
-        ul.appendChild(li);
+        if (h4 && !isOldSet) {
+            isOldSet = true;
+            ul.appendChild(h4);
+            h4 = null;
+        }
+        if (id !== 0) {
+            ul.appendChild(li);
+        }
     }
 }
 
@@ -159,7 +264,7 @@ const writeArticlePage = (out) => {
 }
 
 const fetchHTMLContont = (id) => {
-    return fetch(`articles/${id}.html`)
+    return fetch(`/articles/${id}.html`)
     .then(response => response.text())
     .then(data => data)
     .catch(
@@ -169,7 +274,7 @@ const fetchHTMLContont = (id) => {
 
 const handleRouting = (event) => {
     const href = event.target.href;
-    if (href.includes('article')) {
+    if (href.includes('articles')) {
         localStorage.setItem("articleId", event.target.value);
     }
     event.preventDefault();
@@ -182,25 +287,25 @@ const router = () => {
     const route = window.location.pathname;
     home.set_route(route);
     const content = document.getElementById('content');
-    const routes = ['/', '/about', '/projects', '/article'];
+    const articleRoute = `/articles/${id}`;
+    const routes = ['/', '/about', '/projects', articleRoute];
     const functionMapper = {
         "/": writeHomePage,
         "/about": writeAboutPage,
         "/projects": writeProjectsPage,
-        "/article": writeArticlePage,
+        articleRoute: writeArticlePage,
     };
 
     if (routes.includes(route)) {
         content.innerHTML = "";
-        const response = home.handle_route();
-        let data = JSON.parse(response);
-        if (route === '/article') {
+        if (route === `/articles/${id}`) {
             if (id) {
-                fetchHTMLContont(id).then(res => {
-                    functionMapper[route](res);
-                });
+                const res = importCache[`./${id}.html`];
+                functionMapper.articleRoute(res.default);
             }
         } else {
+            const response = home.handle_route(id);
+            let data = JSON.parse(response);
             functionMapper[route](data);
         } 
     }
@@ -223,20 +328,23 @@ const isDark = () => {
     return (_dark === 'true');
 };
 
-themeToggle.addEventListener("click", v => {
-    setTheme(v); 
-});
+function run() {
+    loadNavbar();
+    const themeToggle = document.getElementById('theme-toggler');
+    themeToggle.addEventListener("click", v => {
+        setTheme(v); 
+    });
+    setInterval(Blinker, 300);
+    setTheme();
+    writeHomePage(default_data);
 
-setInterval(Blinker, 300);
-setTheme();
-writeName();
-writeHomePage(default_data);
+    var navis = document.querySelectorAll("a");
+    navis.forEach(anchor => {
+        anchor.addEventListener('click', handleRouting);
+    });
 
-const navis = document.querySelectorAll("a");
-navis.forEach(anchor => {
-    anchor.addEventListener('click', handleRouting);
-});
-
-// Handle back and forward button events
-window.onpopstate = router;
-window.router = router;
+    // Handle back and forward button events
+    router();
+    window.onpopstate = router;
+}
+run();

@@ -6,12 +6,12 @@
     </head>
     <body>
         <div id="article" class="article">
-            <div><small style="color: green;">8 min read Nov 2, 2023</small></div>
+            <div><small style="color: green;">8 min read Apr 29, 2020</small></div>
             <h1 class="article-header">
                 Encoding logic in Artificial Intelligence
             </h1>
             <div class="article-content">
-                <div><img width="850px" height="500px" src="/images/logic.png" /></div>
+                <div><img width="100%" height="100%" src="/images/logic.png" /></div>
                 <div class="pcontent">
                     <p>
                         <i>| Using a simple propositional logic and model-checking algorithm</i>
@@ -221,21 +221,29 @@
                         <div class="box">
                             <pre>
                                 <code id="acode" class="code">
-                                    function MODEL-CHECK-ALL(KB,α,symbols, model) returns true or false
+                                    function MODEL-CHECK-ALL(KB,α,symbols, model)
+                                      # returns true or false
                                       if EMPTY(symbols) then
                                         if evaluate(KB , model) then
                                           return evaluate(α, model)
                                         else
-                                          return true // when KB is false, always return true
+                                          // when KB is false, always return true
+                                          return true 
                                       else do
                                         P ← FIRST(symbols)
                                         rest ← REST(symbols)
-                                        return (MODEL-CHECK-ALL(KB, α, rest , model ∪ {P = true})
-                                               and MODEL-CHECK-ALL(KB, α, rest , model ∪ {P = false }))
+                                        return (
+                                            MODEL-CHECK-ALL(
+                                                KB, α, rest , model ∪ {P = true}
+                                            )
+                                               and MODEL-CHECK-ALL(
+                                                    KB, α, rest , model ∪ {P = false }
+                                                ))
                                     
                                     function ENTAILS(KB , α) returns true or false
-                                      inputs: KB , the knowledge base, a sentence in propositional logic
-                                              α, the query, a sentence in propositional logic
+                                      inputs: KB , the knowledge base, a sentence in
+                                            propositional logic
+                                            α, the query, a sentence in propositional logic
                                       symbols ← a list of the proposition symbols in KB and α
                                       return MODEL-CHECK-ALL(KB, α, symbols, {})
                                 </code>
@@ -255,7 +263,8 @@
                                         model: a possible model or possible world
                                         """
                                         if not symbols:
-                                            # evaluate returns true if a sentence holds within a model
+                                            # evaluate returns true if a
+                                            # sentence holds within a model
                                             if evaluate(kb, model):
                                                 return evaluate(kb, model) 
                                             return True
