@@ -4,152 +4,163 @@ import article1 from "./articles/1.html";
 import darktheme from "./images/lighttheme.svg";
 import lighttheme from "./images/darktheme.svg";
 
-const importCache = {};
-function importAll(r) {
-  r.keys().forEach((key) => (importCache[key] = r(key)));
-}
-importAll(require.context('./articles/', true, /\.html$/));
-
-const loadNavbar = () => {
-    const main = document.getElementById("main");
-    const div = createElement('div');
-    // parent
-    div.classList.add("anavbar");
-    div.setAttribute("id", "anavbar-id");
-    // child
-    const div2 = createElement('div');
-    div2.classList.add("container");
-    div2.setAttribute("id", "nav");
-    div.appendChild(div2);
-    // great child
-    const div3 = createElement('div');
-    div3.classList.add("home");
-    const a = createElement('a');
-    a.setAttribute("id", "navname");
-    a.href = "/";
-    a.textContent = "Asheux ";
-    const span = createElement('span');
-    span.setAttribute("id", "blinker");
-    span.style.pointerEvents = "none";
-    span.textContent = "? ";
-    a.appendChild(span)
-    writeName(a);
-    div3.appendChild(a);
-    div2.appendChild(div3);
-    // great child 2
-    const div4 = createElement('div');
-    div4.classList.add('others');
-    let aas = [createElement('a'), createElement('a')];
-    let rs = ['/About', '/Projects'];
-    for (let i = 0; i<aas.length; i++) {
-        let r = rs[i];
-        let _a = aas[i]
-        _a.setAttribute("id", "nav-item");
-        _a.href = r.toLowerCase();
-        _a.textContent = r.replace("/", "");
-        div4.appendChild(_a);
-    }
-    const _span = createElement('span');
-    _span.setAttribute("id", "theme-toggle");
-    _span.classList.add("toggle");
-    const img = createElement("img");
-    let themetoggler = darktheme;
-    if (isDark()) {
-        themetoggler = lighttheme;
-    }
-    img.src = themetoggler;
-    img.setAttribute("id", "theme-toggler");
-    _span.appendChild(img);
-    div4.appendChild(_span);
-    div2.appendChild(div4);
-    div.appendChild(div2);
-    main.appendChild(div);
-    // parent
-    const div5 = createElement('div');
-    div5.classList.add("container");
-    // child
-    const div6 = createElement('div');
-    div6.setAttribute("id", "content");
-    div5.appendChild(div6);
-    main.appendChild(div5);
-    const footer = createElement('footer');
-    footer.classList.add('anavbar');
-    footer.setAttribute('id', 'footer-id');
-    const div7 = createElement('div');
-    div7.classList.add('footer');
-    const p = createElement('p');
-    p.setAttribute('id', 'ptext');
-    p.textContent = '@ 2023 Brian.Mboya@Asheux.com';
-    div7.appendChild(p);
-    footer.appendChild(div7);
-    main.appendChild(footer);
-}
 
 // Initialize rust objects
 const home = new Main();
 const dictionary = new Dictionary();
 const default_respone = dictionary.get_tags()
 const default_data = JSON.parse(default_respone);
+const import_cache = {};
 
-const setTheme = (e) => {
-    let bodyColor = "#292a2d";
-    let navbarColor = "#252627";
-    let fill = "#ffffff";
-    let textColor = "#a9a9b3";
-    let articleColor = "a9a9b3";
-    let src = darktheme;
-    const bodyElement = document.getElementById('body-id');
-    const themeToggle = document.getElementById('theme-toggler');
-    const navbarElement = document.getElementById('anavbar-id');
-    const footerElement = document.getElementById('footer-id');
-    const nav = document.getElementById("nav");
-    const ptext = document.getElementById("ptext");
-    const navItems = nav.getElementsByTagName("a");
 
-    if (isDark()) {
+function __import_all(r) {
+  r.keys().forEach((key) => (import_cache[key] = r(key)));
+}
+__import_all(require.context('./articles/', true, /\.html$/));
+
+function _get_name() {
+    var a = set_attribute("h", "navname", "a");
+    a.href = "/";
+    a.textContent = "Asheux ";
+    var span = set_attribute("j", "blinker", "span");
+    span.style.pointerEvents = "none";
+    span.textContent = "? ";
+    a.appendChild(span)
+    write_name(a);
+    return a;
+}
+
+function getnavitems() {
+    var div = set_attribute("others", "g", "div");
+    var aas = [create_element('a'), create_element('a')];
+    var rs = ['/About', '/Projects'];
+    for (var i = 0; i<aas.length; i++) {
+        var r = rs[i];
+        var _a = aas[i]
+        _a.setAttribute("id", "nav-item");
+        _a.href = r.toLowerCase();
+        _a.textContent = r.replace("/", "");
+        div.appendChild(_a);
+    }
+    return div;
+}
+
+function get_theme_toggler() {
+    var span = set_attribute("toggle", "theme-toggle", "span");
+    var img = set_attribute("f", "theme-toggler", "img");
+    var themetoggler = darktheme;
+    if (is_dark()) {
+        themetoggler = lighttheme;
+    }
+    img.src = themetoggler;
+    span.appendChild(img);
+    return span;
+}
+
+function get_footer() {
+    var footer = set_attribute("anavbar", "footer-id", "footer");
+    var div = set_attribute("footer", "_c", "div");
+    var p = set_attribute("c", "ptext", "p");
+    p.textContent = '@ 2023 Brian.Mboya@Asheux.com';
+    div.appendChild(p);
+    footer.appendChild(div);
+    return footer;
+}
+
+function set_attribute(className, id, el) {
+    var element = create_element(el);
+    element.classList.add(className);
+    element.setAttribute("id", id);
+    return element;
+}
+
+function load_navbar() {
+    var main = document.getElementById("main");
+    var div = set_attribute("anavbar", "anavbar-id", "div");
+    // parent
+    // child
+    var _div = set_attribute("container", "nav", "div");
+    div.appendChild(_div);
+    // great child
+    var __div = set_attribute("home", "_home", "div");
+    var a = _get_name();
+    __div.appendChild(a);
+    _div.appendChild(__div);
+    // great child 2
+    var __div__ = getnavitems();
+    var span = get_theme_toggler();
+    __div__.appendChild(span);
+    _div.appendChild(__div__);
+    div.appendChild(_div);
+    main.appendChild(div);
+    // parent
+    var __div_ = set_attribute("container", "x", "div");
+    // child
+    var ___div__ = set_attribute("l", "content", "div");
+    __div_.appendChild(___div__);
+    main.appendChild(__div_);
+    var footer = get_footer();
+    main.appendChild(footer);
+}
+
+function set_theme(e) {
+    var body_color = "#292a2d";
+    var navbar_color = "#252627";
+    var fill = "#ffffff";
+    var text_color = "#a9a9b3";
+    var src = darktheme;
+    var body_element = document.getElementById('body-id');
+    var theme_toggle = document.getElementById('theme-toggler');
+    var navbar_element = document.getElementById('anavbar-id');
+    var footer_element = document.getElementById('footer-id');
+    var nav = document.getElementById("nav");
+    var ptext = document.getElementById("ptext");
+    var nav_items = nav.getElementsByTagName("a");
+
+    if (is_dark()) {
         if (e) {
-            bodyColor = "#ffffff";
-            navbarColor = "#f0f0f0";
+            body_color = "#ffffff";
+            navbar_color = "#f0f0f0";
             fill = "#292a2d";
-            textColor = "#000000";
+            text_color = "#000000";
             src = lighttheme;
         }
     } else {
         if (!e) { 
-            bodyColor = "#ffffff";
-            navbarColor = "#f0f0f0";
+            body_color = "#ffffff";
+            navbar_color = "#f0f0f0";
             fill = "#292a2d";
-            textColor = "#000000";
+            text_color = "#000000";
             src = lighttheme;
         }
     }
     if (e) {
-        localStorage.setItem("darkTheme", !isDark());
+        localStorage.setItem("darkTheme", !is_dark());
     }
-    bodyElement.style.backgroundColor = bodyColor;
-    navbarElement.style.backgroundColor = navbarColor; 
-    footerElement.style.backgroundColor = navbarColor; 
-    footerElement.style.color = textColor; 
-    ptext.style.color = textColor; 
-    themeToggle.src = src;
-    bodyElement.style.color = textColor;
-    for (let i = 0; i < navItems.length; i++) {
-        navItems[i].style.color = textColor;
+    body_element.style.backgroundColor = body_color;
+    navbar_element.style.backgroundColor = navbar_color; 
+    footer_element.style.backgroundColor = navbar_color; 
+    footer_element.style.color = text_color; 
+    ptext.style.color = text_color; 
+    theme_toggle.src = src;
+    body_element.style.color = text_color;
+    for (var i = 0; i < nav_items.length; i++) {
+        nav_items[i].style.color = text_color;
     }
 }
 
-const writeName = (nameElement) => {
-    const name = home.get_name(); 
-    let index = 0;
-    const intervalId = setInterval(() => {
+function write_name(name_element) {
+    var name = home.get_name(); 
+    var index = 0;
+    var intervalId = setInterval(() => {
         if (index < name.length) {
-            let letter = name[index];
-            const span = createElement("span");
+            var letter = name[index];
+            var span = create_element("span");
             span.textContent = letter;
             span.style.color = "green";
             span.style.fontSize = true;
             span.style.pointerEvents = "none";
-            nameElement.appendChild(span);
+            name_element.appendChild(span);
             index++
         } else {
             clearInterval(intervalId);
@@ -157,36 +168,36 @@ const writeName = (nameElement) => {
     }, 100);
 }
 
-const createElement = (el) => {
+function create_element(el) {
     return document.createElement(el);
 }
 
-const writeLinks = (out) => {
-    const ul = document.getElementById('links');
-    const h = createElement("h4");
+function write_links(out) {
+    var ul = document.getElementById('links');
+    var h = create_element("h4");
     h.textContent = "Programming & Artificial Intelligence";
     ul.appendChild(h);
-    let isOldSet = false;
-    for (let i = 0; i < out.length; i++) {
-        const item = out[i];
-        const {name, tag} = item;
-        const tags = tag.split(',');
-        const id = Number(tags[0]);
-        const li = createElement('li');
-        const a = createElement('a');
-        let h4 = null;
+    var is_old_set = false;
+    for (var i = 0; i < out.length; i++) {
+        var item = out[i];
+        var {name, tag} = item;
+        var tags = tag.split(',');
+        var id = Number(tags[0]);
+        var li = create_element('li');
+        var a = create_element('a');
+        var h4 = null;
         if (id === 0) {
-            h4 = createElement('h4');
+            h4 = create_element('h4');
             h4.textContent = "Poetry & Essays";
         }
-        const span = createElement('span');
+        var span = create_element('span');
         a.textContent = name;
         a.href = `/articles/${id}`;
         a.value = id;
-        a.addEventListener("click", handleRouting);
-        for (let n = 1; n < tags.length; n++) {
-            const small = createElement('small');
-            const t = tags[n];
+        a.addEventListener("click", handle_routing);
+        for (var n = 1; n < tags.length; n++) {
+            var small = create_element('small');
+            var t = tags[n];
             small.textContent = t;
             small.style.padding = "3px";
             small.style.margin = "2px";
@@ -195,18 +206,18 @@ const writeLinks = (out) => {
             small.style.color = "#ffffff";
             span.appendChild(small);
         }
-        const classes = ['link', 'timer']
-        const elements = [a, span];
-        for (let j = 0; j < 2; j++) {
-            const el = elements[j];
-            const _class = classes[j];
-            const div = createElement('div');
+        var classes = ['link', 'timer']
+        var elements = [a, span];
+        for (var j = 0; j < 2; j++) {
+            var el = elements[j];
+            var _class = classes[j];
+            var div = create_element('div');
             div.classList.add(_class);
             div.append(el);
             li.appendChild(div);
         }
-        if (h4 && !isOldSet) {
-            isOldSet = true;
+        if (h4 && !is_old_set) {
+            is_old_set = true;
             ul.appendChild(h4);
             h4 = null;
         }
@@ -217,53 +228,52 @@ const writeLinks = (out) => {
 }
 
 
-const writeHomePage = (out_data) => {
-    const content = document.getElementById("content");
-    const input = createElement("input");
-    const ul = createElement('ul');
-    ul.setAttribute("id", "links");
+function write_home_page(out_data) {
+    var content = document.getElementById("content");
+    var input = create_element("input");
+    var ul = set_attribute('v', 'links', 'ul');
     input.type = "text";
     input.placeholder = "Search...";
     input.classList.add('searchbar')
-    const divv = createElement('div')
-    const f = divv.appendChild(input);
-    const s = divv.appendChild(ul);
-    const divs = [f, s];
-    const classes = ['search', 'linksdata']
-    for (let i = 0; i < divs.length; i++) {
-        const div = divs[i];
-        const _class = classes[i];
-        div.classList.add(_class);
-        content.appendChild(div)
+    var div = create_element('div')
+    var f = div.appendChild(input);
+    var s = div.appendChild(ul);
+    var divs = [f, s];
+    var classes = ['search', 'linksdata']
+    for (var i = 0; i < divs.length; i++) {
+        var _div = divs[i];
+        var _class = classes[i];
+        _div.classList.add(_class);
+        content.appendChild(_div)
     }
-    writeLinks(out_data);
+    write_links(out_data);
 }
 
-const writeAboutPage = (out) => {
-    const content = document.getElementById('content');
-    const h1 = createElement('h1');
+function write_about_page(out) {
+    var content = document.getElementById('content');
+    var h1 = create_element('h1');
     h1.textContent = out[0].name;
     content.appendChild(h1);
 }
 
-const writeProjectsPage = (out) => {
-    const content = document.getElementById('content');
-    const h1 = createElement('h1');
+function write_projects_page(out) {
+    var content = document.getElementById('content');
+    var h1 = create_element('h1');
     h1.textContent = out[0].name;
     content.appendChild(h1);
 }
 
-const writeArticlePage = (out) => {
-    const content = document.getElementById('content');
-    const codes = document.getElementsByTagName('code');
-    let codeColor = "#663399";
+function write_article_page(out) {
+    var content = document.getElementById('content');
+    var codes = document.getElementsByTagName('code');
+    var code_color = "#663399";
     content.innerHTML = out;
-    for (let code of codes) {
-        code.style.color = codeColor;
+    for (var code of codes) {
+        code.style.color = code_color;
     }
 }
 
-const fetchHTMLContont = (id) => {
+function fetch_html_contont(id) {
     return fetch(`/articles/${id}.html`)
     .then(response => response.text())
     .then(data => data)
@@ -272,8 +282,8 @@ const fetchHTMLContont = (id) => {
     );
 }
 
-const handleRouting = (event) => {
-    const href = event.target.href;
+function handle_routing(event) {
+    var href = event.target.href;
     if (href.includes('articles')) {
         localStorage.setItem("articleId", event.target.value);
     }
@@ -282,38 +292,37 @@ const handleRouting = (event) => {
     router();
 }
 
-const router = () => {
-    const id = localStorage.getItem("articleId");
-    const route = window.location.pathname;
+function router() {
+    var id = localStorage.getItem("articleId");
+    var route = window.location.pathname;
     home.set_route(route);
-    const content = document.getElementById('content');
-    const articleRoute = `/articles/${id}`;
-    const routes = ['/', '/about', '/projects', articleRoute];
-    const functionMapper = {
-        "/": writeHomePage,
-        "/about": writeAboutPage,
-        "/projects": writeProjectsPage,
-        articleRoute: writeArticlePage,
+    var content = document.getElementById('content');
+    var article_route = `/articles/${id}`;
+    var routes = ['/', '/about', '/projects', article_route];
+    var __func_mapper = {
+        "/": write_home_page,
+        "/about": write_about_page,
+        "/projects": write_projects_page,
+        article_route: write_article_page,
     };
 
     if (routes.includes(route)) {
         content.innerHTML = "";
         if (route === `/articles/${id}`) {
             if (id) {
-                const res = importCache[`./${id}.html`];
-                functionMapper.articleRoute(res.default);
+                var res = import_cache[`./${id}.html`];
+                __func_mapper.article_route(res.default);
             }
         } else {
-            const response = home.handle_route(id);
-            let data = JSON.parse(response);
-            functionMapper[route](data);
+            var response = home.handle_route(id);
+            var data = JSON.parse(response);
+            __func_mapper[route](data);
         } 
     }
 }
 
-const Blinker = () => {
-    const blinker = document.getElementById("blinker");
-    const navbarElement = document.getElementById('anavbar-id');
+function blinker() {
+    var blinker = document.getElementById("blinker");
     if (blinker) {
         blinker.style.color = (
             blinker.style.color === 'red' 
@@ -323,24 +332,24 @@ const Blinker = () => {
     }
 }
 
-const isDark = () => {
-    const _dark = localStorage.getItem("darkTheme");
+function is_dark() {
+    var _dark = localStorage.getItem("darkTheme");
     return (_dark === 'true');
 };
 
 function run() {
-    loadNavbar();
-    const themeToggle = document.getElementById('theme-toggler');
-    themeToggle.addEventListener("click", v => {
-        setTheme(v); 
+    load_navbar();
+    const theme_toggle = document.getElementById('theme-toggler');
+    theme_toggle.addEventListener("click", v => {
+        set_theme(v); 
     });
-    setInterval(Blinker, 300);
-    setTheme();
-    writeHomePage(default_data);
+    setInterval(blinker, 300);
+    set_theme();
+    write_home_page(default_data);
 
     var navis = document.querySelectorAll("a");
     navis.forEach(anchor => {
-        anchor.addEventListener('click', handleRouting);
+        anchor.addEventListener('click', handle_routing);
     });
 
     // Handle back and forward button events
