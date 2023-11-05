@@ -1,15 +1,13 @@
-import { Main, Dictionary } from "wasm-router-handler";
+import { Main } from "wasm-router-handler";
 import "./styles.css";
 import article1 from "./articles/1.html";
 import darktheme from "./images/lighttheme.svg";
 import lighttheme from "./images/darktheme.svg";
+import cv from "./pdfs/cv.pdf";
 
 
 // Initialize rust objects
-const home = new Main();
-const dictionary = new Dictionary();
-const default_respone = dictionary.get_tags()
-const default_data = JSON.parse(default_respone);
+const _home = new Main();
 const import_cache = {};
 
 
@@ -55,6 +53,22 @@ function get_theme_toggler() {
     img.src = themetoggler;
     span.appendChild(img);
     return span;
+}
+
+function cv_document(text, func, route) {
+    var div = set_attribute("resume", "cv", "div");
+    var abutton = set_attribute("button", "btn", "a");
+    if (route) {
+        abutton.href = route;
+    }
+    abutton.textContent = text;
+    abutton.addEventListener("click", func);
+    div.appendChild(abutton);
+    return div;
+}
+
+function handle_document_view(e) {
+    handle_routing(e);
 }
 
 function get_footer() {
@@ -150,7 +164,7 @@ function set_theme(e) {
 }
 
 function write_name(name_element) {
-    var name = home.get_name(); 
+    var name = _home.get_name(); 
     var index = 0;
     var intervalId = setInterval(() => {
         if (index < name.length) {
@@ -227,9 +241,17 @@ function write_links(out) {
     }
 }
 
+function write_cv(out) {
+    var content = document.getElementById('content');
+    var h1 = create_element('h1');
+    h1.textContent = out[0].name;
+    content.appendChild(h1);
+}
 
 function write_home_page(out_data) {
     var content = document.getElementById("content");
+    var view_cv = cv_document('View Cv', handle_document_view, "/downloadcv");
+    content.appendChild(view_cv);
     var input = create_element("input");
     var ul = set_attribute('v', 'links', 'ul');
     input.type = "text";
@@ -295,15 +317,16 @@ function handle_routing(event) {
 function router() {
     var id = localStorage.getItem("articleId");
     var route = window.location.pathname;
-    home.set_route(route);
+    _home.set_route(route);
     var content = document.getElementById('content');
     var article_route = `/articles/${id}`;
-    var routes = ['/', '/about', '/projects', article_route];
+    var routes = ['/', '/about', '/projects', article_route, "/downloadcv"];
     var __func_mapper = {
         "/": write_home_page,
         "/about": write_about_page,
         "/projects": write_projects_page,
         article_route: write_article_page,
+        "/downloadcv": write_cv,
     };
 
     if (routes.includes(route)) {
@@ -314,7 +337,8 @@ function router() {
                 __func_mapper.article_route(res.default);
             }
         } else {
-            var response = home.handle_route(id);
+            var response = _home.handle_route(id);
+            console.log(response)
             var data = JSON.parse(response);
             __func_mapper[route](data);
         } 
@@ -345,15 +369,14 @@ function run() {
     });
     setInterval(blinker, 300);
     set_theme();
-    write_home_page(default_data);
+    // Handle back and forward button events
+    router();
 
     var navis = document.querySelectorAll("a");
     navis.forEach(anchor => {
         anchor.addEventListener('click', handle_routing);
     });
 
-    // Handle back and forward button events
-    router();
     window.onpopstate = router;
 }
 run();
