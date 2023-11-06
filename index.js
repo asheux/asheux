@@ -243,14 +243,20 @@ function write_links(out) {
 
 function write_cv(out) {
     var content = document.getElementById('content');
-    var h1 = create_element('h1');
-    h1.textContent = out[0].name;
-    content.appendChild(h1);
+    var center = set_attribute("cvresume", "cvresume", "center")
+    var iframe = set_attribute("frame", "frame", "embed")
+    iframe.style.marginTop = "3em";
+    iframe.style.marginBottom = "3em";
+    iframe.width = "100%";
+    iframe.height = "700px";
+    iframe.src = out;
+    center.appendChild(iframe);
+    content.appendChild(center);
 }
 
 function write_home_page(out_data) {
     var content = document.getElementById("content");
-    var view_cv = cv_document('View Cv', handle_document_view, "/downloadcv");
+    var view_cv = cv_document('View Cv', handle_document_view, "/view_cv");
     content.appendChild(view_cv);
     var input = create_element("input");
     var ul = set_attribute('v', 'links', 'ul');
@@ -295,10 +301,10 @@ function write_article_page(out) {
     }
 }
 
-function fetch_html_contont(id) {
-    return fetch(`/articles/${id}.html`)
-    .then(response => response.text())
-    .then(data => data)
+function fetch_pdf_content() {
+    return fetch(cv)
+    .then(response => response.arrayBuffer())
+    .then(array_buffer => new Uint8Array(array_buffer))
     .catch(
         error => console.error('Error:', error)
     );
@@ -320,13 +326,13 @@ function router() {
     _home.set_route(route);
     var content = document.getElementById('content');
     var article_route = `/articles/${id}`;
-    var routes = ['/', '/about', '/projects', article_route, "/downloadcv"];
+    var routes = ['/', '/about', '/projects', article_route, "/view_cv"];
     var __func_mapper = {
         "/": write_home_page,
         "/about": write_about_page,
         "/projects": write_projects_page,
         article_route: write_article_page,
-        "/downloadcv": write_cv,
+        "/view_cv": write_cv,
     };
 
     if (routes.includes(route)) {
@@ -336,9 +342,14 @@ function router() {
                 var res = import_cache[`./${id}.html`];
                 __func_mapper.article_route(res.default);
             }
+        } else if (route === "/view_cv") {
+            fetch_pdf_content().then(res => {
+                const blob_pdf = new Blob([res], { type: 'application/pdf' });
+                const pdf_url = URL.createObjectURL(blob_pdf);
+                __func_mapper[route](pdf_url);
+            })
         } else {
-            var response = _home.handle_route(id);
-            console.log(response)
+            var response = _home.handle_route(id, new Uint8Array());
             var data = JSON.parse(response);
             __func_mapper[route](data);
         } 
