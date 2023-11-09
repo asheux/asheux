@@ -149,6 +149,10 @@ ul a {
     width: 80%;
 }
 
+.contact {
+    margin-bottom: 12em;
+}
+
 .pcontent {
 }
 td {
@@ -171,4 +175,12 @@ th {
 
 .box {
     background-color: black;
+}
+
+.contact-info {
+    float: right;
+}
+
+.profile-pic {
+    float: left;
 }

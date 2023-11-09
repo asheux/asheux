@@ -75,7 +75,7 @@ function get_footer() {
     var footer = set_attribute("anavbar", "footer-id", "footer");
     var div = set_attribute("footer", "_c", "div");
     var p = set_attribute("c", "ptext", "p");
-    p.textContent = '@ 2023 Brian.Mboya@Asheux.com';
+    p.textContent = 'Copyright @ 2023 asheux.com - All Rights Reserved';
     div.appendChild(p);
     footer.appendChild(div);
     return footer;
