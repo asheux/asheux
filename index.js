@@ -1,6 +1,5 @@
 import { Main } from "wasm-router-handler";
 import "./styles.css";
-import article1 from "./articles/1.html";
 import darktheme from "./images/lighttheme.svg";
 import lighttheme from "./images/darktheme.svg";
 import cv from "./pdfs/cv.pdf";
@@ -15,6 +14,7 @@ function __import_all(r) {
   r.keys().forEach((key) => (import_cache[key] = r(key)));
 }
 __import_all(require.context('./articles/', true, /\.html$/));
+__import_all(require.context('./portfolio/', true, /\.html$/));
 
 function _get_name() {
     var a = set_attribute("h", "navname", "a");
@@ -256,7 +256,7 @@ function write_cv(out) {
 
 function write_home_page(out_data) {
     var content = document.getElementById("content");
-    var view_cv = cv_document('View Cv', handle_document_view, "/view_cv");
+    var view_cv = cv_document('View CV', handle_document_view, "/view_cv");
     content.appendChild(view_cv);
     var input = create_element("input");
     var ul = set_attribute('v', 'links', 'ul');
@@ -279,9 +279,7 @@ function write_home_page(out_data) {
 
 function write_about_page(out) {
     var content = document.getElementById('content');
-    var h1 = create_element('h1');
-    h1.textContent = out[0].name;
-    content.appendChild(h1);
+    content.innerHTML = out;
 }
 
 function write_projects_page(out) {
@@ -351,7 +349,12 @@ function router() {
         } else {
             var response = _home.handle_route(id, new Uint8Array());
             var data = JSON.parse(response);
-            __func_mapper[route](data);
+            let func = __func_mapper[route];
+            if (route === '/about') {
+                func(import_cache['./about.html'].default);
+            } else {
+                func(data);
+            };
         } 
     }
 }
