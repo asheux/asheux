@@ -1,7 +1,6 @@
 node_modules
 dist
 cdn
-images
 
 # Vim stuff
 *.sw?
