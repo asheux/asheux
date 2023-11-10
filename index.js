@@ -280,6 +280,15 @@ function write_home_page(out_data) {
 function write_about_page(out) {
     var content = document.getElementById('content');
     content.innerHTML = out;
+    var about = document.getElementById('about');
+    var allatags = about.getElementsByTagName('a');
+    for (let i = 0; i < allatags.length; i++) {
+        let a = allatags[i];
+        if (a) {
+            a.target = '_blank';
+            a.value = 'external';
+        }
+    }
 }
 
 function write_projects_page(out) {
@@ -310,12 +319,15 @@ function fetch_pdf_content() {
 
 function handle_routing(event) {
     var href = event.target.href;
+    var { value } = event.target;
     if (href.includes('articles')) {
         localStorage.setItem("articleId", event.target.value);
     }
-    event.preventDefault();
-    window.history.pushState(null, null, href);
-    router();
+    if (value !== 'external') {
+        event.preventDefault();
+        window.history.pushState(null, null, href);
+        router();
+    }
 }
 
 function router() {
