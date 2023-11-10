@@ -1,2 +1,2 @@
 # Brian Mboya
-- [asheux.com](https://asheux.com)
+- [asheux.com](https://www.asheux.com)
