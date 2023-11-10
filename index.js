@@ -244,7 +244,7 @@ function write_links(out) {
 function write_cv(out) {
     var content = document.getElementById('content');
     var center = set_attribute("cvresume", "cvresume", "center")
-    var iframe = set_attribute("frame", "frame", "embed")
+    var iframe = set_attribute("frame", "frame", "iframe")
     iframe.style.marginTop = "3em";
     iframe.style.marginBottom = "3em";
     iframe.width = "100%";
