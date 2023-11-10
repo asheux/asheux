@@ -56,11 +56,12 @@ html {
     display: block;
     margin-left: auto;
     margin-right: auto;
-    width: 550px;
+    width: 50%;
     border-radius: 50px;
     height: 40px;
     border: 1px solid #dddddd;
     outline: none;
+    overflow: hidden;
     padding-left: 40px;
 }
 
@@ -183,4 +184,34 @@ th {
 
 .profile-pic {
     float: left;
+}
+
+/* Mobile responsivity */
+
+@media only screen and (max-width: 1000px) {
+    .container {
+        width: 100%;
+    }
+    .tags {
+    }
+    .ul-links {
+        overflow: hidden;
+        list-style-type: none;
+        padding: 10px;
+    }
+    .li-links {
+        padding-bottom: 10px;
+    }
+    .link {
+        padding-bottom: 10px;
+    }
+    .searchbar {
+        width: 70%;
+    }
+}
+
+@media only screen and (max-width: 600px) {
+    .tags {
+        display: none;
+    }
 }

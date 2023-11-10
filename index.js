@@ -188,6 +188,7 @@ function create_element(el) {
 
 function write_links(out) {
     var ul = document.getElementById('links');
+    ul.classList.add('ul-links');
     var h = create_element("h4");
     h.textContent = "Programming & Artificial Intelligence";
     ul.appendChild(h);
@@ -204,7 +205,7 @@ function write_links(out) {
             h4 = create_element('h4');
             h4.textContent = "Poetry & Essays";
         }
-        var span = create_element('span');
+        var span = set_attribute('tags', 'tags', 'span');
         a.textContent = name;
         a.href = `/articles/${id}`;
         a.value = id;
@@ -235,7 +236,9 @@ function write_links(out) {
             ul.appendChild(h4);
             h4 = null;
         }
+        li.classList.add("li-links");
         if (id !== 0) {
+            li.appendChild(create_element('br'));
             ul.appendChild(li);
         }
     }
@@ -282,6 +285,7 @@ function write_about_page(out) {
     content.innerHTML = out;
     var about = document.getElementById('about');
     var allatags = about.getElementsByTagName('a');
+    // set all external links to open in new tab
     for (let i = 0; i < allatags.length; i++) {
         let a = allatags[i];
         if (a) {
@@ -323,6 +327,7 @@ function handle_routing(event) {
     if (href.includes('articles')) {
         localStorage.setItem("articleId", event.target.value);
     }
+    // only handle routing for internal url/links
     if (value !== 'external') {
         event.preventDefault();
         window.history.pushState(null, null, href);
@@ -354,11 +359,13 @@ function router() {
             }
         } else if (route === "/view_cv") {
             fetch_pdf_content().then(res => {
+                // pre-fetch pdf data to create Blob link
                 const blob_pdf = new Blob([res], { type: 'application/pdf' });
                 const pdf_url = URL.createObjectURL(blob_pdf);
                 __func_mapper[route](pdf_url);
             })
         } else {
+            // Get display data from WebAssembly rust functions
             var response = _home.handle_route(id, new Uint8Array());
             var data = JSON.parse(response);
             let func = __func_mapper[route];
