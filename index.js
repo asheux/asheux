@@ -3,6 +3,7 @@ import "./styles.css";
 import darktheme from "./images/lighttheme.svg";
 import lighttheme from "./images/darktheme.svg";
 import cv from "./pdfs/cv.pdf";
+import artemis from './images/artemis.png';
 
 
 // Initialize rust objects
@@ -307,6 +308,7 @@ function write_article_page(out) {
     var codes = document.getElementsByTagName('code');
     var code_color = "#663399";
     content.innerHTML = out;
+    loadImage();
     for (var code of codes) {
         code.style.color = code_color;
     }
@@ -413,6 +415,17 @@ function is_dark() {
     var _dark = localStorage.getItem("darkTheme");
     return (_dark === 'true');
 };
+
+async function loadImage() {
+    var box = document.getElementById('image-box');
+    var data = await fetch(artemis);
+    var img = create_element('img');
+    img.classList.add('image-box');
+    img.src = artemis;
+    if (box) {
+        box.appendChild(img);
+    }
+}
 
 function run() {
     load_navbar();

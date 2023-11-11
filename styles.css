@@ -186,6 +186,11 @@ th {
     float: left;
 }
 
+.image-box {
+    width: 100%;
+    height: 100%;
+}
+
 /* Mobile responsivity */
 
 @media only screen and (max-width: 1000px) {
