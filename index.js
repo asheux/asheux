@@ -336,12 +336,13 @@ function handle_routing(event) {
 }
 
 function router() {
-    var id = localStorage.getItem("articleId");
     var route = window.location.pathname;
     _home.set_route(route);
+    if (route && route !== '/' && route[route.length - 1] === '/') {
+        route = route.slice(0, length - 1); // remove trailing slash
+    }
     var content = document.getElementById('content');
-    var article_route = `/articles/${id}`;
-    var routes = ['/', '/about', '/projects', article_route, "/view_cv"];
+    var routes = ['/', '/about', '/projects', "/view_cv"];
     var __func_mapper = {
         "/": write_home_page,
         "/about": write_about_page,
@@ -352,12 +353,7 @@ function router() {
 
     if (routes.includes(route)) {
         content.innerHTML = "";
-        if (route === `/articles/${id}`) {
-            if (id) {
-                var res = import_cache[`./${id}.html`];
-                __func_mapper.article_route(res.default);
-            }
-        } else if (route === "/view_cv") {
+        if (route === "/view_cv") {
             fetch_pdf_content().then(res => {
                 // pre-fetch pdf data to create Blob link
                 const blob_pdf = new Blob([res], { type: 'application/pdf' });
@@ -375,6 +371,30 @@ function router() {
                 func(data);
             };
         } 
+    } else {
+        if (route.includes('articles')) {
+            var paths = route.split('/');
+            var id = paths[paths.length - 1];
+            var reg = /^\d+$/;
+            if (id === '') {
+                id = paths[paths.length - 2];
+            }
+            if (reg.test(id)) {
+                var res = import_cache[`./${id}.html`];
+                if (res) {
+                    __func_mapper.article_route(res.default);
+                } else {
+                    __func_mapper.article_route('Page not found!');
+                }
+            } else {
+                __func_mapper.article_route('Page not found!');
+            }
+        } else {
+            var content = document.getElementById('content');
+            var h1 = create_element('h1');
+            h1.textContent = 'Page not found';
+            content.appendChild(h1);
+        }
     }
 }
 
