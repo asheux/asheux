@@ -27,7 +27,7 @@ function _get_name() {
     span.textContent = "? ";
     a.appendChild(span)
     var name = _home.get_name();
-    write_name(a, name, 100);
+    writer(a, name, 100);
     return a;
 }
 
@@ -166,7 +166,7 @@ function set_theme(e) {
     }
 }
 
-function write_name(name_element, name, t) {
+function writer(name_element, name, t) {
     var index = 0;
     var intervalId = setInterval(() => {
         if (index < name.length) {
@@ -267,7 +267,7 @@ function write_home_page(out_data) {
     var fav_code = document.getElementById('favcode');
     fetch_text_content().then(text => {
         if (text) {
-            write_name(favcode, text, 50);
+            writer(favcode, text, 10);
         }
     });
     var input = create_element("input");
