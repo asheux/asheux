@@ -26,7 +26,8 @@ function _get_name() {
     span.style.pointerEvents = "none";
     span.textContent = "? ";
     a.appendChild(span)
-    write_name(a);
+    var name = _home.get_name();
+    write_name(a, name, 100);
     return a;
 }
 
@@ -165,8 +166,7 @@ function set_theme(e) {
     }
 }
 
-function write_name(name_element) {
-    var name = _home.get_name(); 
+function write_name(name_element, name, t) {
     var index = 0;
     var intervalId = setInterval(() => {
         if (index < name.length) {
@@ -181,7 +181,7 @@ function write_name(name_element) {
         } else {
             clearInterval(intervalId);
         }
-    }, 100);
+    }, t);
 }
 
 function create_element(el) {
@@ -263,6 +263,12 @@ function write_home_page(out_data) {
     var content = document.getElementById("content");
     var favs = favourite();
     content.appendChild(favs);
+    var fav_code = document.getElementById('favcode');
+    fetch_text_content().then(text => {
+        if (text) {
+            write_name(favcode, text, 50);
+        }
+    });
     var input = create_element("input");
     var ul = set_attribute('v', 'links', 'ul');
     input.type = "text";
@@ -452,30 +458,25 @@ function favourite() {
     var table = set_attribute('tabled', 'tabled', 'table');
     var box = set_attribute('box', '_box', 'div');
     var pre = create_element('pre');
-    var code = set_attribute('ncode', 'acode', 'code');
-    fetch_text_content().then(text => {
-        if (text) {
-            code.textContent = text;
-            pre.appendChild(code);
-            box.appendChild(pre);
-            var tr = create_element('tr');
-            var tds = [create_element('td'), create_element('td')];
-            var img_box = set_attribute('cons', 'cons', 'div');
-            var img = set_attribute('img_cons', 'img_cons', 'img');
-            img.src = conscious;
-            img_box.appendChild(img);
-            var conts = [img_box, box];
-            for (let i = 0; i < tds.length; i++) {
-                let td = tds[i];
-                td.style.border = "none";
-                let td_val = conts[i];
-                td.appendChild(td_val);
-                tr.appendChild(td);
-            }
-            table.appendChild(tr);
-            div.appendChild(table);
-        }
-    });
+    var code = set_attribute('ncode', 'favcode', 'code');
+    pre.appendChild(code);
+    box.appendChild(pre);
+    var tr = create_element('tr');
+    var tds = [create_element('td'), create_element('td')];
+    var img_box = set_attribute('cons', 'cons', 'div');
+    var img = set_attribute('img_cons', 'img_cons', 'img');
+    img.src = conscious;
+    img_box.appendChild(img);
+    var conts = [img_box, box];
+    for (let i = 0; i < tds.length; i++) {
+        let td = tds[i];
+        td.style.border = "none";
+        let td_val = conts[i];
+        td.appendChild(td_val);
+        tr.appendChild(td);
+    }
+    table.appendChild(tr);
+    div.appendChild(table);
     return div;
 }
 

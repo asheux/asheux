@@ -176,6 +176,8 @@ th {
 .ncode {
     display: inline-block;
     color: white;
+    width: 375px;
+    height: 350px;
     font-size: 16px;
     margin: 2em;;
 }
@@ -206,6 +208,7 @@ th {
 .favourite {
     margin-top: 2em;
     overlow: hidden;
+    width: 100%;
 }
 
 /* Mobile responsivity */
