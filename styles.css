@@ -67,7 +67,8 @@ html {
 
 .button {
     display: block;
-    margin-top: 1.5em;
+    margin-top: -1em;
+    margin-bottom: 1.5em;
     margin-left: auto;
     margin-right: auto;
     text-align: center;
@@ -154,8 +155,6 @@ ul a {
     margin-bottom: 12em;
 }
 
-.pcontent {
-}
 td {
     border: 1px solid green;
     padding: 5px 20px 5px 20px;
@@ -174,6 +173,19 @@ th {
     display: inline-block
 }
 
+.ncode {
+    display: inline-block;
+    color: white;
+    font-size: 16px;
+    margin: 2em;;
+}
+
+.img_cons {
+    border-radius: 10%;
+    height: 100%;
+    width: 100%;
+}
+
 .box {
     background-color: black;
 }
@@ -189,6 +201,11 @@ th {
 .image-box {
     width: 100%;
     height: 100%;
+}
+
+.favourite {
+    margin-top: 2em;
+    overlow: hidden;
 }
 
 /* Mobile responsivity */

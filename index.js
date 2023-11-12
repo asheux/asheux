@@ -4,12 +4,13 @@ import darktheme from "./images/lighttheme.svg";
 import lighttheme from "./images/darktheme.svg";
 import cv from "./pdfs/cv.pdf";
 import artemis from './images/artemis.png';
+import conscious from './images/conscious.png';
+import consciousness from './pdfs/consciousness.txt';
 
 
 // Initialize rust objects
 const _home = new Main();
 const import_cache = {};
-
 
 function __import_all(r) {
   r.keys().forEach((key) => (import_cache[key] = r(key)));
@@ -82,9 +83,9 @@ function get_footer() {
     return footer;
 }
 
-function set_attribute(className, id, el) {
+function set_attribute(class_name, id, el) {
     var element = create_element(el);
-    element.classList.add(className);
+    element.classList.add(class_name);
     element.setAttribute("id", id);
     return element;
 }
@@ -260,8 +261,8 @@ function write_cv(out) {
 
 function write_home_page(out_data) {
     var content = document.getElementById("content");
-    var view_cv = cv_document('View CV', handle_document_view, "/view_cv");
-    content.appendChild(view_cv);
+    var favs = favourite();
+    content.appendChild(favs);
     var input = create_element("input");
     var ul = set_attribute('v', 'links', 'ul');
     input.type = "text";
@@ -278,22 +279,30 @@ function write_home_page(out_data) {
         _div.classList.add(_class);
         content.appendChild(_div)
     }
-    write_links(out_data);
+    write_links(out_data); 
+}
+
+function prevent_routing(target) {
+    if (target) {
+        var allatags = target.getElementsByTagName('a');
+        // set all external links to open in new tab
+        for (let i = 0; i < allatags.length; i++) {
+            let a = allatags[i];
+            if (a) {
+                a.target = '_blank';
+                a.value = 'external';
+            }
+        }
+    }
 }
 
 function write_about_page(out) {
     var content = document.getElementById('content');
     content.innerHTML = out;
-    var about = document.getElementById('about');
-    var allatags = about.getElementsByTagName('a');
-    // set all external links to open in new tab
-    for (let i = 0; i < allatags.length; i++) {
-        let a = allatags[i];
-        if (a) {
-            a.target = '_blank';
-            a.value = 'external';
-        }
-    }
+    var about = document.getElementById('about');   
+    var view_cv = cv_document('View CV', handle_document_view, "/view_cv");
+    content.appendChild(view_cv);
+    prevent_routing(about);
 }
 
 function write_projects_page(out) {
@@ -308,10 +317,12 @@ function write_article_page(out) {
     var codes = document.getElementsByTagName('code');
     var code_color = "#663399";
     content.innerHTML = out;
-    loadImage();
+    load_image();
     for (var code of codes) {
         code.style.color = code_color;
     }
+    var article = document.getElementById('article');
+    prevent_routing(article);
 }
 
 function fetch_pdf_content() {
@@ -416,7 +427,7 @@ function is_dark() {
     return (_dark === 'true');
 };
 
-async function loadImage() {
+async function load_image() {
     var box = document.getElementById('image-box');
     var data = await fetch(artemis);
     var img = create_element('img');
@@ -425,6 +436,47 @@ async function loadImage() {
     if (box) {
         box.appendChild(img);
     }
+}
+
+function fetch_text_content() {
+    return fetch(consciousness)
+        .then(response => response.text())
+        .then(text => text)
+        .catch(
+            error => console.error('Error:', error)
+        );
+}
+
+function favourite() {
+    var div = set_attribute('favourite', 'fav', 'div');
+    var table = set_attribute('tabled', 'tabled', 'table');
+    var box = set_attribute('box', '_box', 'div');
+    var pre = create_element('pre');
+    var code = set_attribute('ncode', 'acode', 'code');
+    fetch_text_content().then(text => {
+        if (text) {
+            code.textContent = text;
+        }
+    });
+    pre.appendChild(code);
+    box.appendChild(pre);
+    var tr = create_element('tr');
+    var tds = [create_element('td'), create_element('td')];
+    var img_box = set_attribute('cons', 'cons', 'div');
+    var img = set_attribute('img_cons', 'img_cons', 'img');
+    img.src = conscious;
+    img_box.appendChild(img);
+    var conts = [img_box, box];
+    for (let i = 0; i < tds.length; i++) {
+        let td = tds[i];
+        td.style.border = "none";
+        let td_val = conts[i];
+        td.appendChild(td_val);
+        tr.appendChild(td);
+    }
+    table.appendChild(tr);
+    div.appendChild(table);
+    return div;
 }
 
 function run() {
