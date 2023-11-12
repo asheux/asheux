@@ -456,26 +456,26 @@ function favourite() {
     fetch_text_content().then(text => {
         if (text) {
             code.textContent = text;
+            pre.appendChild(code);
+            box.appendChild(pre);
+            var tr = create_element('tr');
+            var tds = [create_element('td'), create_element('td')];
+            var img_box = set_attribute('cons', 'cons', 'div');
+            var img = set_attribute('img_cons', 'img_cons', 'img');
+            img.src = conscious;
+            img_box.appendChild(img);
+            var conts = [img_box, box];
+            for (let i = 0; i < tds.length; i++) {
+                let td = tds[i];
+                td.style.border = "none";
+                let td_val = conts[i];
+                td.appendChild(td_val);
+                tr.appendChild(td);
+            }
+            table.appendChild(tr);
+            div.appendChild(table);
         }
     });
-    pre.appendChild(code);
-    box.appendChild(pre);
-    var tr = create_element('tr');
-    var tds = [create_element('td'), create_element('td')];
-    var img_box = set_attribute('cons', 'cons', 'div');
-    var img = set_attribute('img_cons', 'img_cons', 'img');
-    img.src = conscious;
-    img_box.appendChild(img);
-    var conts = [img_box, box];
-    for (let i = 0; i < tds.length; i++) {
-        let td = tds[i];
-        td.style.border = "none";
-        let td_val = conts[i];
-        td.appendChild(td_val);
-        tr.appendChild(td);
-    }
-    table.appendChild(tr);
-    div.appendChild(table);
     return div;
 }
 
