@@ -260,6 +260,7 @@ function write_cv(out) {
 }
 
 function write_home_page(out_data) {
+    window.scrollTo(0, 0);
     var content = document.getElementById("content");
     var favs = favourite();
     content.appendChild(favs);
@@ -303,6 +304,7 @@ function prevent_routing(target) {
 }
 
 function write_about_page(out) {
+    window.scrollTo(0, 0);
     var content = document.getElementById('content');
     content.innerHTML = out;
     var about = document.getElementById('about');   
@@ -312,6 +314,7 @@ function write_about_page(out) {
 }
 
 function write_projects_page(out) {
+    window.scrollTo(0, 0);
     var content = document.getElementById('content');
     var h1 = create_element('h1');
     h1.textContent = out[0].name;
@@ -319,6 +322,7 @@ function write_projects_page(out) {
 }
 
 function write_article_page(out) {
+    window.scrollTo(0, 0);
     var content = document.getElementById('content');
     var codes = document.getElementsByTagName('code');
     var code_color = "#663399";
