@@ -466,7 +466,8 @@ function favourite() {
     pre.appendChild(code);
     box.appendChild(pre);
     var tr = create_element('tr');
-    var tds = [create_element('td'), create_element('td')];
+    var _td = set_attribute('fixed_td', '_ftd', 'td');
+    var tds = [_td, create_element('td')];
     var img_box = set_attribute('cons', 'cons', 'div');
     var img = set_attribute('img_cons', 'img_cons', 'img');
     img.src = conscious;

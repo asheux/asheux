@@ -208,6 +208,9 @@ th {
 .favourite {
     margin-top: 2em;
     overlow: hidden;
+}
+
+.fixed_td {
     width: 100%;
 }
 
