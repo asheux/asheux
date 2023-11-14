@@ -191,6 +191,7 @@ th {
 
 .box {
     background-color: black;
+    font-weight: 400;
 }
 
 .contact-info {
@@ -219,14 +220,15 @@ th {
 
 @media only screen and (max-width: 1500px) {
     .container {
-        width: 90%;
-    }
-    .tags {
+        width: 95%;
     }
     .ul-links {
         overflow: hidden;
         list-style-type: none;
         padding: 10px;
+    }
+    .article {
+        width: 90%;
     }
     .li-links {
         padding-bottom: 10px;

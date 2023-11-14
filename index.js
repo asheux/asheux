@@ -325,7 +325,7 @@ function write_article_page(out) {
     window.scrollTo(0, 0);
     var content = document.getElementById('content');
     var codes = document.getElementsByTagName('code');
-    var code_color = "#663399";
+    var code_color = "#ffffff";
     content.innerHTML = out;
     load_image();
     for (var code of codes) {
