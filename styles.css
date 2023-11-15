@@ -62,7 +62,19 @@ html {
     border: 1px solid #dddddd;
     outline: none;
     overflow: hidden;
-    padding-left: 40px;
+    padding: 0 30px 0 30px;
+}
+
+.crawl {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 1em;
+    border-radius: 50px;
+    height: 40px;
+    outline: none;
+    overflow: hidden;
+    padding: 0 30px 0 30px;
 }
 
 .button {

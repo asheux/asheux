@@ -1,4 +1,4 @@
-import { Main } from "wasm-router-handler";
+import { Main, Crawler } from "wasm-router-handler";
 import "./styles.css";
 import darktheme from "./images/lighttheme.svg";
 import lighttheme from "./images/darktheme.svg";
@@ -273,11 +273,18 @@ function write_home_page(out_data) {
     var input = create_element("input");
     var ul = set_attribute('v', 'links', 'ul');
     input.type = "text";
-    input.placeholder = "Search...";
-    input.classList.add('searchbar')
-    var div = create_element('div')
-    var f = div.appendChild(input);
-    var s = div.appendChild(ul);
+    input.placeholder = "Add url(s) to crawl e.g xkcd.com,x.com,asheux.com ...";
+    input.classList.add('searchbar');
+    input.oninput = handle_change;
+    var f = create_element('div');
+    var s = create_element('div');
+    // var d = create_element('div');
+    // var btn = set_attribute("crawl", "crawl", "button");
+    // btn.textContent = "Initiate Crawl";
+    // d.appendChild(btn);
+    f.appendChild(input);
+    // f.appendChild(d);
+    s.appendChild(ul);
     var divs = [f, s];
     var classes = ['search', 'linksdata']
     for (var i = 0; i < divs.length; i++) {
@@ -286,6 +293,7 @@ function write_home_page(out_data) {
         _div.classList.add(_class);
         content.appendChild(_div)
     }
+    
     write_links(out_data); 
 }
 
@@ -483,6 +491,14 @@ function favourite() {
     table.appendChild(tr);
     div.appendChild(table);
     return div;
+}
+
+function handle_change(e) {
+    const crawler = new Crawler();
+    var { value } = e.target;
+    crawler.set_roots(value);
+    crawler.init_roots();
+    crawler.crawl();
 }
 
 function run() {
