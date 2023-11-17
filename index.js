@@ -10,6 +10,7 @@ import consciousness from './pdfs/consciousness.txt';
 
 // Initialize rust objects
 const _home = new Main();
+const crawler = new Crawler();
 const import_cache = {};
 
 function __import_all(r) {
@@ -278,12 +279,13 @@ function write_home_page(out_data) {
     input.oninput = handle_change;
     var f = create_element('div');
     var s = create_element('div');
-    // var d = create_element('div');
-    // var btn = set_attribute("crawl", "crawl", "button");
-    // btn.textContent = "Initiate Crawl";
-    // d.appendChild(btn);
+    var d = create_element('div');
+    var btn = set_attribute("crawl", "crawl", "button");
+    btn.textContent = "Initiate Crawl";
+    btn.addEventListener("click", handle_crawl);
+    d.appendChild(btn);
     f.appendChild(input);
-    // f.appendChild(d);
+    f.appendChild(d);
     s.appendChild(ul);
     var divs = [f, s];
     var classes = ['search', 'linksdata']
@@ -494,11 +496,14 @@ function favourite() {
 }
 
 function handle_change(e) {
-    const crawler = new Crawler();
     var { value } = e.target;
     crawler.set_roots(value);
     crawler.init_roots();
-    crawler.crawl();
+}
+
+function handle_crawl(e) {
+    e.preventDefault();
+    // crawler.crawl();
 }
 
 function run() {
