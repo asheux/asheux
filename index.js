@@ -395,7 +395,7 @@ function router() {
             })
         } else {
             // Get display data from WebAssembly rust functions
-            var response = _home.handle_route(id, new Uint8Array());
+            var response = _home.handle_route(id);
             var data = JSON.parse(response);
             let func = __func_mapper[route];
             if (route === '/about') {
