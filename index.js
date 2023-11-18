@@ -1,4 +1,4 @@
-import { Main, Crawler } from "wasm-router-handler";
+import { Main, Crawler } from "wasm-asheux";
 import "./styles.css";
 import darktheme from "./images/lighttheme.svg";
 import lighttheme from "./images/darktheme.svg";

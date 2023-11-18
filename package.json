@@ -38,6 +38,6 @@
     "webpack-dev-server": "^4.15.1"
   },
   "dependencies": {
-    "wasm-router-handler": "file:../pkg"
+    "wasm-asheux": "file:../pkg"
   }
 }
