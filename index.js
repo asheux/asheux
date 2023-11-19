@@ -13,11 +13,11 @@ const _home = new Main();
 const crawler = new Crawler();
 const import_cache = {};
 
-function __import_all(r) {
+function import_all(r) {
   r.keys().forEach((key) => (import_cache[key] = r(key)));
 }
-__import_all(require.context('./articles/', true, /\.html$/));
-__import_all(require.context('./portfolio/', true, /\.html$/));
+import_all(require.context('./articles/', true, /\.html$/));
+import_all(require.context('./portfolio/', true, /\.html$/));
 
 function _get_name() {
     var a = set_attribute("h", "navname", "a");
@@ -28,7 +28,7 @@ function _get_name() {
     span.textContent = "? ";
     a.appendChild(span)
     var name = _home.get_name();
-    writer(a, name, 100);
+    writer(a, name, 100, "green");
     return a;
 }
 
@@ -38,11 +38,11 @@ function getnavitems() {
     var rs = ['/About', '/Projects'];
     for (var i = 0; i<aas.length; i++) {
         var r = rs[i];
-        var _a = aas[i]
-        _a.setAttribute("id", "nav-item");
-        _a.href = r.toLowerCase();
-        _a.textContent = r.replace("/", "");
-        div.appendChild(_a);
+        var aa = aas[i]
+        aa.setAttribute("id", "nav-item");
+        aa.href = r.toLowerCase();
+        aa.textContent = r.replace("/", "");
+        div.appendChild(aa);
     }
     return div;
 }
@@ -97,26 +97,26 @@ function load_navbar() {
     var div = set_attribute("anavbar", "anavbar-id", "div");
     // parent
     // child
-    var _div = set_attribute("container", "nav", "div");
-    div.appendChild(_div);
+    var a_div = set_attribute("container", "nav", "div");
+    div.appendChild(a_div);
     // great child
-    var __div = set_attribute("home", "_home", "div");
+    var b_div = set_attribute("home", "_home", "div");
     var a = _get_name();
-    __div.appendChild(a);
-    _div.appendChild(__div);
+    b_div.appendChild(a);
+    a_div.appendChild(b_div);
     // great child 2
-    var __div__ = getnavitems();
+    var c_div = getnavitems();
     var span = get_theme_toggler();
-    __div__.appendChild(span);
-    _div.appendChild(__div__);
-    div.appendChild(_div);
+    c_div.appendChild(span);
+    a_div.appendChild(c_div);
+    div.appendChild(a_div);
     main.appendChild(div);
     // parent
-    var __div_ = set_attribute("container", "x", "div");
+    var d_div = set_attribute("container", "x", "div");
     // child
-    var ___div__ = set_attribute("l", "content", "div");
-    __div_.appendChild(___div__);
-    main.appendChild(__div_);
+    var e_div = set_attribute("l", "content", "div");
+    d_div.appendChild(e_div);
+    main.appendChild(d_div);
     var footer = get_footer();
     main.appendChild(footer);
 }
@@ -167,15 +167,14 @@ function set_theme(e) {
     }
 }
 
-function writer(name_element, name, t) {
+function writer(name_element, name, t, color) {
     var index = 0;
     var intervalId = setInterval(() => {
         if (index < name.length) {
             var letter = name[index];
             var span = create_element("span");
             span.textContent = letter;
-            span.style.color = "green";
-            span.style.fontSize = true;
+            span.style.color = color;
             span.style.pointerEvents = "none";
             name_element.appendChild(span);
             index++
@@ -217,11 +216,12 @@ function write_links(out) {
             var small = create_element('small');
             var t = tags[n];
             small.textContent = t;
-            small.style.padding = "3px";
+            small.style.padding = "1px 5px 1px 5px";
             small.style.margin = "2px";
             small.style.borderRadius = "5%";
-            small.style.backgroundColor = "#0f8c8e";
-            small.style.color = "#ffffff";
+            small.style.border = "1px solid #a2d9ce";
+            small.style.color = "green";
+            small.style.fontSize = "14px";
             span.appendChild(small);
         }
         var classes = ['link', 'timer']
@@ -268,7 +268,7 @@ function write_home_page(out_data) {
     var fav_code = document.getElementById('favcode');
     fetch_text_content().then(text => {
         if (text) {
-            writer(favcode, text, 10);
+            writer(favcode, text, 10, "#fff");
         }
     });
     var input = create_element("input");
@@ -290,10 +290,10 @@ function write_home_page(out_data) {
     var divs = [f, s];
     var classes = ['search', 'linksdata']
     for (var i = 0; i < divs.length; i++) {
-        var _div = divs[i];
+        var d_div = divs[i];
         var _class = classes[i];
-        _div.classList.add(_class);
-        content.appendChild(_div)
+        d_div.classList.add(_class);
+        content.appendChild(d_div)
     }
     
     write_links(out_data); 
@@ -443,8 +443,8 @@ function blinker() {
 }
 
 function is_dark() {
-    var _dark = localStorage.getItem("darkTheme");
-    return (_dark === 'true');
+    var dark = localStorage.getItem("darkTheme");
+    return (dark === 'true');
 };
 
 async function load_image() {
