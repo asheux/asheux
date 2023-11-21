@@ -35,13 +35,15 @@ function _get_name() {
 function getnavitems() {
     var div = set_attribute("others", "g", "div");
     var aas = [create_element('a'), create_element('a')];
-    var rs = ['/About', '/Projects'];
+    var rs = ['/about', '/projects'];
+    var names = ['About', 'Project Crawl'];
     for (var i = 0; i<aas.length; i++) {
         var r = rs[i];
+        var name = names[i];
         var aa = aas[i]
         aa.setAttribute("id", "nav-item");
         aa.href = r.toLowerCase();
-        aa.textContent = r.replace("/", "");
+        aa.textContent = name;
         div.appendChild(aa);
     }
     return div;
@@ -271,31 +273,11 @@ function write_home_page(out_data) {
             writer(favcode, text, 10, "#fff");
         }
     });
-    var input = create_element("input");
-    var ul = set_attribute('v', 'links', 'ul');
-    input.type = "text";
-    input.placeholder = "Add url(s) to crawl e.g xkcd.com,x.com,asheux.com ...";
-    input.classList.add('searchbar');
-    input.oninput = handle_change;
-    var f = create_element('div');
-    var s = create_element('div');
-    var d = create_element('div');
-    var btn = set_attribute("crawl", "crawl", "button");
-    btn.textContent = "Initiate Crawl";
-    btn.addEventListener("click", handle_crawl);
-    d.appendChild(btn);
-    f.appendChild(input);
-    f.appendChild(d);
+    var ul = set_attribute('v', 'links', 'ul'); 
+    var s = create_element('div'); 
     s.appendChild(ul);
-    var divs = [f, s];
-    var classes = ['search', 'linksdata']
-    for (var i = 0; i < divs.length; i++) {
-        var d_div = divs[i];
-        var _class = classes[i];
-        d_div.classList.add(_class);
-        content.appendChild(d_div)
-    }
-    
+    s.classList.add("linksdata");
+    content.appendChild(s);
     write_links(out_data); 
 }
 
@@ -323,12 +305,30 @@ function write_about_page(out) {
     prevent_routing(about);
 }
 
-function write_projects_page(out) {
+function write_project_crawl() {
     window.scrollTo(0, 0);
     var content = document.getElementById('content');
+    var div = set_attribute('search', '_search', 'div');
     var h1 = create_element('h1');
-    h1.textContent = out[0].name;
-    content.appendChild(h1);
+    h1.textContent = "Crawl The World Wide Web";
+    h1.style.textAlign = 'center';
+    h1.style.color = "green";
+    div.appendChild(h1);
+    var input = create_element("input");
+    input.type = "text";
+    input.placeholder = "Add url(s) to crawl e.g xkcd.com,x.com,asheux.com ...";
+    input.classList.add('searchbar');
+    input.oninput = handle_change;
+    var f = set_attribute("sea", "_s", "div");
+    f.appendChild(input);
+    var d = create_element('div');
+    var btn = set_attribute("crawl", "_crawl", "button");
+    btn.addEventListener("click", handle_crawl);
+    btn.textContent = "Initiate Crawl";
+    d.appendChild(btn);
+    f.appendChild(d);
+    div.appendChild(f);
+    content.appendChild(div);
 }
 
 function write_article_page(out) {
@@ -379,7 +379,7 @@ function router() {
     var __func_mapper = {
         "/": write_home_page,
         "/about": write_about_page,
-        "/projects": write_projects_page,
+        "/projects": write_project_crawl,
         article_route: write_article_page,
         "/view_cv": write_cv,
     };
@@ -395,13 +395,14 @@ function router() {
             })
         } else {
             // Get display data from WebAssembly rust functions
-            var response = _home.handle_route(id);
-            var data = JSON.parse(response);
             let func = __func_mapper[route];
+            var response = _home.handle_route(id);
             if (route === '/about') {
                 func(import_cache['./about.html'].default);
+            } else if (route === "/") {
+                func(response);
             } else {
-                func(data);
+                func();
             };
         } 
     } else {
@@ -497,13 +498,63 @@ function favourite() {
 
 function handle_change(e) {
     var { value } = e.target;
-    crawler.set_roots(value);
+    crawler.set_roots(value.replace(/\s/g, ''));
     crawler.init_roots();
 }
 
-function handle_crawl(e) {
+async function handle_crawl(e) {
+    return; // Remove
     e.preventDefault();
-    // crawler.crawl();
+    var div = document.getElementById('_search');
+    var box = document.getElementById('crawled');
+    if (box) {
+        box.innerHTML = "";
+    } else {
+        box = set_attribute("crawled", "crawled", "div"); 
+    }
+    var ul = set_attribute('vv', '_links', 'ul'); 
+    var s = create_element('div'); 
+    var loader = set_attribute("loader", "_loader", "span");
+    var btn = document.getElementById("_crawl");
+    btn.innerHTML = "";
+    btn.appendChild(loader);
+    s.appendChild(ul);
+    s.classList.add("crawled_links");
+    let result = await crawler.crawl(2);
+    btn.innerHTML = "Initiate Crawl";
+    if (result.length) {
+        var stats = crawl_stats(result.length);
+        div.appendChild(stats);
+        result.forEach(link => {
+            var li = create_element('li');
+            var a = create_element('a');
+            a.href = link;
+            a.textContent = link;
+            li.appendChild(a);
+            ul.appendChild(li);
+        });
+        box.appendChild(ul);
+        div.appendChild(box);
+    }
+    prevent_routing(div);
+}
+
+function crawl_stats(count) {
+    var div = set_attribute("stats", "_stats", "div");
+    var table = set_attribute("tabled", "_tabled", "table");
+    var tr = create_element("tr");
+    var stats = ["Hits:", count];
+    for (let i = 0; i < 2; i++) {
+        let val = stats[i];
+        let td = create_element("td");
+        td.style.border = "none";
+        td.style.color = "green";
+        td.textContent = val;
+        tr.appendChild(td);
+    }
+    table.appendChild(tr);
+    div.appendChild(table);
+    return div;
 }
 
 function run() {
