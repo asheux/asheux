@@ -61,8 +61,8 @@ function get_theme_toggler() {
     return span;
 }
 
-function cv_document(text, func, route) {
-    var div = set_attribute("resume", "cv", "div");
+function generic_btn(text, func, route) {
+    var div = set_attribute("gbtn", "cv", "div");
     var abutton = set_attribute("button", "btn", "a");
     if (route) {
         abutton.href = route;
@@ -124,8 +124,8 @@ function load_navbar() {
 }
 
 function set_theme(e) {
-    var body_color = "#292a2d";
-    var navbar_color = "#252627";
+    var body_color = "#17202a";
+    var navbar_color = "#1c2833";
     var fill = "#ffffff";
     var text_color = "#a9a9b3";
     var src = darktheme;
@@ -300,7 +300,7 @@ function write_about_page(out) {
     var content = document.getElementById('content');
     content.innerHTML = out;
     var about = document.getElementById('about');   
-    var view_cv = cv_document('View CV', handle_document_view, "/view_cv");
+    var view_cv = generic_btn('View CV', handle_document_view, "/view_cv");
     content.appendChild(view_cv);
     prevent_routing(about);
 }
@@ -522,7 +522,7 @@ async function handle_crawl(e) {
     s.classList.add("crawled_links");
     let result = await crawler.crawl(2);
     btn.innerHTML = "Initiate Crawl";
-    if (result.length) {
+    if (result.length) { 
         var stats = crawl_stats(result.length);
         div.appendChild(stats);
         result.forEach(link => {
@@ -540,6 +540,10 @@ async function handle_crawl(e) {
 }
 
 function crawl_stats(count) {
+    var stats = document.getElementById("_stats");
+    if (stats) {
+        stats.remove();
+    }
     var div = set_attribute("stats", "_stats", "div");
     var table = set_attribute("tabled", "_tabled", "table");
     var tr = create_element("tr");

@@ -1,14 +1,14 @@
 body {
     margin: 0;
     font-family: Roboto; 
-    background-color: #292a2d;
+    background-color: #17202a;
     font-size: 18px;
 }
 html {
     min-height: 100%;
 }
 .anavbar {
-    background-color: #252627;
+    background-color: #1c2833;
     overflow: hidden;
 }
 .container {
@@ -79,7 +79,7 @@ html {
 
 .button {
     display: block;
-    margin-top: -1em;
+    margin-top: 1em;
     margin-bottom: 1.5em;
     margin-left: auto;
     margin-right: auto;
@@ -88,7 +88,7 @@ html {
     padding: 10px;
     color: #fff;
     width: 120px;
-    background-color: #000;
+    background-color:  #a2d9ce;
     border: 1px solid #000;
     text-decoration: none;
     border-radius: 4px;
@@ -237,7 +237,7 @@ th {
 .loader {
     width: 25px;
     height: 25px;
-    border: 3px solid green;
+    border: 3px solid #222;
     border-bottom-color: transparent;
     border-radius: 50%;
     display: inline-block;
