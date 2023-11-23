@@ -523,28 +523,57 @@ async function handle_crawl(e) {
     let res = await crawler.crawl(2);
     btn.innerHTML = "Initiate Crawl";
     if (res) {
-        var result = res.get('result') || [];
+        var result = res.get('result');
         var stats = crawl_stats(res);
-        div.appendChild(stats);
-        result.forEach(link => {
-            var li = create_element('li');
-            var a = create_element('a');
-            a.href = link;
-            a.textContent = link;
-            li.appendChild(a);
-            ul.appendChild(li);
-        });
-        box.appendChild(ul);
-        div.appendChild(box);
+        var errors = res.get('errors'); 
+        if (result.length) {
+            btn.innerHTML = "Crawl queued links";
+            if (errors.length) {
+                errors = [
+                    "The domain you entered is invalid. Showing results for previous domain"
+                ];
+            }
+            if (p) {
+                p.remove();
+            }
+            div.appendChild(stats);
+            result.forEach(link => {
+                var li = create_element('li');
+                var a = create_element('a');
+                a.href = link;
+                a.textContent = link;
+                li.appendChild(a);
+                ul.appendChild(li);
+            });
+            box.appendChild(ul);
+            div.appendChild(box);
+        } 
+        let p = document.getElementById("_errors");
+        if (p) {
+            p.remove();
+        }
+        p = set_attribute("errors", "_errors", "p");
+        if (!result.length && !errors.length) {
+            errors = ['Please check input and try again!']
+            let roots = res.get('roots');
+            if (!roots.length || (roots.length === 1 && roots[0] === "")) {
+                errors = ['Input is required']
+            }
+        }
+        if (errors.length) {
+            let errmessage = errors[0];
+            p.textContent = errmessage;
+            div.appendChild(p);
+        }
     }
     prevent_routing(div);
 }
 
 function crawl_stats(res) {
-    var seen = res.get('seen') || [];
-    var queue = res.get('queue') || [];
-    var roots = res.get('roots') || [];
-    var total = res.get('result') || [];
+    var seen = res.get('seen');
+    var queue = res.get('queue');
+    var roots = res.get('roots');
+    var total = res.get('result');
     var stats = document.getElementById("_stats");
     if (stats) {
         stats.remove();
@@ -554,12 +583,12 @@ function crawl_stats(res) {
     div.style.border = '1px solid black';
     var tr = create_element("tr");
     var stats = [
-        {'Total': total.length},
+        {'Hits': total.length},
         {'Seen': seen.length},
         {'Roots': roots.length},
         {'Queued': queue.length}
     ];
-    var keys = ['Total', 'Seen', 'Roots', 'Queued']
+    var keys = ['Hits', 'Seen', 'Roots', 'Queued']
     for (let i = 0; i < stats.length; i++) {
         let key = keys[i]
         let vals = stats[i];

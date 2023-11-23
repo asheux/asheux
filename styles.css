@@ -261,6 +261,19 @@ th {
     width: 50%;
 }
 
+.errors {
+    margin-top: 1em;
+    margin-right: auto;
+    background-color: #cd6155;
+    padding: 8px;
+    color: white;
+    text-align: center;
+    font-size: 11px;
+    margin-left: auto;
+    border-radius: 3%;
+    width: 30%;
+}
+
 /* Mobile responsivity */
 
 @media only screen and (max-width: 1500px) {
