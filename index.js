@@ -520,10 +520,11 @@ async function handle_crawl(e) {
     btn.appendChild(loader);
     s.appendChild(ul);
     s.classList.add("crawled_links");
-    let result = await crawler.crawl(2);
+    let res = await crawler.crawl(2);
     btn.innerHTML = "Initiate Crawl";
-    if (result.length) { 
-        var stats = crawl_stats(result.length);
+    if (res) {
+        var result = res.get('result') || [];
+        var stats = crawl_stats(res);
         div.appendChild(stats);
         result.forEach(link => {
             var li = create_element('li');
@@ -539,21 +540,33 @@ async function handle_crawl(e) {
     prevent_routing(div);
 }
 
-function crawl_stats(count) {
+function crawl_stats(res) {
+    var seen = res.get('seen') || [];
+    var queue = res.get('queue') || [];
+    var roots = res.get('roots') || [];
+    var total = res.get('result') || [];
     var stats = document.getElementById("_stats");
     if (stats) {
         stats.remove();
     }
     var div = set_attribute("stats", "_stats", "div");
     var table = set_attribute("tabled", "_tabled", "table");
+    div.style.border = '1px solid black';
     var tr = create_element("tr");
-    var stats = ["Hits:", count];
-    for (let i = 0; i < 2; i++) {
-        let val = stats[i];
+    var stats = [
+        {'Total': total.length},
+        {'Seen': seen.length},
+        {'Roots': roots.length},
+        {'Queued': queue.length}
+    ];
+    var keys = ['Total', 'Seen', 'Roots', 'Queued']
+    for (let i = 0; i < stats.length; i++) {
+        let key = keys[i]
+        let vals = stats[i];
         let td = create_element("td");
         td.style.border = "none";
-        td.style.color = "green";
-        td.textContent = val;
+        td.style.color = "#f39c12";
+        td.textContent = `${key}: ${vals[key]}`;
         tr.appendChild(td);
     }
     table.appendChild(tr);
