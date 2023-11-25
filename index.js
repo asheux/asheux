@@ -503,7 +503,6 @@ function handle_change(e) {
 }
 
 async function handle_crawl(e) {
-    return; // Remove
     e.preventDefault();
     var div = document.getElementById('_search');
     var box = document.getElementById('crawled');
