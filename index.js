@@ -6,6 +6,7 @@ import cv from "./pdfs/cv.pdf";
 import artemis from './images/artemis.png';
 import conscious from './images/conscious.png';
 import consciousness from './pdfs/consciousness.txt';
+import spider from "./images/spider.png";
 
 
 // Initialize rust objects
@@ -35,7 +36,7 @@ function _get_name() {
 function getnavitems() {
     var div = set_attribute("others", "g", "div");
     var aas = [create_element('a'), create_element('a')];
-    var rs = ['/about', '/projects'];
+    var rs = ['/about', '/crawler'];
     var names = ['About', 'Project Crawl'];
     for (var i = 0; i<aas.length; i++) {
         var r = rs[i];
@@ -263,6 +264,7 @@ function write_cv(out) {
 }
 
 function write_home_page(out_data) {
+    crawler.set_roots('reset');
     window.scrollTo(0, 0);
     var content = document.getElementById("content");
     var favs = favourite();
@@ -296,6 +298,7 @@ function prevent_routing(target) {
 }
 
 function write_about_page(out) {
+    crawler.set_roots('reset');
     window.scrollTo(0, 0);
     var content = document.getElementById('content');
     content.innerHTML = out;
@@ -323,11 +326,18 @@ function write_project_crawl() {
     f.appendChild(input);
     var d = create_element('div');
     var btn = set_attribute("crawl", "_crawl", "button");
+    var toaster = set_attribute("notshow", "snackbar", "div")
     btn.addEventListener("click", handle_crawl);
     btn.textContent = "Initiate Crawl";
     d.appendChild(btn);
     f.appendChild(d);
     div.appendChild(f);
+    div.appendChild(toaster);
+    var box = set_attribute("spider_box", "spdb", "div");
+    var img = set_attribute("spider", "_spider", "img");
+    img.src = spider;
+    box.appendChild(img);
+    div.appendChild(box);
     content.appendChild(div);
 }
 
@@ -375,11 +385,11 @@ function router() {
         route = route.slice(0, length - 1); // remove trailing slash
     }
     var content = document.getElementById('content');
-    var routes = ['/', '/about', '/projects', "/view_cv"];
+    var routes = ['/', '/about', '/crawler', "/view_cv"];
     var __func_mapper = {
         "/": write_home_page,
         "/about": write_about_page,
-        "/projects": write_project_crawl,
+        "/crawler": write_project_crawl,
         article_route: write_article_page,
         "/view_cv": write_cv,
     };
@@ -497,7 +507,10 @@ function favourite() {
 }
 
 function handle_change(e) {
+    var btn = document.getElementById("_crawl");
+    btn.innerHTML = "Initiate Crawl";
     var { value } = e.target;
+    crawler.reset();
     crawler.set_roots(value.replace(/\s/g, ''));
     crawler.init_roots();
 }
@@ -506,6 +519,7 @@ async function handle_crawl(e) {
     e.preventDefault();
     var div = document.getElementById('_search');
     var box = document.getElementById('crawled');
+    var spiderbox = document.getElementById("spdb"); 
     if (box) {
         box.innerHTML = "";
     } else {
@@ -526,15 +540,10 @@ async function handle_crawl(e) {
         var stats = crawl_stats(res);
         var errors = res.get('errors'); 
         if (result.length) {
+            if (spiderbox) {
+                spiderbox.style.display = "none";
+            }
             btn.innerHTML = "Crawl queued links";
-            if (errors.length) {
-                errors = [
-                    "The domain you entered is invalid. Showing results for previous domain"
-                ];
-            }
-            if (p) {
-                p.remove();
-            }
             div.appendChild(stats);
             result.forEach(link => {
                 var li = create_element('li');
@@ -547,22 +556,30 @@ async function handle_crawl(e) {
             box.appendChild(ul);
             div.appendChild(box);
         } 
-        let p = document.getElementById("_errors");
-        if (p) {
-            p.remove();
-        }
-        p = set_attribute("errors", "_errors", "p");
         if (!result.length && !errors.length) {
-            errors = ['Please check input and try again!']
+            errors = [
+                "The domain you entered is invalid/or returned no response."
+            ];
             let roots = res.get('roots');
             if (!roots.length || (roots.length === 1 && roots[0] === "")) {
                 errors = ['Input is required']
             }
         }
         if (errors.length) {
+            var box = document.getElementById('crawled');
+            if (spiderbox) {
+                spiderbox.style.display = "block";
+            }
+            if (box) {
+                box.remove();
+            }
+            var toaster = document.getElementById("snackbar");
             let errmessage = errors[0];
-            p.textContent = errmessage;
-            div.appendChild(p);
+            toaster.textContent = errmessage;
+            toaster.className = "show";
+            setTimeout(function() {
+                toaster.className = toaster.className.replace("show", "");
+            }, 3000);
         }
     }
     prevent_routing(div);
