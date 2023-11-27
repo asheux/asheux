@@ -281,6 +281,10 @@ th {
     animation: rotation 1s linear infinite;
 }
 
+.info {
+    border: none;
+}
+
 @keyframes rotation {
     0% {
         transform: rotate(0deg);
