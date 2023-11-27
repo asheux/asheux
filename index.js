@@ -82,7 +82,7 @@ function get_footer() {
     var footer = set_attribute("anavbar", "footer-id", "footer");
     var div = set_attribute("footer", "_c", "div");
     var p = set_attribute("c", "ptext", "p");
-    p.textContent = 'Copyright @ 2023 asheux.com - All Rights Reserved';
+    p.innerHTML = 'Copyright @ 2023 <a href="/">asheux.com</a> - All Rights Reserved';
     div.appendChild(p);
     footer.appendChild(div);
     return footer;
@@ -533,7 +533,7 @@ async function handle_crawl(e) {
     btn.appendChild(loader);
     s.appendChild(ul);
     s.classList.add("crawled_links");
-    let res = await crawler.crawl(2);
+    let res = await crawler.crawl(20);
     btn.innerHTML = "Initiate Crawl";
     if (res) {
         var result = res.get('result');
