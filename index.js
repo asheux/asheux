@@ -191,13 +191,13 @@ function create_element(el) {
     return document.createElement(el);
 }
 
-function write_links(out) {
+function write_links(data, title, key) {
+    var out = data.get(key);
     var ul = document.getElementById('links');
     ul.classList.add('ul-links');
     var h = create_element("h4");
-    h.textContent = "Programming & Artificial Intelligence";
+    h.textContent = title;
     ul.appendChild(h);
-    var is_old_set = false;
     for (var i = 0; i < out.length; i++) {
         var item = out[i];
         var {name, tag} = item;
@@ -205,11 +205,6 @@ function write_links(out) {
         var id = Number(tags[0]);
         var li = create_element('li');
         var a = create_element('a');
-        var h4 = null;
-        if (id === 0) {
-            h4 = create_element('h4');
-            h4.textContent = "Poetry & Essays";
-        }
         var span = set_attribute('tags', 'tags', 'span');
         a.textContent = name;
         a.href = `/articles/${id}`;
@@ -236,11 +231,6 @@ function write_links(out) {
             div.classList.add(_class);
             div.append(el);
             li.appendChild(div);
-        }
-        if (h4 && !is_old_set) {
-            is_old_set = true;
-            ul.appendChild(h4);
-            h4 = null;
         }
         li.classList.add("li-links");
         if (id !== 0) {
@@ -280,7 +270,8 @@ function write_home_page(out_data) {
     s.appendChild(ul);
     s.classList.add("linksdata");
     content.appendChild(s);
-    write_links(out_data); 
+    write_links(out_data, "Programming & Artificial Intelligence", "programing_ai");
+    write_links(out_data, "Poetry & Essays", "poetry_and_essays");
 }
 
 function prevent_routing(target) {
