@@ -24,9 +24,9 @@ function _get_name() {
     var a = set_attribute("h", "navname", "a");
     a.href = "/";
     a.textContent = "Asheux ";
-    var span = set_attribute("j", "blinker", "span");
+    var span = set_attribute("j", "pipe", "span");
     span.style.pointerEvents = "none";
-    span.textContent = "? ";
+    span.textContent = "| ";
     a.appendChild(span)
     var name = _home.get_name();
     writer(a, name, 100, "green");
