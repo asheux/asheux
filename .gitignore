@@ -8,3 +8,5 @@ cdn
 # Bin
 .bin
 .env
+
+.DS_Store
