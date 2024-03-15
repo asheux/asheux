@@ -304,37 +304,32 @@ function write_project_crawl() {
     var content = document.getElementById('content');
     var div = set_attribute('search', '_search', 'div');
     var h1 = create_element('h1');
-    h1.textContent = "Page unavailable at the moment!";
+    h1.textContent = "Crawl The World Wide Web";
     h1.style.textAlign = 'center';
     h1.style.color = "green";
     div.appendChild(h1);
+    var input = create_element("input");
+    input.type = "text";
+    input.placeholder = "Add url(s) to crawl e.g xkcd.com,x.com,asheux.com ...";
+    input.classList.add('searchbar');
+    input.oninput = handle_change;
+    var f = set_attribute("sea", "_s", "div");
+    f.appendChild(input);
+    var d = create_element('div');
+    var btn = set_attribute("crawl", "_crawl", "button");
+    var toaster = set_attribute("notshow", "snackbar", "div")
+    btn.addEventListener("click", handle_crawl);
+    btn.textContent = "Initiate Crawl";
+    d.appendChild(btn);
+    f.appendChild(d);
+    div.appendChild(f);
+    div.appendChild(toaster);
+    var box = set_attribute("spider_box", "spdb", "div");
+    var img = set_attribute("spider", "_spider", "img");
+    img.src = spider;
+    box.appendChild(img);
+    div.appendChild(box);
     content.appendChild(div);
-    // h1.textContent = "Crawl The World Wide Web";
-    // h1.style.textAlign = 'center';
-    // h1.style.color = "green";
-    // div.appendChild(h1);
-    // var input = create_element("input");
-    // input.type = "text";
-    // input.placeholder = "Add url(s) to crawl e.g xkcd.com,x.com,asheux.com ...";
-    // input.classList.add('searchbar');
-    // input.oninput = handle_change;
-    // var f = set_attribute("sea", "_s", "div");
-    // f.appendChild(input);
-    // var d = create_element('div');
-    // var btn = set_attribute("crawl", "_crawl", "button");
-    // var toaster = set_attribute("notshow", "snackbar", "div")
-    // btn.addEventListener("click", handle_crawl);
-    // btn.textContent = "Initiate Crawl";
-    // d.appendChild(btn);
-    // f.appendChild(d);
-    // div.appendChild(f);
-    // div.appendChild(toaster);
-    // var box = set_attribute("spider_box", "spdb", "div");
-    // var img = set_attribute("spider", "_spider", "img");
-    // img.src = spider;
-    // box.appendChild(img);
-    // div.appendChild(box);
-    // content.appendChild(div);
 }
 
 function write_article_page(out) {
