@@ -1,225 +1,247 @@
-<!DOCTYPE html>
-<html>
-    <head>
-    <meta charset="utf-8">
-    <title>Asheux @ Brian Mboya</title>
-    </head>
-    <body>
-        <div id="article" class="article">
-            <div><small style="color: green;">8 min read Apr 29, 2020</small></div>
-            <h1 class="article-header">
-                Encoding logic in Artificial Intelligence
-            </h1>
-            <div class="article-content">
-                <div><img width="100%" height="100%" src="/images/logic.png" /></div>
-                <div class="pcontent">
-                    <p>
-                        <i>| Using a simple propositional logic and model-checking algorithm</i>
-                        <br /><br />
-                        The idea of knowledge has been talked about by scientist, philosophers,
-                        and now Artificial Intelligence or AI people. But what is knowledge?
-                        In this article, we will focus on the simplest kind of knowledge; knowing
-                        facts about a thing or entity such as a person and being able to reason
-                        logically based on what we know and make conclusion. Intelligence, it seems,
-                        is based on knowledge. Think about humans, we know a lot about the world
-                        and these facts help us do things intelligently. There are philosophical
-                        claims about how human intelligence is gained but we won’t focus more on that,
-                        instead, the goal of this article is to help the reader understand how the
-                        idea of knowledge can be applied in AI. For more details on the topic of
-                        knowledge see <a href="https://www.iep.utm.edu/knowledg/">iep.utm: Knowledge</a>
-                        and <a href="https://en.wikipedia.org/wiki/Knowledge">Wikipedia: Knowledge</a>.
-                        <br /><br />
-                        <h4>Knowledge-Based Agents</h4>
-                        In AI, knowledge is represented by building agents that undergo processes of
-                        reasoning. These agents are referred to as knowledge-based agents — agents that
-                        are able to reason and derive new knowledge to represent it explicitly.
-                        <br /><br />
-                        Basic concepts: <br /><br />
-                        <ul>
-                            <li>
-                                <b>Sentence</b> — It is used here in the context of AI to mean an
-                                assertion about the world expressed in a knowledge representation language.
-                                It is not, however, identical to sentences of the natural languages like
-                                English.
-                            </li>
-                            <li>
-                                <b>A knowledge base</b> or <b>KB</b> is a set of sentences known by a
-                                knowledge-based agent. It’s required to store knowledge being told to
-                                the agent to learn and take action based on the knowledge.
-                            </li>
-                            <li>
-                                <b>TELL</b> and <b>ASK</b> —a way for adding new sentences to the KB and
-                                query what is already known. These operations may involve inference; a
-                                process for deriving new sentences, when one ASKs a question of the KB,
-                                from what has been told to the KB previously.
-                            </li>
-                        </ul>
-                        The agent’s program does the following actions when called;<br /><br />
-                        <ul>
-                            <li>TELLs the knowledge base what it perceives</li>
-                            <li>ASKs the knowledge base what action it should perform through extensive reasoning</li>
-                            <li>TELLs the knowledge base which action was chosen, executes it</li>
-                        </ul>
-                        The rest of the article we describe the idea of building logical agents
-                        that can represent information and draw conclusions.
-                        <br /><br />
-                        <h4>Logic</h4>
-                        Let’s now draw our attention to logic, the idea that through reasoning, we may infer
-                        that an entity has knowledge. Our focus, in particular, will be describing how to
-                        build logical agents that can represent information as well as reason and draw conclusions.
-                        <br /><br />
-                        Consider the following sentences.<br /><br />
-                        <ul>
-                            <li>If Rey wasn’t tired, she would visit Ben today.</li>
-                            <li>Rey visited Ben or Avril today, but not both.</li>
-                            <li>Rey visited Avril today</li>
-                        </ul>
-                        With this pieces of information about the world, we can start to reason through and draw conclusion.
-                        Therefore, we can use semantics(the way in which the truth of a sentence is determined)
-                        to define the truth of sentences with respect to each possible world.<br /><br />
-                        For example, using the above sentences, the statement <b>‘Rey visited Avril today’</b> is
-                        true in a world where <b>‘Rey was tired’</b> because if she wasn’t, she would have visited Ben.
-                        In that sense, the inference we can make is;
-                        <ul>
-                            <li>Rey was tired</li>
-                            <li>Rey did not visit Ben</li>
-                        </ul>
-                        In the rest of the article, we will refer to a possible world as a <b>model</b>, a more mathematical
-                        abstract way of representing a possible world which might be thought of as real environments
-                        that the agent might or might not be in. In other worlds, the possible models are all
-                        the sentences that are either true or false that can represent a world as a variable
-                        or a propositional symbol(defined below).<br /><br />
-                        Let’s look at a type of logic called propositional logic.<br /><br />
-                        <h4>Propositional Logic</h4>
-                        This is based on propositions, the proper structure of statements about the world.
-                        The syntax here defines allowable sentences and these sentences consist propositional
-                        symbols that are often represented in uppercase letters. Each of these symbols
-                        represent facts about the world that can be true or false. For example;<br /><br />
-                        <table class="tabled"><tr><td>(P Q R)</td></tr></table>
-                        <br />
-                        Here, P can represent ‘Rey is tired’ and Q can be ‘She would visit Avril’, then
-                        the inference becomes R to say ‘Rey did not visit Ben’. We may want to reason more
-                        complex about facts that may exist in the world and to do that, we need a way to
-                        connect the individual facts we know to form complex sentences. These sentences are
-                        constructed by connecting simpler sentences using logical connectives.
-                        Examples include;<br /><br />
-                        <div style="text-align: center;">
-                            <img width="400px" height="400px" src="/images/conns.png" />
-                        </div>
-                        <br />
-                        For a computer to reason about facts and draw conclusion based on the facts,
-                        then these symbols need to be represented so that the computer can understand.
-                        Let’s look at an example using P, Q and R to represent each of the symbols.
-                        <br /><br />
-                        <ul>
-                            <li>
-                                Not(¬). ¬P is taken to mean, negation of P or in natural language if P
-                                represents <b><i>‘Rey is tired’</i></b> then ¬P will mean <b><i>‘Rey is not tired’</i></b>.
-                            </li>
-                            <li>
-                                And(∧). A sentence whose connective is ∧ is a conjunction i.e. P ∧ Q.
-                                Here P and Q are conjuncts. Example <b><i>‘Rey visited Ben and Avril today’</i></b>.
-                                Where P = Ben and Q = Avril.
-                            </li>
-                            <li>
-                                Or(∨). A sentence with this connective is a dis-junction. i.e. P ∨ Q.
-                                Example <b><i>‘Rey visited Ben or Avril today’</i></b>.
-                                Where P = Ben and Q = Avril.
-                            </li>
-                            <li>
-                                Implies(⇒). Example, (P ∧ Q) ⇒ ¬R which is referred to as a implication.
-                                (P ∧ Q) is its premise and ¬R is its conclusion. They are also known as
-                                <b><i>rules</i></b> or <b><i>if-then</i></b> statements.
-                            </li>
-                            <li>if and only if(⇔). Example include P ⇔ ¬Q; a bi-conditional.</li>
-                        </ul>
-                        In propositional logic, a model assigns a truth value to every propositional symbol.
-                        For example, if the following sentences are in our knowledge base, represented by
-                        symbols;<br /><br />
-                        <ul>
-                            <li>P: It is raining</li>
-                            <li>Q: It is a Wednesday</li>
-                            <li>R: Rey is in the house</li>
-                        </ul>
-                        Then, one possible model would be,<br /><br />
-                        <div class="box">
-                            <pre>
+<div id="article" class="article">
+  <div><small style="color: green">8 min read Apr 29, 2020</small></div>
+  <h1 class="article-header">Encoding logic in Artificial Intelligence</h1>
+  <div class="article-content">
+    <div><img width="100%" height="100%" src="/images/logic.png" /></div>
+    <div class="pcontent">
+      <div>
+        <i>| Using a simple propositional logic and model-checking algorithm</i>
+        <br /><br />
+        The idea of knowledge has been talked about by scientist, philosophers,
+        and now Artificial Intelligence or AI people. But what is knowledge? In
+        this article, we will focus on the simplest kind of knowledge; knowing
+        facts about a thing or entity such as a person and being able to reason
+        logically based on what we know and make conclusion. Intelligence, it
+        seems, is based on knowledge. Think about humans, we know a lot about
+        the world and these facts help us do things intelligently. There are
+        philosophical claims about how human intelligence is gained but we won’t
+        focus more on that, instead, the goal of this article is to help the
+        reader understand how the idea of knowledge can be applied in AI. For
+        more details on the topic of knowledge see
+        <a href="https://www.iep.utm.edu/knowledg/">iep.utm: Knowledge</a> and
+        <a href="https://en.wikipedia.org/wiki/Knowledge"
+          >Wikipedia: Knowledge</a
+        >. <br /><br />
+        <h4>Knowledge-Based Agents</h4>
+        In AI, knowledge is represented by building agents that undergo
+        processes of reasoning. These agents are referred to as knowledge-based
+        agents — agents that are able to reason and derive new knowledge to
+        represent it explicitly.
+        <br /><br />
+        Basic concepts: <br /><br />
+        <ul>
+          <li>
+            <b>Sentence</b> — It is used here in the context of AI to mean an
+            assertion about the world expressed in a knowledge representation
+            language. It is not, however, identical to sentences of the natural
+            languages like English.
+          </li>
+          <li>
+            <b>A knowledge base</b> or <b>KB</b> is a set of sentences known by
+            a knowledge-based agent. It’s required to store knowledge being told
+            to the agent to learn and take action based on the knowledge.
+          </li>
+          <li>
+            <b>TELL</b> and <b>ASK</b> —a way for adding new sentences to the KB
+            and query what is already known. These operations may involve
+            inference; a process for deriving new sentences, when one ASKs a
+            question of the KB, from what has been told to the KB previously.
+          </li>
+        </ul>
+        The agent’s program does the following actions when called;<br /><br />
+        <ul>
+          <li>TELLs the knowledge base what it perceives</li>
+          <li>
+            ASKs the knowledge base what action it should perform through
+            extensive reasoning
+          </li>
+          <li>TELLs the knowledge base which action was chosen, executes it</li>
+        </ul>
+        The rest of the article we describe the idea of building logical agents
+        that can represent information and draw conclusions.
+        <br /><br />
+        <h4>Logic</h4>
+        Let’s now draw our attention to logic, the idea that through reasoning,
+        we may infer that an entity has knowledge. Our focus, in particular,
+        will be describing how to build logical agents that can represent
+        information as well as reason and draw conclusions.
+        <br /><br />
+        Consider the following sentences.<br /><br />
+        <ul>
+          <li>If Rey wasn’t tired, she would visit Ben today.</li>
+          <li>Rey visited Ben or Avril today, but not both.</li>
+          <li>Rey visited Avril today</li>
+        </ul>
+        With this pieces of information about the world, we can start to reason
+        through and draw conclusion. Therefore, we can use semantics(the way in
+        which the truth of a sentence is determined) to define the truth of
+        sentences with respect to each possible world.<br /><br />
+        For example, using the above sentences, the statement
+        <b>‘Rey visited Avril today’</b> is true in a world where
+        <b>‘Rey was tired’</b> because if she wasn’t, she would have visited
+        Ben. In that sense, the inference we can make is;
+        <ul>
+          <li>Rey was tired</li>
+          <li>Rey did not visit Ben</li>
+        </ul>
+        In the rest of the article, we will refer to a possible world as a
+        <b>model</b>, a more mathematical abstract way of representing a
+        possible world which might be thought of as real environments that the
+        agent might or might not be in. In other worlds, the possible models are
+        all the sentences that are either true or false that can represent a
+        world as a variable or a propositional symbol(defined below).<br /><br />
+        Let’s look at a type of logic called propositional logic.<br /><br />
+        <h4>Propositional Logic</h4>
+        This is based on propositions, the proper structure of statements about
+        the world. The syntax here defines allowable sentences and these
+        sentences consist propositional symbols that are often represented in
+        uppercase letters. Each of these symbols represent facts about the world
+        that can be true or false. For example;<br /><br />
+        <table class="tabled">
+          <tr>
+            <td>(P Q R)</td>
+          </tr>
+        </table>
+        <br />
+        Here, P can represent ‘Rey is tired’ and Q can be ‘She would visit
+        Avril’, then the inference becomes R to say ‘Rey did not visit Ben’. We
+        may want to reason more complex about facts that may exist in the world
+        and to do that, we need a way to connect the individual facts we know to
+        form complex sentences. These sentences are constructed by connecting
+        simpler sentences using logical connectives. Examples include;<br /><br />
+        <div style="text-align: center">
+          <img width="400px" height="400px" src="/images/conns.png" />
+        </div>
+        <br />
+        For a computer to reason about facts and draw conclusion based on the
+        facts, then these symbols need to be represented so that the computer
+        can understand. Let’s look at an example using P, Q and R to represent
+        each of the symbols.
+        <br /><br />
+        <ul>
+          <li>
+            Not(¬). ¬P is taken to mean, negation of P or in natural language if
+            P represents <b><i>‘Rey is tired’</i></b> then ¬P will mean
+            <b><i>‘Rey is not tired’</i></b
+            >.
+          </li>
+          <li>
+            And(∧). A sentence whose connective is ∧ is a conjunction i.e. P ∧
+            Q. Here P and Q are conjuncts. Example
+            <b><i>‘Rey visited Ben and Avril today’</i></b
+            >. Where P = Ben and Q = Avril.
+          </li>
+          <li>
+            Or(∨). A sentence with this connective is a dis-junction. i.e. P ∨
+            Q. Example <b><i>‘Rey visited Ben or Avril today’</i></b
+            >. Where P = Ben and Q = Avril.
+          </li>
+          <li>
+            Implies(⇒). Example, (P ∧ Q) ⇒ ¬R which is referred to as a
+            implication. (P ∧ Q) is its premise and ¬R is its conclusion. They
+            are also known as
+            <b><i>rules</i></b> or <b><i>if-then</i></b> statements.
+          </li>
+          <li>if and only if(⇔). Example include P ⇔ ¬Q; a bi-conditional.</li>
+        </ul>
+        In propositional logic, a model assigns a truth value to every
+        propositional symbol. For example, if the following sentences are in our
+        knowledge base, represented by symbols;<br /><br />
+        <ul>
+          <li>P: It is raining</li>
+          <li>Q: It is a Wednesday</li>
+          <li>R: Rey is in the house</li>
+        </ul>
+        Then, one possible model would be,<br /><br />
+        <div class="box">
+          <pre>
                                 <code id="acode" class="code">
                                     m = {P = true, Q = false, R = true}
                                 </code>
                             </pre>
-                        </div>
-                        <br />
-                        Note: The number of possible models is exactly 2^n, where n is the number of
-                        propositional symbols. For example, if we have P, Q and R, then n = 2³ = 8
-                        possible models.<br /><br />
-                        The table below shows semantics for the five logical connectives expressed
-                        in a <b>truth table</b>.<br /><br />
-                        <div style="text-align: center;">
-                            <img width="700px" height="250px" src="/images/ttable.png" />
-                        </div>
-                        <br />
-                        To understand the implication symbol from the table (P ⇒ Q), we simply say,
-                        if P is true, then we can make a claim that Q is true. Otherwise we make no claim.
-                        In that sense, an implication is true whenever it’s premise, in this case
-                        P, is false, i.e Plato was a woman implies that Aristotle was intelligent is true
-                        regardless whether Aristotle was a intelligent.<br /><br />
-                        With this notion of truth in our arsenal, let’s drive our attention to logical
-                        reasoning. In particular, the relation of logical entailment between sentences,
-                        the idea that sentences hold true when one sentence follows logically from one
-                        or more sentences.<br /><br />
-                        For example α and β represent two sentences, therefore, the notation α |= β
-                        means, α entails β. A more formal definition is α |= β if and only if in
-                        every model or in every possible world in which α is true, then β must be true.
-                        <br /><br />
-                        <h4>A simple inference algorithm</h4>
-                        Our goal now is to encode the whole idea of entailment into a computer so that
-                        our AI or agent can figure out what the possible entailment are and be able to
-                        make inferences. In other words, given a knowledge base, KB and some sentence α,
-                        the AI should decide whether KB |= α, read KB entails α. For example given,
-                        <br /><br />
-                        <ul>
-                            <li>P: It is raining</li>
-                            <li>Q: It is a Wednesday</li>
-                            <li>R: Rey will be in the house</li>
-                        </ul>
-                        The algorithm we will consider for inference is a model-checking approach, described;
-                        <br /><br />
-                        → Given a KB and a sentence α, determine if KB |= α:<br /><br />
-                        <ul>
-                            <li>Enumerate all possible models</li>
-                            <li>Check that α is true for all possible models in which KB is true</li>
-                            <li>f that’s the case, then KB entails α, otherwise, there is no entailment.</li>
-                        </ul>
-                        Example; using the above KB, (P ∧ ¬Q) ⇒ R, Query = R, we have 2³ = 8 possible models
-                        represented in the following table;<br /><br />
-                        <div style="text-align: center;">
-                            <img width="400px" height="500px" src="/images/kb.png" />
-                        </div>
-                        <br />
-                        <ul>
-                            <li>
-                                Based on our KB, we know that P is true, therefore, for every possible models or
-                                worlds where P is false in the above table, it means α is false,
-                                and so KB is also false.
-                            </li>
-                            <li>
-                                We also know that ¬Q is false in our KB, hence, all models in the table where Q
-                                is true means α is false, in which case KB is false.
-                            </li>
-                            <li>
-                                This leaves us with two possible worlds. But from our definition of implication,
-                                we know that true ⇒ false breaks the if-then rule.
-                            </li>
-                        </ul>
-                        Therefore, we can conclusively say that for all possible models in our KB, there exist
-                        only one model that describes KB |= α. And query, R = true.<br /><br />
-                        Now, let’s code all these ideas in a high level programming language and see clearly
-                        how our AI can draw conclusion. We will use Python as the language of choice but
-                        you can use any language as long as you understand the concept.<br /><br />
-                        <h4>Algorithm is pseudo-code</h4>
-                        <div class="box">
-                            <pre>
+        </div>
+        <br />
+        Note: The number of possible models is exactly 2^n, where n is the
+        number of propositional symbols. For example, if we have P, Q and R,
+        then n = 2³ = 8 possible models.<br /><br />
+        The table below shows semantics for the five logical connectives
+        expressed in a <b>truth table</b>.<br /><br />
+        <div style="text-align: center">
+          <img width="700px" height="250px" src="/images/ttable.png" />
+        </div>
+        <br />
+        To understand the implication symbol from the table (P ⇒ Q), we simply
+        say, if P is true, then we can make a claim that Q is true. Otherwise we
+        make no claim. In that sense, an implication is true whenever it’s
+        premise, in this case P, is false, i.e Plato was a woman implies that
+        Aristotle was intelligent is true regardless whether Aristotle was a
+        intelligent.<br /><br />
+        With this notion of truth in our arsenal, let’s drive our attention to
+        logical reasoning. In particular, the relation of logical entailment
+        between sentences, the idea that sentences hold true when one sentence
+        follows logically from one or more sentences.<br /><br />
+        For example α and β represent two sentences, therefore, the notation α
+        |= β means, α entails β. A more formal definition is α |= β if and only
+        if in every model or in every possible world in which α is true, then β
+        must be true.
+        <br /><br />
+        <h4>A simple inference algorithm</h4>
+        Our goal now is to encode the whole idea of entailment into a computer
+        so that our AI or agent can figure out what the possible entailment are
+        and be able to make inferences. In other words, given a knowledge base,
+        KB and some sentence α, the AI should decide whether KB |= α, read KB
+        entails α. For example given,
+        <br /><br />
+        <ul>
+          <li>P: It is raining</li>
+          <li>Q: It is a Wednesday</li>
+          <li>R: Rey will be in the house</li>
+        </ul>
+        The algorithm we will consider for inference is a model-checking
+        approach, described;
+        <br /><br />
+        → Given a KB and a sentence α, determine if KB |= α:<br /><br />
+        <ul>
+          <li>Enumerate all possible models</li>
+          <li>
+            Check that α is true for all possible models in which KB is true
+          </li>
+          <li>
+            f that’s the case, then KB entails α, otherwise, there is no
+            entailment.
+          </li>
+        </ul>
+        Example; using the above KB, (P ∧ ¬Q) ⇒ R, Query = R, we have 2³ = 8
+        possible models represented in the following table;<br /><br />
+        <div style="text-align: center">
+          <img width="400px" height="500px" src="/images/kb.png" />
+        </div>
+        <br />
+        <ul>
+          <li>
+            Based on our KB, we know that P is true, therefore, for every
+            possible models or worlds where P is false in the above table, it
+            means α is false, and so KB is also false.
+          </li>
+          <li>
+            We also know that ¬Q is false in our KB, hence, all models in the
+            table where Q is true means α is false, in which case KB is false.
+          </li>
+          <li>
+            This leaves us with two possible worlds. But from our definition of
+            implication, we know that true ⇒ false breaks the if-then rule.
+          </li>
+        </ul>
+        Therefore, we can conclusively say that for all possible models in our
+        KB, there exist only one model that describes KB |= α. And query, R =
+        true.<br /><br />
+        Now, let’s code all these ideas in a high level programming language and
+        see clearly how our AI can draw conclusion. We will use Python as the
+        language of choice but you can use any language as long as you
+        understand the concept.<br /><br />
+        <h4>Algorithm is pseudo-code</h4>
+        <div class="box">
+          <pre>
                                 <code id="acode" class="code">
                                     function MODEL-CHECK-ALL(KB,α,symbols, model)
                                       # returns true or false
@@ -248,10 +270,10 @@
                                       return MODEL-CHECK-ALL(KB, α, symbols, {})
                                 </code>
                             </pre>
-                        </div>
-                        <h4>Algorithm in Python</h4>
-                        <div class="box">
-                            <pre>
+        </div>
+        <h4>Algorithm in Python</h4>
+        <div class="box">
+          <pre>
                                 <code id="acode" class="code">
                                     def model_check_all(kb, a, symbols, model) → bool:
                                         """
@@ -300,25 +322,24 @@
                                         return model_check_all(kb, a, symbols, model)
                                 </code>
                             </pre>
-                        </div>
-                        <h4>References</h4>
-                        <ul>
-                            <li>
-                                (Global Edition) Stuart J. Russell, Peter Norvig — Artificial Intelligence_
-                                A Modern Approach, 3rd Edition-Pearson Education (2016) Pg 234–243
-                            </li>
-                            <li>Wikipedia: Knowledge</li>
-                            <li><a href="https://www.iep.utm.edu/aris-log/">Logic</a></li>
-                            <li><a href="https://www.iep.utm.edu/knowledg/">Knowledge</a></li>
-                            <li>
-                                <a href="https://en.wikipedia.org/wiki/Knowledge-based_systems">
-                                    Knowledge-Based Sytems
-                                </a>
-                            </li>
-                        </ul>
-                    </p>
-                </div>
-            </div>
         </div>
-    </body>
-</html>
+        <h4>References</h4>
+        <ul>
+          <li>
+            (Global Edition) Stuart J. Russell, Peter Norvig — Artificial
+            Intelligence_ A Modern Approach, 3rd Edition-Pearson Education
+            (2016) Pg 234–243
+          </li>
+          <li>Wikipedia: Knowledge</li>
+          <li><a href="https://www.iep.utm.edu/aris-log/">Logic</a></li>
+          <li><a href="https://www.iep.utm.edu/knowledg/">Knowledge</a></li>
+          <li>
+            <a href="https://en.wikipedia.org/wiki/Knowledge-based_systems">
+              Knowledge-Based Sytems
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>

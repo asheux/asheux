@@ -1,342 +1,342 @@
-<!DOCTYPE html>
-<html>
-    <head>
-    <meta charset="utf-8">
-    <title>Asheux @ Brian Mboya</title>
-    </head>
-    <body>
-        <div id="article" class="article">
-            <div><small style="color: green;">6 min read Apr 18, 2020</small></div>
-            <h1 class="article-header">
-                Uninformed search in Artificial Intelligence
-            </h1>
-            <div class="article-content">
-                <div><img width="100%" height="100%" src="/images/ai.png" /></div>
-                <div class="pcontent">
-                    <p>
-                        Search problems are quite popular these days in Artificial Intelligence
-                        and many algorithms have been proposed for solving problems of this kind.
-                        In this article, we will consider a popular search problem of finding
-                        your way through a maze and two simple algorithms used to solve this
-                        problem. The algorithms we will consider are the Depth-First search(DFS)
-                        and the Breadth-First search(BFS). Let’s look at each of them.<br /><br />
-                        <h4>Depth-First Search</h4>
-                        Depth-First search is an algorithm for traversing tree data structures
-                        by starting at the root node and exploring deeper into the tree branch
-                        where possible then backtracks if there are no possible nodes to explore
-                        and the goal has not been reached.<br /><br />
-                        The algorithm work by taking the current node otherwise known as root,
-                        checks and keeps track of its neighbors, expanding a random node among
-                        the neighboring nodes. This goes on and on until the goal is reached or
-                        a solution is found. It makes use of a stack data structure for adding
-                        and removing nodes(neighboring nodes) in a last-in-first-out
-                        data type format.<br /><br />
-                        I will also use an auxiliary set for maintaining the explored nodes to
-                        make sure the algorithm does not visit nodes previously visited since
-                        this may cause an infinite loop. Let’s demonstrate these visually.
-                        <br /><br />
-                        <div style="text-align: center;">
-                            <img width="400px" height="300px" src="/images/image1.png" />
-                        </div>
-                        <br />
-                        Using the above search tree, let’s have the algorithm find a path from
-                        A to E. The First thing is to initialize a stack with the starting node
-                        added to it, the goal which is E and explored set. As of now, our
-                        start node is A so we add it to our stack.<br /><br />
-                        <table class="tabled">
-                            <tr><td>A</td></tr>
-                            <tr><td>[Explored set]</td></tr>
-                        </table>
-                        <br />
-                        Next step, we remove the last item in our stack and explore its neighbors.
-                        Since we only have A, we expand it. Node A has just one neighbor, B.
-                        Add it to our stack as well as A to the explored set.<br /><br />
-                        <table class="tabled">
-                            <tr rowspan="6">
-                                <td>B</td>
-                                <td>#</td>
-                                <td>#</td>
-                                <td>#</td>
-                                <td>#</td>
-                                <td>#</td>
-                            </tr>
-                            <tr rowspan="6">
-                                <td>A</td>
-                                <td>#</td>
-                                <td>#</td>
-                                <td>#</td>
-                                <td>#</td>
-                                <td>#</td>
-                            </tr>
-                        </table>
-                        <br />
-                        Now, we check if our stack has something, if yes, we remove the last
-                        item and explore it. In this case, it’s node B. The neighbors of B
-                        are C and D. Therefore, we add them to the stack and B
-                        to the explored set.<br /><br />
-                        <table class="tabled">
-                            <tr>
-                                <td>C</td>
-                                <td>D</td>
-                                <td>#</td>
-                                <td>#</td>
-                                <td>#</td>
-                                <td>#</td>
-                            </tr>
-                            <tr>
-                                <td>A</td>
-                                <td>B</td>
-                                <td>#</td>
-                                <td>#</td>
-                                <td>#</td>
-                                <td>#</td>
-                            </tr>
-                        </table>
-                        <br />
-                        Next, check the stack and remove the last item which is D and explore
-                        its adjacent nodes, F. Add F to the stack and D to explored set.
-                        <br /><br />
-                        <table class="tabled">
-                            <tr>
-                                <td>C</td>
-                                <td>F</td>
-                                <td>#</td>
-                                <td>#</td>
-                                <td>#</td>
-                                <td>#</td>
-                            </tr>
-                            <tr>
-                                <td>A</td>
-                                <td>B</td>
-                                <td>D</td>
-                                <td>#</td>
-                                <td>#</td>
-                                <td>#</td>
-                            </tr>
-                        </table>
-                        <br />
-                        Next, we consider F since it’s the last item in the stack. It has no
-                        neighbors, therefore, we consider this a dead end. In such a case we
-                        just add the node to the explored set and backtrack if the
-                        stack is not empty.<br /><br />
-                        <table class="tabled">
-                            <tr>
-                                <td>C</td>
-                                <td>#</td>
-                                <td>#</td>
-                                <td>#</td>
-                                <td>#</td>
-                                <td>#</td>
-                            </tr>
-                            <tr>
-                                <td>A</td>
-                                <td>B</td>
-                                <td>D</td>
-                                <td>F</td>
-                                <td>#</td>
-                                <td>#</td>
-                            </tr>
-                        </table>
-                        <br />
-                        The stack has one item. We remove it and consider the neighbors
-                        which is a single node, E. Add E to the stack and
-                        C to the explored set.<br /><br />
-                        <table class="tabled">
-                            <tr>
-                                <td>E</td>
-                                <td>#</td>
-                                <td>#</td>
-                                <td>#</td>
-                                <td>#</td>
-                                <td>#</td>
-                            </tr>
-                            <tr>
-                                <td>A</td>
-                                <td>B</td>
-                                <td>D</td>
-                                <td>F</td>
-                                <td>C</td>
-                                <td>#</td>
-                            </tr>
-                        </table>
-                        <br />
-                        Our stack has a single item, E. We remove it for exploring.
-                        There is no need to explore this one because it’s our goal,
-                        therefore, we add it to the explored set and terminate
-                        the algorithm. The final path is;<br /><br />
-                        <table class="tabled">
-                            <tr>
-                                <th colspan="6">[Empty stack]</th>
-                            </tr>
-                            <tr>
-                                <td>A</td>
-                                <td>B</td>
-                                <td>D</td>
-                                <td>F</td>
-                                <td>C</td>
-                                <td>E</td>
-                            </tr>
-                        </table>
-                        <br />
-                        <h4>Breadth-First Search</h4>
-                        This algorithm is quite similar to the Depth-First search except
-                        that as opposed to using a stack to store the nodes like DFS,
-                        it uses a queue, a first-in-first-out data type. Also, BFS explores
-                        all the neighbor nodes of the current node before moving on to
-                        the nodes at the next depth level. To demonstrate this visually,
-                        we will use the last search tree and initialize node A as the root,
-                        a queue with the starting node A, and explored set.<br /><br />
-                        <table class="tabled">
-                            <tr><td>A</td></tr>
-                            <tr><td>[Explored set]</td></tr>
-                        </table>
-                        <br />
-                        As before, we remove the first node in our queue, explore its
-                        neighbors, add the neighbors in the queue and then add the removed
-                        node to the explored set. Node A has one neighbor, B.
-                        We consider this node.<br /><br />
-                        <table class="tabled">
-                            <tr>
-                                <td>B</td>
-                                <td>#</td>
-                                <td>#</td>
-                                <td>#</td>
-                                <td>#</td>
-                                <td>#</td>
-                            </tr>
-                            <tr>
-                                <td>A</td>
-                                <td>#</td>
-                                <td>#</td>
-                                <td>#</td>
-                                <td>#</td>
-                                <td>#</td>
-                            </tr>
-                        </table>
-                        <br />
-                        Next, we remove B the same way and explore its neighbors, C, and 
-                        D by adding them to the queue.<br /><br />
-                        <table class="tabled">
-                            <tr>
-                                <td>C</td>
-                                <td>D</td>
-                                <td>#</td>
-                                <td>#</td>
-                                <td>#</td>
-                                <td>#</td>
-                            </tr>
-                            <tr>
-                                <td>A</td>
-                                <td>B</td>
-                                <td>#</td>
-                                <td>#</td>
-                                <td>#</td>
-                                <td>#</td>
-                            </tr>
-                        </table>
-                        <br />
-                        Now here’s when things start to get interesting because instead
-                        of removing D as in the case for DFS, we remove C since it’s the
-                        first node that came in first before D. Find neighbor nodes to
-                        C which is E, add to the queue and then add C to explored set.
-                        <br /><br />
-                        <table class="tabled">
-                            <tr>
-                                <td>D</td>
-                                <td>E</td>
-                                <td>#</td>
-                                <td>#</td>
-                                <td>#</td>
-                                <td>#</td>
-                            </tr>
-                            <tr>
-                                <td>A</td>
-                                <td>B</td>
-                                <td>C</td>
-                                <td>#</td>
-                                <td>#</td>
-                                <td>#</td>
-                            </tr>
-                        </table>
-                        <br />
-                        The next node to remove is D. Its neighbor is F so we add F to
-                        the queue and D to the explored.<br /><br />
-                        <table class="tabled">
-                            <tr>
-                                <td>E</td>
-                                <td>F</td>
-                                <td>#</td>
-                                <td>#</td>
-                                <td>#</td>
-                                <td>#</td>
-                            </tr>
-                            <tr>
-                                <td>A</td>
-                                <td>B</td>
-                                <td>C</td>
-                                <td>D</td>
-                                <td>#</td>
-                                <td>#</td>
-                            </tr>
-                        </table>
-                        <br />
-                        Next, we remove E. Since it’s our goal, we add it to the explored
-                        and terminate the algorithm successfully. At this point, we have
-                        solved the problem.<br /><br />
-                        <table class="tabled">
-                            <tr>
-                                <td>F</td>
-                                <td>#</td>
-                                <td>#</td>
-                                <td>#</td>
-                                <td>#</td>
-                                <td>#</td>
-                            </tr>
-                            <tr>
-                                <td>A</td>
-                                <td>B</td>
-                                <td>C</td>
-                                <td>D</td>
-                                <td>E</td>
-                                <td>#</td>
-                            </tr>
-                        </table>
-                        <br />
-                        Notice our queue still has an item because the AI reached the goal
-                        before exploring all the nodes.<br /><br />
-                        The general pseudo-code;
-                        <ul>
-                            <li>Initialize a stack/queue</li>
-                            <li>Initialize an empty explored set</li>
-                            <li>
-                                While the stack/queue is not empty
-                                <ul>
-                                    <li>Remove the last node from stack(DFS)/first from queue(BFS)</li>
-                                    <li>If node is the goal, terminate and return solution, otherwise</li>
-                                    <li>Find neighbor nodes of the removed node and store it in N</li>
-                                    <li>Add the removed node to the explored</li>
-                                    <li>
-                                        For each node in N, add to stack/queue if they are not in
-                                        either stack/queue or explored set
-                                    </li>
-                                    <li>Repeat</li>
-                                </ul>
-                            </li>
-                        </ul>
-                        Let’s look at how these algorithms can work in practice by writing some
-                        code to solve a real problem. At the start of this article, I mentioned
-                        one of the classical problem in search called Maze solving. It’s the
-                        same problem we will solve using these algorithms. The code will be
-                        written purely in Python programming language.<br /><br />
-                        Note; you can use any language as long as you focus on the pseudo-code
-                        and not Python syntax since it may become confusing translating
-                        Python code to other languages.<br /><br />
-                        First, we will define our maze in file called map.txt, can be any name;
-                        In the maze below, b represents the AI, e the door and # are the walls.
-                        I chose the simplest but you can try with a more sophisticated maze.
-                        The algorithm with still work correctly.<br /><br />
-                        <div class="box">
-                            <pre>
+<div id="article" class="article">
+  <div><small style="color: green">6 min read Apr 18, 2020</small></div>
+  <h1 class="article-header">Uninformed search in Artificial Intelligence</h1>
+  <div class="article-content">
+    <div><img width="100%" height="100%" src="/images/ai.png" /></div>
+    <div class="pcontent">
+      <div>
+        Search problems are quite popular these days in Artificial Intelligence
+        and many algorithms have been proposed for solving problems of this
+        kind. In this article, we will consider a popular search problem of
+        finding your way through a maze and two simple algorithms used to solve
+        this problem. The algorithms we will consider are the Depth-First
+        search(DFS) and the Breadth-First search(BFS). Let’s look at each of
+        them.<br /><br />
+        <h4>Depth-First Search</h4>
+        Depth-First search is an algorithm for traversing tree data structures
+        by starting at the root node and exploring deeper into the tree branch
+        where possible then backtracks if there are no possible nodes to explore
+        and the goal has not been reached.<br /><br />
+        The algorithm work by taking the current node otherwise known as root,
+        checks and keeps track of its neighbors, expanding a random node among
+        the neighboring nodes. This goes on and on until the goal is reached or
+        a solution is found. It makes use of a stack data structure for adding
+        and removing nodes(neighboring nodes) in a last-in-first-out data type
+        format.<br /><br />
+        I will also use an auxiliary set for maintaining the explored nodes to
+        make sure the algorithm does not visit nodes previously visited since
+        this may cause an infinite loop. Let’s demonstrate these visually.
+        <br /><br />
+        <div style="text-align: center">
+          <img width="400px" height="300px" src="/images/image1.png" />
+        </div>
+        <br />
+        Using the above search tree, let’s have the algorithm find a path from A
+        to E. The First thing is to initialize a stack with the starting node
+        added to it, the goal which is E and explored set. As of now, our start
+        node is A so we add it to our stack.<br /><br />
+        <table class="tabled">
+          <tr>
+            <td>A</td>
+          </tr>
+          <tr>
+            <td>[Explored set]</td>
+          </tr>
+        </table>
+        <br />
+        Next step, we remove the last item in our stack and explore its
+        neighbors. Since we only have A, we expand it. Node A has just one
+        neighbor, B. Add it to our stack as well as A to the explored set.<br /><br />
+        <table class="tabled">
+          <tr rowspan="6">
+            <td>B</td>
+            <td>#</td>
+            <td>#</td>
+            <td>#</td>
+            <td>#</td>
+            <td>#</td>
+          </tr>
+          <tr rowspan="6">
+            <td>A</td>
+            <td>#</td>
+            <td>#</td>
+            <td>#</td>
+            <td>#</td>
+            <td>#</td>
+          </tr>
+        </table>
+        <br />
+        Now, we check if our stack has something, if yes, we remove the last
+        item and explore it. In this case, it’s node B. The neighbors of B are C
+        and D. Therefore, we add them to the stack and B to the explored set.<br /><br />
+        <table class="tabled">
+          <tr>
+            <td>C</td>
+            <td>D</td>
+            <td>#</td>
+            <td>#</td>
+            <td>#</td>
+            <td>#</td>
+          </tr>
+          <tr>
+            <td>A</td>
+            <td>B</td>
+            <td>#</td>
+            <td>#</td>
+            <td>#</td>
+            <td>#</td>
+          </tr>
+        </table>
+        <br />
+        Next, check the stack and remove the last item which is D and explore
+        its adjacent nodes, F. Add F to the stack and D to explored set.
+        <br /><br />
+        <table class="tabled">
+          <tr>
+            <td>C</td>
+            <td>F</td>
+            <td>#</td>
+            <td>#</td>
+            <td>#</td>
+            <td>#</td>
+          </tr>
+          <tr>
+            <td>A</td>
+            <td>B</td>
+            <td>D</td>
+            <td>#</td>
+            <td>#</td>
+            <td>#</td>
+          </tr>
+        </table>
+        <br />
+        Next, we consider F since it’s the last item in the stack. It has no
+        neighbors, therefore, we consider this a dead end. In such a case we
+        just add the node to the explored set and backtrack if the stack is not
+        empty.<br /><br />
+        <table class="tabled">
+          <tr>
+            <td>C</td>
+            <td>#</td>
+            <td>#</td>
+            <td>#</td>
+            <td>#</td>
+            <td>#</td>
+          </tr>
+          <tr>
+            <td>A</td>
+            <td>B</td>
+            <td>D</td>
+            <td>F</td>
+            <td>#</td>
+            <td>#</td>
+          </tr>
+        </table>
+        <br />
+        The stack has one item. We remove it and consider the neighbors which is
+        a single node, E. Add E to the stack and C to the explored set.<br /><br />
+        <table class="tabled">
+          <tr>
+            <td>E</td>
+            <td>#</td>
+            <td>#</td>
+            <td>#</td>
+            <td>#</td>
+            <td>#</td>
+          </tr>
+          <tr>
+            <td>A</td>
+            <td>B</td>
+            <td>D</td>
+            <td>F</td>
+            <td>C</td>
+            <td>#</td>
+          </tr>
+        </table>
+        <br />
+        Our stack has a single item, E. We remove it for exploring. There is no
+        need to explore this one because it’s our goal, therefore, we add it to
+        the explored set and terminate the algorithm. The final path is;<br /><br />
+        <table class="tabled">
+          <tr>
+            <th colspan="6">[Empty stack]</th>
+          </tr>
+          <tr>
+            <td>A</td>
+            <td>B</td>
+            <td>D</td>
+            <td>F</td>
+            <td>C</td>
+            <td>E</td>
+          </tr>
+        </table>
+        <br />
+        <h4>Breadth-First Search</h4>
+        This algorithm is quite similar to the Depth-First search except that as
+        opposed to using a stack to store the nodes like DFS, it uses a queue, a
+        first-in-first-out data type. Also, BFS explores all the neighbor nodes
+        of the current node before moving on to the nodes at the next depth
+        level. To demonstrate this visually, we will use the last search tree
+        and initialize node A as the root, a queue with the starting node A, and
+        explored set.<br /><br />
+        <table class="tabled">
+          <tr>
+            <td>A</td>
+          </tr>
+          <tr>
+            <td>[Explored set]</td>
+          </tr>
+        </table>
+        <br />
+        As before, we remove the first node in our queue, explore its neighbors,
+        add the neighbors in the queue and then add the removed node to the
+        explored set. Node A has one neighbor, B. We consider this node.<br /><br />
+        <table class="tabled">
+          <tr>
+            <td>B</td>
+            <td>#</td>
+            <td>#</td>
+            <td>#</td>
+            <td>#</td>
+            <td>#</td>
+          </tr>
+          <tr>
+            <td>A</td>
+            <td>#</td>
+            <td>#</td>
+            <td>#</td>
+            <td>#</td>
+            <td>#</td>
+          </tr>
+        </table>
+        <br />
+        Next, we remove B the same way and explore its neighbors, C, and D by
+        adding them to the queue.<br /><br />
+        <table class="tabled">
+          <tr>
+            <td>C</td>
+            <td>D</td>
+            <td>#</td>
+            <td>#</td>
+            <td>#</td>
+            <td>#</td>
+          </tr>
+          <tr>
+            <td>A</td>
+            <td>B</td>
+            <td>#</td>
+            <td>#</td>
+            <td>#</td>
+            <td>#</td>
+          </tr>
+        </table>
+        <br />
+        Now here’s when things start to get interesting because instead of
+        removing D as in the case for DFS, we remove C since it’s the first node
+        that came in first before D. Find neighbor nodes to C which is E, add to
+        the queue and then add C to explored set.
+        <br /><br />
+        <table class="tabled">
+          <tr>
+            <td>D</td>
+            <td>E</td>
+            <td>#</td>
+            <td>#</td>
+            <td>#</td>
+            <td>#</td>
+          </tr>
+          <tr>
+            <td>A</td>
+            <td>B</td>
+            <td>C</td>
+            <td>#</td>
+            <td>#</td>
+            <td>#</td>
+          </tr>
+        </table>
+        <br />
+        The next node to remove is D. Its neighbor is F so we add F to the queue
+        and D to the explored.<br /><br />
+        <table class="tabled">
+          <tr>
+            <td>E</td>
+            <td>F</td>
+            <td>#</td>
+            <td>#</td>
+            <td>#</td>
+            <td>#</td>
+          </tr>
+          <tr>
+            <td>A</td>
+            <td>B</td>
+            <td>C</td>
+            <td>D</td>
+            <td>#</td>
+            <td>#</td>
+          </tr>
+        </table>
+        <br />
+        Next, we remove E. Since it’s our goal, we add it to the explored and
+        terminate the algorithm successfully. At this point, we have solved the
+        problem.<br /><br />
+        <table class="tabled">
+          <tr>
+            <td>F</td>
+            <td>#</td>
+            <td>#</td>
+            <td>#</td>
+            <td>#</td>
+            <td>#</td>
+          </tr>
+          <tr>
+            <td>A</td>
+            <td>B</td>
+            <td>C</td>
+            <td>D</td>
+            <td>E</td>
+            <td>#</td>
+          </tr>
+        </table>
+        <br />
+        Notice our queue still has an item because the AI reached the goal
+        before exploring all the nodes.<br /><br />
+        The general pseudo-code;
+        <ul>
+          <li>Initialize a stack/queue</li>
+          <li>Initialize an empty explored set</li>
+          <li>
+            While the stack/queue is not empty
+            <ul>
+              <li>
+                Remove the last node from stack(DFS)/first from queue(BFS)
+              </li>
+              <li>
+                If node is the goal, terminate and return solution, otherwise
+              </li>
+              <li>Find neighbor nodes of the removed node and store it in N</li>
+              <li>Add the removed node to the explored</li>
+              <li>
+                For each node in N, add to stack/queue if they are not in either
+                stack/queue or explored set
+              </li>
+              <li>Repeat</li>
+            </ul>
+          </li>
+        </ul>
+        Let’s look at how these algorithms can work in practice by writing some
+        code to solve a real problem. At the start of this article, I mentioned
+        one of the classical problem in search called Maze solving. It’s the
+        same problem we will solve using these algorithms. The code will be
+        written purely in Python programming language.<br /><br />
+        Note; you can use any language as long as you focus on the pseudo-code
+        and not Python syntax since it may become confusing translating Python
+        code to other languages.<br /><br />
+        First, we will define our maze in file called map.txt, can be any name;
+        In the maze below, b represents the AI, e the door and # are the walls.
+        I chose the simplest but you can try with a more sophisticated maze. The
+        algorithm with still work correctly.<br /><br />
+        <div class="box">
+          <pre>
                                 <code id="acode" class="code">
                                     #######
                                     #  #  #
@@ -347,9 +347,9 @@
                                     #######
                                 </code>
                             </pre>
-                        </div>
-                        <div class="box">
-                            <pre>
+        </div>
+        <div class="box">
+          <pre>
                                 <code id="acode" class="code">
                                     class Node:
                                       def __init__(self, root, action, state):
@@ -460,57 +460,62 @@
                                             return node
                                 </code>
                             </pre>
-                        </div>
-                        The source code for parsing the maze is on GitHub,
-                        you can take a look at <a href="https://github.com/asheux/maze-solver">
-                            maze-solver
-                        </a>.
-                        <h4>Final word</h4>
-                        Depth-First search and Breadth-First search are a kind of search
-                        algorithms that don’t use any problem specific knowledge to find
-                        a solution to a search problem. In other words, they are not
-                        so intelligent.<br /><br />
-                        There are a couple of algorithms that are intelligent or use problem
-                        specific knowledge to solve a search problem. We will look at some
-                        of them in future articles. These are;<br /><br />
-                        <ul>
-                            <li>A* search algorithm</li>
-                            <li>Greedy best-first search</li>
-                            <li>Minimax</li>
-                            <li>Alpha-beta pruning</li>
-                        </ul>
-                        <h4>References</h4>
-                        <ul>
-                            <li>Wikipedia: Depth-First Search algorithm</li>
-                            <li>Wikipedia: Breadth-First Search</li>
-                            <li>
-                                <a href="https://courses.edx.org/courses/course-v1:HarvardX+CS50AI+1T2020/course/">
-                                    CS50's Introduction to Artificial Intelligence with Python
-                                </a>
-                            </li>
-                            <li>
-                                <a href="https://www.geeksforgeeks.org/dfs-traversal-of-a-tree-using-recursion/">
-                                    DFS traversal of a Tree
-                                </a>
-                            </li>
-                            <li>
-                                <a href="https://www.boost.org/doc/libs/1_72_0/libs/graph/doc/depth_first_search.html">
-                                    Depth First search
-                                </a>
-                            </li>
-                            <li>
-                                <a href="https://opendatastructures.org/versions/edition-0.1e/ods-java/12_3_Graph_Traversal.html">
-                                    Graph Traversal
-                                </a>
-                            </li>
-                            <li>
-                                Introduction to Algorithms(CLRS) 3rd Edition, chapter 22, section 22.2
-                                and section 22.3 p. 594 and p. 603
-                            </li>
-                        </ul>
-                    </p>
-                </div>
-            </div>
         </div>
-    </body>
-</html>
+        The source code for parsing the maze is on GitHub, you can take a look
+        at
+        <a href="https://github.com/asheux/maze-solver"> maze-solver </a>.
+        <h4>Final word</h4>
+        Depth-First search and Breadth-First search are a kind of search
+        algorithms that don’t use any problem specific knowledge to find a
+        solution to a search problem. In other words, they are not so
+        intelligent.<br /><br />
+        There are a couple of algorithms that are intelligent or use problem
+        specific knowledge to solve a search problem. We will look at some of
+        them in future articles. These are;<br /><br />
+        <ul>
+          <li>A* search algorithm</li>
+          <li>Greedy best-first search</li>
+          <li>Minimax</li>
+          <li>Alpha-beta pruning</li>
+        </ul>
+        <h4>References</h4>
+        <ul>
+          <li>Wikipedia: Depth-First Search algorithm</li>
+          <li>Wikipedia: Breadth-First Search</li>
+          <li>
+            <a
+              href="https://courses.edx.org/courses/course-v1:HarvardX+CS50AI+1T2020/course/"
+            >
+              CS50's Introduction to Artificial Intelligence with Python
+            </a>
+          </li>
+          <li>
+            <a
+              href="https://www.geeksforgeeks.org/dfs-traversal-of-a-tree-using-recursion/"
+            >
+              DFS traversal of a Tree
+            </a>
+          </li>
+          <li>
+            <a
+              href="https://www.boost.org/doc/libs/1_72_0/libs/graph/doc/depth_first_search.html"
+            >
+              Depth First search
+            </a>
+          </li>
+          <li>
+            <a
+              href="https://opendatastructures.org/versions/edition-0.1e/ods-java/12_3_Graph_Traversal.html"
+            >
+              Graph Traversal
+            </a>
+          </li>
+          <li>
+            Introduction to Algorithms(CLRS) 3rd Edition, chapter 22, section
+            22.2 and section 22.3 p. 594 and p. 603
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>

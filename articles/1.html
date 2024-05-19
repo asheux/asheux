@@ -1,148 +1,149 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="utf-8">
-        <title>Asheux @ Brian Mboya</title>
-    </head>
-    <body>
-        <div id="article" class="article">
-            <div><small style="color: green;">5 min read Apr 2, 2020</small></div>
-            <h1 class="article-header">
-                Generating all subsets using basic Combinatorial Patterns
-            </h1>
-            <div class="article-content">
-                <div><img width="100%" height="100%" src="/images/comp.png" /></div>
-                <div class="pcontent">
-                    <p>
-                        We often face problems in which a brute force examination of all 
-                        cases is desirable and there are several methods to handle these
-                        problems. In this article, our goal is to study one of the many 
-                        methods for going through all of the possibilities in combinatorial.
-                        The problem we will mostly focus on is that which requires generation
-                        of a subset of a given set of distinct elements.<br /><br />
-                        To begin, we need to first understand what the problem and it’s roots is.
-                        We know that we are dealing with subsets which is under a fundamental
-                        discrete structure on which all other discrete structures are built,
-                        namely, the set. So what are these?
-                    </p>
-                    <h4 class="article-header">Sets</h4>
-                    <p>
-                        A set is an unordered collection of objects called elements or members
-                        of the set that are distinct. We write a ∈ A to denote that a is an 
-                        element of the set A.<br /><br />
-                        Example: The set V of all vowels in the English alphabet can be written
-                        as v = {a, e, i, o, u} (This way of describing a set is called roster method).
-                        <br /><br />
-                        Another example using a set builder method to describe is O = {x | x is an
-                        odd positive integer &#60; than 10}.<br /><br />
-                        Two sets are equal if and only if they have the same elements. e.g, {1, 2, 3}
-                        and {3, 1, 2} are equal because they have the same elements. The order in
-                        which the elements are listed does not matter.
-                    </p>
-                    <h4 class="article-header">Subsets</h4>
-                    <p>
-                        The set A is a subset of B if and only if every element of A is also an 
-                        element of B. Denoted as A ⊆ B. There are some useful rules to determine 
-                        whether a set is a subset;<br /><br />
-                        <ul>
-                            <li>
-                                To show that A ⊆ B, show that if element x belongs to A then x
-                                also belongs to B.
-                            </li>
-                            <li>
-                                To show that A /⊆ B, find a single element x such that x is not
-                                a member of B.
-                            </li>
-                        </ul>
-                        When emphasizing that a set A is a subset of a set B but that A is not
-                        equal to B, we say that A is a proper or strict subset of B. For this
-                        to be true, it must be the case that A is a subset of B and there must
-                        exist an element x of B that is not an element of A.<br /><br />
-                        Let S be a set if there are exactly n distinct elements in S where n is
-                        a non-negative integer, we say that S is a finite set and that n is the
-                        cardinality of S which is denoted by |S|. In other words, cardinality is
-                        the size of a set. A set with n elements has 2^n subsets. Let’s consider
-                        an example.<br /><br />
-                        Given a set A = {a, b}, ∅, {a}, {b}, {a, b} are all the subsets of A.
-                        From this example, we can see that a set of 2 elements gives us a total
-                        of 4 subsets because n = 2 and 2^n = 4. Therefore,<br /><br />
-                        <ul>
-                            <li>n = 0: 2^0 = 1</li>
-                            <li>n = 1: 2^1 = 2</li>
-                            <li>n = 3: 2^3 = 8</li>
-                            <li>n = 4: 2^4 = 16</li>
-                        </ul>
-                        The concept of a data type in the field of computer science is built upon
-                        the idea of a set. A particular data type is the name of a set together
-                        with a set of operations that can be performed on elements from that set.
-                        Examples include Boolean, which is the name of the set {0, 1} and its
-                        operators AND, OR and NOT. Another example is int in python {x | x ∈ Z}
-                        and operators +, -, *, / e.t.c. <br /><br />
-                        With these ideas in mind, let’s consider one of the algorithms to help us
-                        put these mathematical ideas into a computer. In this article, we will
-                        use a mask. The general steps to designing this algorithm are as follows:
-                        <br /><br />
-                        <ul>
-                            <li>
-                                Let A = {a1, a2, … , an} where n in the number of elements is the set.
-                            </li>
-                            <li>
-                                Represent each subset of A with a bitmask of length n where the ith
-                                bit is 1 if and only if ai (for 0 ≤ i less n) belongs to A.
-                                You check each element of the set A, say x, and the corresponding
-                                element in the mask, say m, if m is true or 1, we add x to the result
-                                table, otherwise, we ignore the element. Example, mask = [1, 0, 1, 1]
-                                and A = [1, 2, 3, 4], the result variable will be [1, 3, 4].<br /><br />
-                            </li>
-                            <li>To generate all subsets of A, list all 2^n bit mask of length n.</li>
-                            <li>Output the corresponding subsets.</li>
-                        </ul>
-                        Example output 1:<br /><br />
-                        <div>
-                            <table class="tabled">
-                                <tr>
-                                    <td>0000</td>
-                                    <td>1000</td>
-                                </tr>
-                                <tr>
-                                    <td>0001</td>
-                                    <td>1001</td>
-                                </tr>
-                                <tr>
-                                    <td>0010</td>
-                                    <td>1010</td>
-                                </tr>
-                                <tr>
-                                    <td>0011</td>
-                                    <td>1011</td>
-                                </tr>
-                                <tr>
-                                    <td>0100</td>
-                                    <td>1100</td>
-                                </tr>
-                                <tr>
-                                    <td>0101</td>
-                                    <td>1101</td>
-                                </tr>
-                                <tr>
-                                    <td>0110</td>
-                                    <td>1110</td>
-                                </tr>
-                                <tr>
-                                    <td>0111</td>
-                                    <td>1111</td>
-                                </tr>
-                            </table>
-                        </div>
-                        <br />
-                        <b><i>Observation 1:</i></b> When you look closely at the output above, you will notice an
-                        interesting pattern. The first block and the second block have the same bits
-                        after the most significant bit. Which means only the most significant bit changes.
-                        We will use this observation to speed up our algorithm.<br /><br />
-                        The first algorithm we will write generates all the subsets running through all 2^n possible
-                        outcomes. Below is the algorithm written in Python.
-                        <div class="box">
-                            <pre>
+<div id="article" class="article">
+  <div><small style="color: green">5 min read Apr 2, 2020</small></div>
+  <h1 class="article-header">
+    Generating all subsets using basic Combinatorial Patterns
+  </h1>
+  <div class="article-content">
+    <div><img width="100%" height="100%" src="/images/comp.png" /></div>
+    <div class="pcontent">
+      <p>
+        We often face problems in which a brute force examination of all cases
+        is desirable and there are several methods to handle these problems. In
+        this article, our goal is to study one of the many methods for going
+        through all of the possibilities in combinatorial. The problem we will
+        mostly focus on is that which requires generation of a subset of a given
+        set of distinct elements.<br /><br />
+        To begin, we need to first understand what the problem and it’s roots
+        is. We know that we are dealing with subsets which is under a
+        fundamental discrete structure on which all other discrete structures
+        are built, namely, the set. So what are these?
+      </p>
+      <h4 class="article-header">Sets</h4>
+      <p>
+        A set is an unordered collection of objects called elements or members
+        of the set that are distinct. We write a ∈ A to denote that a is an
+        element of the set A.<br /><br />
+        Example: The set V of all vowels in the English alphabet can be written
+        as v = {a, e, i, o, u} (This way of describing a set is called roster
+        method).
+        <br /><br />
+        Another example using a set builder method to describe is O = {x | x is
+        an odd positive integer &#60; than 10}.<br /><br />
+        Two sets are equal if and only if they have the same elements. e.g, {1,
+        2, 3} and {3, 1, 2} are equal because they have the same elements. The
+        order in which the elements are listed does not matter.
+      </p>
+      <h4 class="article-header">Subsets</h4>
+      <div>
+        The set A is a subset of B if and only if every element of A is also an
+        element of B. Denoted as A ⊆ B. There are some useful rules to determine
+        whether a set is a subset;<br /><br />
+        <ul>
+          <li>
+            To show that A ⊆ B, show that if element x belongs to A then x also
+            belongs to B.
+          </li>
+          <li>
+            To show that A /⊆ B, find a single element x such that x is not a
+            member of B.
+          </li>
+        </ul>
+        When emphasizing that a set A is a subset of a set B but that A is not
+        equal to B, we say that A is a proper or strict subset of B. For this to
+        be true, it must be the case that A is a subset of B and there must
+        exist an element x of B that is not an element of A.<br /><br />
+        Let S be a set if there are exactly n distinct elements in S where n is
+        a non-negative integer, we say that S is a finite set and that n is the
+        cardinality of S which is denoted by |S|. In other words, cardinality is
+        the size of a set. A set with n elements has 2^n subsets. Let’s consider
+        an example.<br /><br />
+        Given a set A = {a, b}, ∅, {a}, {b}, {a, b} are all the subsets of A.
+        From this example, we can see that a set of 2 elements gives us a total
+        of 4 subsets because n = 2 and 2^n = 4. Therefore,<br /><br />
+        <ul>
+          <li>n = 0: 2^0 = 1</li>
+          <li>n = 1: 2^1 = 2</li>
+          <li>n = 3: 2^3 = 8</li>
+          <li>n = 4: 2^4 = 16</li>
+        </ul>
+        The concept of a data type in the field of computer science is built
+        upon the idea of a set. A particular data type is the name of a set
+        together with a set of operations that can be performed on elements from
+        that set. Examples include Boolean, which is the name of the set {0, 1}
+        and its operators AND, OR and NOT. Another example is int in python {x |
+        x ∈ Z} and operators +, -, *, / e.t.c. <br /><br />
+        With these ideas in mind, let’s consider one of the algorithms to help
+        us put these mathematical ideas into a computer. In this article, we
+        will use a mask. The general steps to designing this algorithm are as
+        follows:
+        <br /><br />
+        <ul>
+          <li>
+            Let A = {a1, a2, … , an} where n in the number of elements is the
+            set.
+          </li>
+          <li>
+            Represent each subset of A with a bitmask of length n where the ith
+            bit is 1 if and only if ai (for 0 ≤ i less n) belongs to A. You
+            check each element of the set A, say x, and the corresponding
+            element in the mask, say m, if m is true or 1, we add x to the
+            result table, otherwise, we ignore the element. Example, mask = [1,
+            0, 1, 1] and A = [1, 2, 3, 4], the result variable will be [1, 3,
+            4].<br /><br />
+          </li>
+          <li>
+            To generate all subsets of A, list all 2^n bit mask of length n.
+          </li>
+          <li>Output the corresponding subsets.</li>
+        </ul>
+        Example output 1:<br /><br />
+        <div>
+          <table class="tabled">
+            <tr>
+              <td>0000</td>
+              <td>1000</td>
+            </tr>
+            <tr>
+              <td>0001</td>
+              <td>1001</td>
+            </tr>
+            <tr>
+              <td>0010</td>
+              <td>1010</td>
+            </tr>
+            <tr>
+              <td>0011</td>
+              <td>1011</td>
+            </tr>
+            <tr>
+              <td>0100</td>
+              <td>1100</td>
+            </tr>
+            <tr>
+              <td>0101</td>
+              <td>1101</td>
+            </tr>
+            <tr>
+              <td>0110</td>
+              <td>1110</td>
+            </tr>
+            <tr>
+              <td>0111</td>
+              <td>1111</td>
+            </tr>
+          </table>
+        </div>
+        <br />
+        <b><i>Observation 1:</i></b> When you look closely at the output above,
+        you will notice an interesting pattern. The first block and the second
+        block have the same bits after the most significant bit. Which means
+        only the most significant bit changes. We will use this observation to
+        speed up our algorithm.<br /><br />
+        The first algorithm we will write generates all the subsets running
+        through all 2^n possible outcomes. Below is the algorithm written in
+        Python.
+        <div class="box">
+          <pre>
                                 <code id="acode" class="code">
                                     def algorithm1(a):
                                       n = len(a) # the number of elements in a set
@@ -173,31 +174,34 @@
                                     print(r)
                                 </code>
                             </pre>
-                        </div>
-                        This algorithm works perfectly and generates all the possible outcomes but we
-                        can make it even run faster if we consider the observation we made above
-                        (<b><i>Observation 1</i></b>) on the sample output of the bitmask.<br /><br />
-                        This will lead us to a very interesting algorithm called Gray Binary Code, which
-                        lists all 2^n strings of n bits in such a way that only one bit changes each
-                        time. See Example output 1 above.<br /><br />
-                        As I noted in the observation, we can use a mask to represent the Gray binary
-                        sequence of n-bits strings then define it recursively by some rules.
-                        <br /><br />
-                        <ul>
-                            <li><i>mask[0] = ‘ ’</i> # denotes an empty string</li>
-                            <li>
-                                <i>mask[n + 1] = 0mask[n], 1mask[n]R # 0mask[n] </i>
-                                means the sequence <i>mask[n] </i> with 0 prefixed to each string, and
-                                <i>1mask[n]R</i> means the sequence <i>mask[n]</i> with 1 prefixed to
-                                each string in reverse order hence the R.
-                            </li>
-                        </ul>
-                        Since mask[n] has the same property, then <i>mask[n] </i> consists of the first 2^n
-                        elements converted to n-bit strings by inserting 0s at the left if needed. So
-                        basically, the algorithm visits all binary n-tuples (an-1, …, a0) in order of Gray
-                        binary code. The Python code below demonstrates this idea.
-                        <div class="box">
-                            <pre>
+        </div>
+        This algorithm works perfectly and generates all the possible outcomes
+        but we can make it even run faster if we consider the observation we
+        made above (<b><i>Observation 1</i></b
+        >) on the sample output of the bitmask.<br /><br />
+        This will lead us to a very interesting algorithm called Gray Binary
+        Code, which lists all 2^n strings of n bits in such a way that only one
+        bit changes each time. See Example output 1 above.<br /><br />
+        As I noted in the observation, we can use a mask to represent the Gray
+        binary sequence of n-bits strings then define it recursively by some
+        rules.
+        <br /><br />
+        <ul>
+          <li><i>mask[0] = ‘ ’</i> # denotes an empty string</li>
+          <li>
+            <i>mask[n + 1] = 0mask[n], 1mask[n]R # 0mask[n] </i>
+            means the sequence <i>mask[n] </i> with 0 prefixed to each string,
+            and <i>1mask[n]R</i> means the sequence <i>mask[n]</i> with 1
+            prefixed to each string in reverse order hence the R.
+          </li>
+        </ul>
+        Since mask[n] has the same property, then <i>mask[n] </i> consists of
+        the first 2^n elements converted to n-bit strings by inserting 0s at the
+        left if needed. So basically, the algorithm visits all binary n-tuples
+        (an-1, …, a0) in order of Gray binary code. The Python code below
+        demonstrates this idea.
+        <div class="box">
+          <pre>
                                 <code id="acode" class="code">
                                     def algorithm2(a):
                                       l = len(a)
@@ -247,58 +251,78 @@
                                     print(r)
                                 </code>
                             </pre>
-                        </div>
-                        In the end, what this algorithm does is generate bits string for n - 1 below
-                        <br /><br />
-                        <table class="tabled">
-                            <tr><td>000</td></tr>
-                            <tr><td>001</td></tr>
-                            <tr><td>010</td></tr>
-                            <tr><td>011</td></tr>
-                            <tr><td>100</td></tr>
-                            <tr><td>101</td></tr>
-                            <tr><td>110</td></tr>
-                            <tr><td>111</td></tr>
-                        </table>
-                        <br />
-                        but it’s line 9 to 16 that inserts the 0s and 1s prefixes and finally
-                        determining the subset itself on line 10.<br /><br />
-                        This algorithm maintains an array f. so that we can repeatedly form
-                        (an-1, …, a0)2 by complementing the jth bit as we should.<br /><br />
-                        Let’s see how the two algorithms differ in running time using a simple
-                        method of timing their functions. Below is the output of the running time.
-                        <br /><br />
-                        <h4>References</h4>
-                        <ul>
-                            <li><a href="https://en.wikipedia.org/wiki/Subset">Subsets</a></li>
-                            <li>
-                                <a href="https://en.wikipedia.org/wiki/Binary_number#Counting_in_binary">
-                                    Binary number #bit counting
-                                </a>
-                            </li>
-                            <li>
-                                <a href="https://en.wikipedia.org/wiki/Bitwise_operation">
-                                    Bitwise Operation
-                                </a>
-                            </li>
-                            <li>
-                                <a href="https://en.wikipedia.org/wiki/Brute-force_search">
-                                    Brute force search
-                                </a>
-                            </li>
-                            <li>
-                                Donald E. Knuth — The Art of Computer Programming, Volume 4A_
-                                Combinatorial Algorithms, Part 1-Addison-Wesley Professional
-                                (2011) section 7.2.1.1 pg 281
-                            </li>
-                            <li>
-                                Kenneth H. Rosen — Rosen Discrete Mathematics and Its Applications
-                                7th Edition Chapter 2 section 2.1
-                            </li>
-                        </ul>
-                    </p>
-                </div>
-            </div>
         </div>
-    </body>
-</html>
+        In the end, what this algorithm does is generate bits string for n - 1
+        below
+        <br /><br />
+        <table class="tabled">
+          <tr>
+            <td>000</td>
+          </tr>
+          <tr>
+            <td>001</td>
+          </tr>
+          <tr>
+            <td>010</td>
+          </tr>
+          <tr>
+            <td>011</td>
+          </tr>
+          <tr>
+            <td>100</td>
+          </tr>
+          <tr>
+            <td>101</td>
+          </tr>
+          <tr>
+            <td>110</td>
+          </tr>
+          <tr>
+            <td>111</td>
+          </tr>
+        </table>
+        <br />
+        but it’s line 9 to 16 that inserts the 0s and 1s prefixes and finally
+        determining the subset itself on line 10.<br /><br />
+        This algorithm maintains an array f. so that we can repeatedly form
+        (an-1, …, a0)2 by complementing the jth bit as we should.<br /><br />
+        Let’s see how the two algorithms differ in running time using a simple
+        method of timing their functions. Below is the output of the running
+        time.
+        <br /><br />
+        <h4>References</h4>
+        <ul>
+          <li>
+            <a href="https://en.wikipedia.org/wiki/Subset">Subsets</a>
+          </li>
+          <li>
+            <a
+              href="https://en.wikipedia.org/wiki/Binary_number#Counting_in_binary"
+            >
+              Binary number #bit counting
+            </a>
+          </li>
+          <li>
+            <a href="https://en.wikipedia.org/wiki/Bitwise_operation">
+              Bitwise Operation
+            </a>
+          </li>
+          <li>
+            <a href="https://en.wikipedia.org/wiki/Brute-force_search">
+              Brute force search
+            </a>
+          </li>
+          <li>
+            Donald E. Knuth — The Art of Computer Programming, Volume 4A_
+            Combinatorial Algorithms, Part 1-Addison-Wesley Professional (2011)
+            section 7.2.1.1 pg 281
+          </li>
+          <li>
+            Kenneth H. Rosen — Rosen Discrete Mathematics and Its Applications
+            7th Edition Chapter 2 section 2.1
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>

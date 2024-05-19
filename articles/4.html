@@ -1,274 +1,306 @@
-<!DOCTYPE html>
-<html>
-    <head>
-    <meta charset="utf-8">
-    <title>Asheux @ Brian Mboya</title>
-    </head>
-    <body>
-        <div id="article" class="article">
-            <div><small style="color: green;">9 min read May 9, 2020</small></div>
-            <h1 class="article-header">
-                Encoding logic in AI using Theorem Proving
-            </h1>
-            <div class="article-content">
-                <div><img width="100%" height="100%" src="/images/encode.png" /></div>
-                <div class="pcontent">
-                    <p>
-                        In my previous article on knowledge representation using propositional
-                        logic, we looked at a simple algorithm called model-checking to show
-                        how to determine entailment in all possible worlds. Here, we draw our
-                        attention to a more efficient way to achieve the same goal by using
-                        theorem proving, the idea of applying inference rules directly to the
-                        sentences in our knowledge base to develop a proof without ever
-                        requiring to enumerate models.<br /><br />
-                        <h4>Inference rules</h4>
-                        Proofs in mathematics are valid arguments that establish the truth of
-                        the desired goal. Therefore, inference rules are functions for building
-                        valid arguments. They take the premises, analyses their syntax and
-                        returns a conclusion.<br /><br />
-                        <b><i>Basic concepts:</i></b>
-                        <ul>
-                            <li>≡: The equivalence connective</li>
-                            <li>
-                                <b>Logical equivalence:</b> two sentences are logically equivalence
-                                if they are true in the same set of possible models
-                            </li>
-                            <li>An argument is a sequence of sentences that end with a conclusion</li>
-                            <li>
-                                The validity of the argument is determined by the conclusion and the
-                                premises(preceding sentences). If the conclusion follows from the 
-                                truth of the premises, then the argument is valid.
-                            </li>
-                        </ul>
-                        These rules are;<br /><br />
-                        <ul>
-                            <li>Modus ponens</li>
-                            <li>And-Elimination</li>
-                            <li>De Morgan’s law</li>
-                            <li>Double negation elimination</li>
-                            <li>Implication elimination</li>
-                            <li>Bi-conditional elimination</li>
-                            <li>Distributive property</li>
-                        </ul>
-                        We will use the following structure to represent our inference rules, the line
-                        separates the premises and the conclusion.<br /><br />
-                        <table class="tabled">
-                            <tr><td>Premises(preceding sentences)</td></tr>
-                            <tr><td>Conclusion(inferred)</td></tr>
-                        </table>
-                        <br />
-                        Let’s look at each of these rules with some examples;<br /><br />
-                        <b><i>Modus ponens</i></b>
-                        <table class="tabled">
-                            <tr><td>(α ⇒ β, α)</td></tr>
-                            <tr style="text-align:center;"><td>β</td></tr>
-                        </table>
-                        <br />
-                        The way to interpret this is, if we have access to some piece of information,
-                        α ⇒ β and we know that α is true then the conclusion we reach is β is true. 
-                        Example;<br /><br />
-                        <table class="tabled">
-                            <tr>
-                                <td><i>Premises</i></td>
-                                <td><i>α ⇒ β: If Rey was free, then Rey would visit Ben <br />α: Rey is free</i></td>
-                            </tr>
-                            <tr>
-                                <td><i>Conclusion</i></td>
-                                <td><i>β: Rey would visit Ben</i></td>
-                            </tr>
-                        </table>
-                        <br />
-                        <b><i>And-Elimination</i></b>
-                        This states that from a conjunction (a sentence whose connective is ∧), any of
-                        the conjuncts (sentences connected by ∧) can be inferred:<br /><br />
-                        <table class="tabled">
-                            <tr><td>(α ^ β)</td></tr>
-                            <tr style="text-align:center;"><td>β</td></tr>
-                        </table>
-                        <br />
-                        Example;<br /><br />
-                        <table class="tabled">
-                            <tr>
-                                <td><i>Premises</i></td>
-                                <td><i>α ^ β: Rey is free on Wednesday and Friday</i></td>
-                            </tr>
-                            <tr>
-                                <td><i>Conclusion</i></td>
-                                <td><i>β: Rey is free on Friday</i></td>
-                            </tr>
-                        </table>
-                        <br />
-                        <b><i>De Morgan’s rule</i></b>
-                        ¬(α ∧ β) ≡ (¬α ∨ ¬β), De Morgan(∧)<br />
-                        ¬(α ∨ β) ≡ (¬α ∧ ¬β), De Morgan(∨)<br /><br />
-                        Using And(∧);<br /><br />
-                        <table class="tabled">
-                            <tr><td>¬(α ^ β)</td></tr>
-                            <tr style="text-align:center;"><td>(¬α v ¬β)</td></tr>
-                        </table>
-                        <br />
-                        Example;<br /><br />
-                        <table class="tabled">
-                            <tr>
-                                <td><i>Premises</i></td>
-                                <td><i>¬(α ∧ β): Rey is not free on Wednesday and Friday</i></td>
-                            </tr>
-                            <tr>
-                                <td><i>Conclusion</i></td>
-                                <td>
-                                    <i>
-                                        (¬α ∨ ¬β): Rey is not free on Wednesday or Rey
-                                        is not free on Friday 
-                                    </i>
-                                </td>
-                            </tr>
-                        </table>
-                        <br />
-                        Using Or(∨);<br /><br />
-                        <table class="tabled">
-                            <tr><td>¬(α v β)</td></tr>
-                            <tr style="text-align:center;"><td>(¬α ^ ¬β)</td></tr>
-                        </table>
-                        <br />
-                        Example;<br /><br />
-                        <table class="tabled">
-                            <tr>
-                                <td><i>Premises</i></td>
-                                <td><i>¬(α ∨ β): Rey is not free on Wednesday or Friday</i></td>
-                            </tr>
-                            <tr>
-                                <td><i>Conclusion</i></td>
-                                <td>
-                                    <i>
-                                        (¬α ∧ ¬β): Rey is not free on Wednesday and Rey
-                                        is not free on Friday
-                                    </i>
-                                </td>
-                            </tr>
-                        </table>
-                        <br />
-                        <b><i>Double negation elimination</i></b>
-                        ¬(¬α) ≡ α, double-negation elimination<br /><br />
-                        <table class="tabled">
-                            <tr><td>¬(¬α)</td></tr>
-                            <tr style="text-align:center;"><td>α</td></tr>
-                        </table>
-                        <br />
-                        Example;<br /><br />
-                        <table class="tabled">
-                            <tr>
-                                <td><i>Premises</i></td>
-                                <td><i>¬(¬α): It is not true that Rey did not succeed</i></td>
-                            </tr>
-                            <tr>
-                                <td><i>Conclusion</i></td>
-                                <td>
-                                    <i>α: Rey succeeded</i>
-                                </td>
-                            </tr>
-                        </table>
-                        <br />
-                        <b><i>Implication elimination</i></b>
-                        <table class="tabled">
-                            <tr><td>(α ⇒ β)</td></tr>
-                            <tr style="text-align:center;"><td>(¬α ∨ β)</td></tr>
-                        </table>
-                        <br />
-                        Example;<br /><br />
-                        <table class="tabled">
-                            <tr>
-                                <td><i>Premises</i></td>
-                                <td><i>(α ⇒ β): If Rey was free, then Rey would visit Ben</i></td>
-                            </tr>
-                            <tr>
-                                <td><i>Conclusion</i></td>
-                                <td>
-                                    <i>(¬α ∨ β): Rey is not free or Rey would visit Ben</i>
-                                </td>
-                            </tr>
-                        </table>
-                        <br />
-                        The way to think about this rule is, given an if-then statement,<br /><br />
-                        <i>(α ⇒ β): If Rey was free, then Rey would visit Ben</i><br /><br />
-                        we can translate it to an or statement by making the if statement false
-                        or true. For example; The conclusion could be <i>Rey is not free or Rey is</i> 
-                        <i>free</i>(¬α ∨ α). But we know when Rey is free(α), she would visit Ben(β).
-                        Therefore, we replace α with β in our inference(¬α ∨ α) to make the
-                        final conclusion that Rey is not free or Rey would visit Ben(¬α ∨ β).
-                        <br /><br />
-                        Bi-conditional elimination<br /><br />
-                        (α ⇔ β) ≡ ((α ⇒ β) ∧ (β ⇒ α)), bi-conditional elimination<br /><br />
-                        <table class="tabled">
-                            <tr>
-                                <td style="text-align:center;">(α ⇔ β)</td>
-                            </tr>
-                            <tr>
-                                <td>((α ⇒ β) ∧ (β ⇒ α))</td>
-                            </tr>
-                        </table>
-                        <br />
-                        The premise here can be translated as ‘α if and only if β’. Example;<br /><br />
-                        <table class="tabled">
-                            <tr>
-                                <td><i>Premises</i></td>
-                                <td><i>(α ⇔ β): Rey is free if and only if it's Monday</i></td>
-                            </tr>
-                            <tr>
-                                <td><i>Conclusion</i></td>
-                                <td>
-                                    <i>
-                                        (α ⇒ β)∧(β ⇒ α): If Rey is free, then it is Monday 
-                                        and if it is Monday, then Rey is free
-                                    </i>
-                                </td>
-                            </tr>
-                        </table>
-                        <br /> 
-                        <b><i>Distributive property</i></b>
-                        (α ∧ (β ∨ γ)) ≡ ((α ∧ β) ∨ (α ∧ γ)), distributive of ∧ over ∨<br /><br />
-                        (α ∨ (β ∧ γ)) ≡ ((α ∨ β) ∧ (α ∨ γ)), distributive of ∨ over ∧<br /><br />
-                        Using And(∧) over Or(∨);<br /><br />
-                        <table class="tabled">
-                            <tr>
-                                <td style="text-align:center;">(α ∧ (β ∨ γ))</td>
-                            </tr>
-                            <tr>
-                                <td>((α ∧ β) ∨ (α ∧ γ))</td>
-                            </tr>
-                        </table>
-                        <br />
-                        Using Or(∨) over And(∧);<br /><br />
-                        <table class="tabled">
-                            <tr>
-                                <td style="text-color:center;">(α ∨ (β ∧ γ))</td>
-                            </tr>
-                            <tr>
-                                <td>((α ∨ β) ∧ (α ∨ γ))</td>
-                            </tr>
-                        </table>
-                        <br />
-                        Now let’s use these inference rules to draw some conclusion or proof that
-                        a query is true. Firstly, we define a proof problem as follows;<br /><br />
-                        <ul>
-                            <li>Initial state: the beginning knowledge base</li>
-                            <li>Actions: All the inference rules</li>
-                            <li>Result or transition model: the new knowledge base</li>
-                            <li>Goal: The state containing the sentence we are trying to prove</li>
-                        </ul>
-                        <h4>Resolution rule</h4>
-                        This is another type of inference rule that yields a complete inference algorithm.
-                        <br /><br />
-                        Basic concepts;<br /><br />
-                        <ul>
-                            <li><b>Literals:</b> Propositional symbols or the negation of propositional symbols</li>
-                            <li><b>Clause:</b> a dis-junction of <b>literals</b></li>
-                        </ul>
-                        Let’s see some examples to help us understand this rule;<br /><br />
-                        Given the clause A = (P ∨ Q ∨ R) and the literal ¬P, using this rule, the literal ¬P
-                        resolves with P in A. This results to the clause B = ( Q ∨ R) as the re-solvent.
-                        This can be interpreted in simple terms as;<br /><br />
-                        <div class="box">
-                            <pre>
+<div id="article" class="article">
+  <div><small style="color: green">9 min read May 9, 2020</small></div>
+  <h1 class="article-header">Encoding logic in AI using Theorem Proving</h1>
+  <div class="article-content">
+    <div><img width="100%" height="100%" src="/images/encode.png" /></div>
+    <div class="pcontent">
+      <div>
+        In my previous article on knowledge representation using propositional
+        logic, we looked at a simple algorithm called model-checking to show how
+        to determine entailment in all possible worlds. Here, we draw our
+        attention to a more efficient way to achieve the same goal by using
+        theorem proving, the idea of applying inference rules directly to the
+        sentences in our knowledge base to develop a proof without ever
+        requiring to enumerate models.<br /><br />
+        <h4>Inference rules</h4>
+        Proofs in mathematics are valid arguments that establish the truth of
+        the desired goal. Therefore, inference rules are functions for building
+        valid arguments. They take the premises, analyses their syntax and
+        returns a conclusion.<br /><br />
+        <b><i>Basic concepts:</i></b>
+        <ul>
+          <li>≡: The equivalence connective</li>
+          <li>
+            <b>Logical equivalence:</b> two sentences are logically equivalence
+            if they are true in the same set of possible models
+          </li>
+          <li>
+            An argument is a sequence of sentences that end with a conclusion
+          </li>
+          <li>
+            The validity of the argument is determined by the conclusion and the
+            premises(preceding sentences). If the conclusion follows from the
+            truth of the premises, then the argument is valid.
+          </li>
+        </ul>
+        These rules are;<br /><br />
+        <ul>
+          <li>Modus ponens</li>
+          <li>And-Elimination</li>
+          <li>De Morgan’s law</li>
+          <li>Double negation elimination</li>
+          <li>Implication elimination</li>
+          <li>Bi-conditional elimination</li>
+          <li>Distributive property</li>
+        </ul>
+        We will use the following structure to represent our inference rules,
+        the line separates the premises and the conclusion.<br /><br />
+        <table class="tabled">
+          <tr>
+            <td>Premises(preceding sentences)</td>
+          </tr>
+          <tr>
+            <td>Conclusion(inferred)</td>
+          </tr>
+        </table>
+        <br />
+        Let’s look at each of these rules with some examples;<br /><br />
+        <b><i>Modus ponens</i></b>
+        <table class="tabled">
+          <tr>
+            <td>(α ⇒ β, α)</td>
+          </tr>
+          <tr style="text-align: center">
+            <td>β</td>
+          </tr>
+        </table>
+        <br />
+        The way to interpret this is, if we have access to some piece of
+        information, α ⇒ β and we know that α is true then the conclusion we
+        reach is β is true. Example;<br /><br />
+        <table class="tabled">
+          <tr>
+            <td><i>Premises</i></td>
+            <td>
+              <i
+                >α ⇒ β: If Rey was free, then Rey would visit Ben <br />α: Rey
+                is free</i
+              >
+            </td>
+          </tr>
+          <tr>
+            <td><i>Conclusion</i></td>
+            <td><i>β: Rey would visit Ben</i></td>
+          </tr>
+        </table>
+        <br />
+        <b><i>And-Elimination</i></b>
+        This states that from a conjunction (a sentence whose connective is ∧),
+        any of the conjuncts (sentences connected by ∧) can be inferred:<br /><br />
+        <table class="tabled">
+          <tr>
+            <td>(α ^ β)</td>
+          </tr>
+          <tr style="text-align: center">
+            <td>β</td>
+          </tr>
+        </table>
+        <br />
+        Example;<br /><br />
+        <table class="tabled">
+          <tr>
+            <td><i>Premises</i></td>
+            <td><i>α ^ β: Rey is free on Wednesday and Friday</i></td>
+          </tr>
+          <tr>
+            <td><i>Conclusion</i></td>
+            <td><i>β: Rey is free on Friday</i></td>
+          </tr>
+        </table>
+        <br />
+        <b><i>De Morgan’s rule</i></b>
+        ¬(α ∧ β) ≡ (¬α ∨ ¬β), De Morgan(∧)<br />
+        ¬(α ∨ β) ≡ (¬α ∧ ¬β), De Morgan(∨)<br /><br />
+        Using And(∧);<br /><br />
+        <table class="tabled">
+          <tr>
+            <td>¬(α ^ β)</td>
+          </tr>
+          <tr style="text-align: center">
+            <td>(¬α v ¬β)</td>
+          </tr>
+        </table>
+        <br />
+        Example;<br /><br />
+        <table class="tabled">
+          <tr>
+            <td><i>Premises</i></td>
+            <td><i>¬(α ∧ β): Rey is not free on Wednesday and Friday</i></td>
+          </tr>
+          <tr>
+            <td><i>Conclusion</i></td>
+            <td>
+              <i>
+                (¬α ∨ ¬β): Rey is not free on Wednesday or Rey is not free on
+                Friday
+              </i>
+            </td>
+          </tr>
+        </table>
+        <br />
+        Using Or(∨);<br /><br />
+        <table class="tabled">
+          <tr>
+            <td>¬(α v β)</td>
+          </tr>
+          <tr style="text-align: center">
+            <td>(¬α ^ ¬β)</td>
+          </tr>
+        </table>
+        <br />
+        Example;<br /><br />
+        <table class="tabled">
+          <tr>
+            <td><i>Premises</i></td>
+            <td><i>¬(α ∨ β): Rey is not free on Wednesday or Friday</i></td>
+          </tr>
+          <tr>
+            <td><i>Conclusion</i></td>
+            <td>
+              <i>
+                (¬α ∧ ¬β): Rey is not free on Wednesday and Rey is not free on
+                Friday
+              </i>
+            </td>
+          </tr>
+        </table>
+        <br />
+        <b><i>Double negation elimination</i></b>
+        ¬(¬α) ≡ α, double-negation elimination<br /><br />
+        <table class="tabled">
+          <tr>
+            <td>¬(¬α)</td>
+          </tr>
+          <tr style="text-align: center">
+            <td>α</td>
+          </tr>
+        </table>
+        <br />
+        Example;<br /><br />
+        <table class="tabled">
+          <tr>
+            <td><i>Premises</i></td>
+            <td><i>¬(¬α): It is not true that Rey did not succeed</i></td>
+          </tr>
+          <tr>
+            <td><i>Conclusion</i></td>
+            <td>
+              <i>α: Rey succeeded</i>
+            </td>
+          </tr>
+        </table>
+        <br />
+        <b><i>Implication elimination</i></b>
+        <table class="tabled">
+          <tr>
+            <td>(α ⇒ β)</td>
+          </tr>
+          <tr style="text-align: center">
+            <td>(¬α ∨ β)</td>
+          </tr>
+        </table>
+        <br />
+        Example;<br /><br />
+        <table class="tabled">
+          <tr>
+            <td><i>Premises</i></td>
+            <td><i>(α ⇒ β): If Rey was free, then Rey would visit Ben</i></td>
+          </tr>
+          <tr>
+            <td><i>Conclusion</i></td>
+            <td>
+              <i>(¬α ∨ β): Rey is not free or Rey would visit Ben</i>
+            </td>
+          </tr>
+        </table>
+        <br />
+        The way to think about this rule is, given an if-then statement,<br /><br />
+        <i>(α ⇒ β): If Rey was free, then Rey would visit Ben</i><br /><br />
+        we can translate it to an or statement by making the if statement false
+        or true. For example; The conclusion could be
+        <i>Rey is not free or Rey is</i> <i>free</i>(¬α ∨ α). But we know when
+        Rey is free(α), she would visit Ben(β). Therefore, we replace α with β
+        in our inference(¬α ∨ α) to make the final conclusion that Rey is not
+        free or Rey would visit Ben(¬α ∨ β). <br /><br />
+        Bi-conditional elimination<br /><br />
+        (α ⇔ β) ≡ ((α ⇒ β) ∧ (β ⇒ α)), bi-conditional elimination<br /><br />
+        <table class="tabled">
+          <tr>
+            <td style="text-align: center">(α ⇔ β)</td>
+          </tr>
+          <tr>
+            <td>((α ⇒ β) ∧ (β ⇒ α))</td>
+          </tr>
+        </table>
+        <br />
+        The premise here can be translated as ‘α if and only if β’. Example;<br /><br />
+        <table class="tabled">
+          <tr>
+            <td><i>Premises</i></td>
+            <td><i>(α ⇔ β): Rey is free if and only if it's Monday</i></td>
+          </tr>
+          <tr>
+            <td><i>Conclusion</i></td>
+            <td>
+              <i>
+                (α ⇒ β)∧(β ⇒ α): If Rey is free, then it is Monday and if it is
+                Monday, then Rey is free
+              </i>
+            </td>
+          </tr>
+        </table>
+        <br />
+        <b><i>Distributive property</i></b>
+        (α ∧ (β ∨ γ)) ≡ ((α ∧ β) ∨ (α ∧ γ)), distributive of ∧ over ∨<br /><br />
+        (α ∨ (β ∧ γ)) ≡ ((α ∨ β) ∧ (α ∨ γ)), distributive of ∨ over ∧<br /><br />
+        Using And(∧) over Or(∨);<br /><br />
+        <table class="tabled">
+          <tr>
+            <td style="text-align: center">(α ∧ (β ∨ γ))</td>
+          </tr>
+          <tr>
+            <td>((α ∧ β) ∨ (α ∧ γ))</td>
+          </tr>
+        </table>
+        <br />
+        Using Or(∨) over And(∧);<br /><br />
+        <table class="tabled">
+          <tr>
+            <td style="text-color: center">(α ∨ (β ∧ γ))</td>
+          </tr>
+          <tr>
+            <td>((α ∨ β) ∧ (α ∨ γ))</td>
+          </tr>
+        </table>
+        <br />
+        Now let’s use these inference rules to draw some conclusion or proof
+        that a query is true. Firstly, we define a proof problem as follows;<br /><br />
+        <ul>
+          <li>Initial state: the beginning knowledge base</li>
+          <li>Actions: All the inference rules</li>
+          <li>Result or transition model: the new knowledge base</li>
+          <li>
+            Goal: The state containing the sentence we are trying to prove
+          </li>
+        </ul>
+        <h4>Resolution rule</h4>
+        This is another type of inference rule that yields a complete inference
+        algorithm.
+        <br /><br />
+        Basic concepts;<br /><br />
+        <ul>
+          <li>
+            <b>Literals:</b> Propositional symbols or the negation of
+            propositional symbols
+          </li>
+          <li><b>Clause:</b> a dis-junction of <b>literals</b></li>
+        </ul>
+        Let’s see some examples to help us understand this rule;<br /><br />
+        Given the clause A = (P ∨ Q ∨ R) and the literal ¬P, using this rule,
+        the literal ¬P resolves with P in A. This results to the clause B = ( Q
+        ∨ R) as the re-solvent. This can be interpreted in simple terms as;<br /><br />
+        <div class="box">
+          <pre>
                                 <code id="acode" class="code">
                                        (P ∨ Q ∨ R): if Rey is in the house or Ben is sick
                                                     or it is Wednesday
@@ -277,205 +309,228 @@
                                        (Q ∨ R): Ben is sick or it is Wednesday.
                                 </code>
                             </pre>
-                        </div>
-                        <br />
-                        Here P and ¬P are complimentary literals or literals that cancel each other.
-                        And this is a type of resolution called unit resolution (takes in a clause
-                        and a literal and produces a new clause.<br /><br />
-                        Note that the resulting clause or re-solvent should contain only one copy
-                        of each literal. For example given (P ∨ Q) and (¬P ∨ Q), we get (Q ∨ Q).
-                        <br /><br />
-                        <table class="tabled">
-                            <tr>
-                                <td>(P ∨ Q), (¬P ∨ Q)</td>
-                            </tr>
-                            <tr>
-                                <td style="text-align:center;">(Q ∨ Q)</td>
-                            </tr>
-                        </table>
-                        <br />
-                        But we need the literals to be unique, so we perform a process called
-                        factoring on the resultant clause to factor out the literals appearing
-                        more than once. From the above example, we will have;<br /><br />
-                        <table class="tabled">
-                            <tr>
-                                <td>(P ∨ Q), (¬P ∨ Q)</td>
-                            </tr>
-                            <tr>
-                                <td style="text-align:center;">Q</td>
-                            </tr>
-                        </table>
-                        <br />
-                        Now to determine the entailment of the sentence α and β in propositional
-                        logic we use resolution rule for knowledge bases expressed in conjunctive
-                        normal form(see below).<br /><br />
-                        <h4>Conjunctive normal form(CNF)</h4>
-                        The form in which a logical sentence is expressed as a conjunction of
-                        clauses leading to a complete inference procedure for all of
-                        propositional logic.<br /><br />
-                        <b><i>Conversion to CNF</i></b>
-                        <ul>
-                            <li>Eliminate bi-conditionals; turn (α ⇔ β) to (α ⇒ β) ∧ (β ⇒ α).</li>
-                            <li>Eliminate implication; turn (α ⇒ β) to ¬α ∨ β.</li>
-                            <li>
-                                Move the Not(¬) inwards by applying De Morgan’s rule and double-negation 
-                                limination; ¬(α ∧ β) ≡ (¬α ∨ ¬β) and ¬(¬α) = α respectively.
-                            </li>
-                            <li>Use distributive law to distribute nested ∧ and ∨ operators applied to literals.</li>
-                        </ul>
-                        Example using sentence A ⇔ (B ∨ C);<br /><br />
-                        <i>Bi-conditionals</i>
-                        <table class="tabled">
-                            <tr>
-                                <td style="text-align:center;">A ⇔ (B ∨ C)</td>
-                            </tr>
-                            <tr>
-                                <td style="text-align:center;">(A ⇒ (B ∨ C)) ^ ((B v C) ⇒ A)</td>
-                            </tr>
-                        </table>
-                        <br />
-                        <i>Implication</i>
-                        <table class="tabled">
-                            <tr>
-                                <td style="text-align:center;">(A ⇒ (B ∨ C)) ^ ((B v C) ⇒ A)</td>
-                            </tr>
-                            <tr>
-                                <td style="text-align:center;">(¬A v B ∨ C) ^ (¬(B v C) v A)</td>
-                            </tr>
-                        </table>
-                        <br />
-                        <i>De Morgan’s rule</i>
-                        <table class="tabled">
-                            <tr>
-                                <td style="text-align:center;">(¬A v B ∨ C) ^ (¬(B v C) v A)</td>
-                            </tr>
-                            <tr>
-                                <td style="text-align:center;">(¬A v B ∨ C) ^ ((¬B v ¬C) v A)</td>
-                            </tr>
-                        </table>
-                        <br />
-                        <i>Distributive law</i>
-                        <table class="tabled">
-                            <tr>
-                                <td style="text-align:center;">(¬A v B ∨ C) ^ ((¬B v ¬C) v A)</td>
-                            </tr>
-                            <tr>
-                                <td style="text-align:center;">(¬A v B ∨ C) ^ (¬B v A) ^ (¬C v A)</td>
-                            </tr>
-                        </table>
-                        <br />
-                        The converted CNF is (¬A ∨ B ∨ C) ∧ (¬B ∨ A) ∧ (¬C ∨ A).<br /><br />
-                        Point to note is, when you resolve a single sentence with it’s
-                        negation, we might get an empty clause represented by empty
-                        clause = (). And the empty clause is always false. Example,
-                        P and ¬P gives = (), meaning it’s is false.<br /><br />
-                        <b><i>Resolution algorithm</i></b>
-                        The idea of proof by contradiction is pretty famous in computer science;
-                        the idea that given a proposition, to determine it’s validity or truth
-                        we first assume that the proposition to be false and show that it leads
-                        to a contradiction.<br /><br />
-                        Applying this concept in resolution rule, we look at how to determine the
-                        truth of the sentence (KB |= α) (KB is the knowledge base). We start by
-                        assuming (¬α) and show that (KB ∧ ¬α) leads to a contradiction; if so,
-                        the sentence KB |= α is true, otherwise it is false. How?<br /><br />
-                        <i>Procedure:</i>
-                        <ul>
-                            <li>Convert the sentence KB |= α to Conjunctive Normal Form(CNF)</li>
-                            <li>
-                                Apply resolution rule to the resulting clauses to produce a
-                                new clause and keep doing this;
-                            </li>
-                            <li>
-                                If the produced clause is empty = () = false, there is a 
-                                contradiction, therefore, KB |= α is true
-                            </li>
-                            <li>
-                                Otherwise, if we cannot add new clauses, KB |= α is false,
-                                hence, there is not entailment
-                            </li>
-                        </ul>
-                        Example;<br /><br />
-                        Using the above CNF converted sentence.<br /><br />
-                        <div class="box">
-                            <pre>
+        </div>
+        <br />
+        Here P and ¬P are complimentary literals or literals that cancel each
+        other. And this is a type of resolution called unit resolution (takes in
+        a clause and a literal and produces a new clause.<br /><br />
+        Note that the resulting clause or re-solvent should contain only one
+        copy of each literal. For example given (P ∨ Q) and (¬P ∨ Q), we get (Q
+        ∨ Q).
+        <br /><br />
+        <table class="tabled">
+          <tr>
+            <td>(P ∨ Q), (¬P ∨ Q)</td>
+          </tr>
+          <tr>
+            <td style="text-align: center">(Q ∨ Q)</td>
+          </tr>
+        </table>
+        <br />
+        But we need the literals to be unique, so we perform a process called
+        factoring on the resultant clause to factor out the literals appearing
+        more than once. From the above example, we will have;<br /><br />
+        <table class="tabled">
+          <tr>
+            <td>(P ∨ Q), (¬P ∨ Q)</td>
+          </tr>
+          <tr>
+            <td style="text-align: center">Q</td>
+          </tr>
+        </table>
+        <br />
+        Now to determine the entailment of the sentence α and β in propositional
+        logic we use resolution rule for knowledge bases expressed in
+        conjunctive normal form(see below).<br /><br />
+        <h4>Conjunctive normal form(CNF)</h4>
+        The form in which a logical sentence is expressed as a conjunction of
+        clauses leading to a complete inference procedure for all of
+        propositional logic.<br /><br />
+        <b><i>Conversion to CNF</i></b>
+        <ul>
+          <li>Eliminate bi-conditionals; turn (α ⇔ β) to (α ⇒ β) ∧ (β ⇒ α).</li>
+          <li>Eliminate implication; turn (α ⇒ β) to ¬α ∨ β.</li>
+          <li>
+            Move the Not(¬) inwards by applying De Morgan’s rule and
+            double-negation limination; ¬(α ∧ β) ≡ (¬α ∨ ¬β) and ¬(¬α) = α
+            respectively.
+          </li>
+          <li>
+            Use distributive law to distribute nested ∧ and ∨ operators applied
+            to literals.
+          </li>
+        </ul>
+        Example using sentence A ⇔ (B ∨ C);<br /><br />
+        <i>Bi-conditionals</i>
+        <table class="tabled">
+          <tr>
+            <td style="text-align: center">A ⇔ (B ∨ C)</td>
+          </tr>
+          <tr>
+            <td style="text-align: center">(A ⇒ (B ∨ C)) ^ ((B v C) ⇒ A)</td>
+          </tr>
+        </table>
+        <br />
+        <i>Implication</i>
+        <table class="tabled">
+          <tr>
+            <td style="text-align: center">(A ⇒ (B ∨ C)) ^ ((B v C) ⇒ A)</td>
+          </tr>
+          <tr>
+            <td style="text-align: center">(¬A v B ∨ C) ^ (¬(B v C) v A)</td>
+          </tr>
+        </table>
+        <br />
+        <i>De Morgan’s rule</i>
+        <table class="tabled">
+          <tr>
+            <td style="text-align: center">(¬A v B ∨ C) ^ (¬(B v C) v A)</td>
+          </tr>
+          <tr>
+            <td style="text-align: center">(¬A v B ∨ C) ^ ((¬B v ¬C) v A)</td>
+          </tr>
+        </table>
+        <br />
+        <i>Distributive law</i>
+        <table class="tabled">
+          <tr>
+            <td style="text-align: center">(¬A v B ∨ C) ^ ((¬B v ¬C) v A)</td>
+          </tr>
+          <tr>
+            <td style="text-align: center">
+              (¬A v B ∨ C) ^ (¬B v A) ^ (¬C v A)
+            </td>
+          </tr>
+        </table>
+        <br />
+        The converted CNF is (¬A ∨ B ∨ C) ∧ (¬B ∨ A) ∧ (¬C ∨ A).<br /><br />
+        Point to note is, when you resolve a single sentence with it’s negation,
+        we might get an empty clause represented by empty clause = (). And the
+        empty clause is always false. Example, P and ¬P gives = (), meaning it’s
+        is false.<br /><br />
+        <b><i>Resolution algorithm</i></b>
+        The idea of proof by contradiction is pretty famous in computer science;
+        the idea that given a proposition, to determine it’s validity or truth
+        we first assume that the proposition to be false and show that it leads
+        to a contradiction.<br /><br />
+        Applying this concept in resolution rule, we look at how to determine
+        the truth of the sentence (KB |= α) (KB is the knowledge base). We start
+        by assuming (¬α) and show that (KB ∧ ¬α) leads to a contradiction; if
+        so, the sentence KB |= α is true, otherwise it is false. How?<br /><br />
+        <i>Procedure:</i>
+        <ul>
+          <li>Convert the sentence KB |= α to Conjunctive Normal Form(CNF)</li>
+          <li>
+            Apply resolution rule to the resulting clauses to produce a new
+            clause and keep doing this;
+          </li>
+          <li>
+            If the produced clause is empty = () = false, there is a
+            contradiction, therefore, KB |= α is true
+          </li>
+          <li>
+            Otherwise, if we cannot add new clauses, KB |= α is false, hence,
+            there is not entailment
+          </li>
+        </ul>
+        Example;<br /><br />
+        Using the above CNF converted sentence.<br /><br />
+        <div class="box">
+          <pre>
                                 <code class="code" id="acode">
                                     CNF = R0 = (¬A ∨ B ∨ C) ∧ (¬B ∨ A) ∧ (¬C ∨ A)
                                 </code>
                             </pre>
-                        </div>
-                        <br />
-                        We want to check that R0 entails the query A or (R0 |= A).<br /><br />
-                        First thing is to assume our query is false. i.e ¬A. Then form the following sentence.
-                        <br /><br />
-                        <div class="box">
-                            <pre>
+        </div>
+        <br />
+        We want to check that R0 entails the query A or (R0 |= A).<br /><br />
+        First thing is to assume our query is false. i.e ¬A. Then form the
+        following sentence.
+        <br /><br />
+        <div class="box">
+          <pre>
                                 <code class="code" id="acode">
                                     R1 = (¬A ∨ B ∨ C) ∧ (¬B ∨ A) ∧ (¬C ∨ A) ∧ ¬A
                                 </code>
                             </pre>
-                        </div>
-                        <br />
-                        Then we show that R1 leads to a contradiction;<br /><br />
-                        <b>Step 1:</b> Pick 2 clauses (¬A ∨ B ∨ C) and (¬B ∨ A), because they have 
-                        complimentary literals, and resolve them;<br /><br />
-                        <table class="tabled">
-                            <tr>
-                                <td style="text-align:center;">premise: (¬A v B ∨ C) ^ (¬B v A) ^ (¬C v A) ^ ¬A</td>
-                                <td style="text-align:center;">picked clauses for resolution: (¬A v B ∨ C) &#38; (¬B v A)</td>
-                            </tr>
-                            <tr>
-                                <td colspan="2" style="text-align:center;">new clause(resolved): C</td>
-                            </tr>
-                        </table>
-                        <br />
-                        Our new premise becomes, R2 below, ignoring the previous picked clauses;<br /><br />
-                        <div class="box">
-                            <pre>
+        </div>
+        <br />
+        Then we show that R1 leads to a contradiction;<br /><br />
+        <b>Step 1:</b> Pick 2 clauses (¬A ∨ B ∨ C) and (¬B ∨ A), because they
+        have complimentary literals, and resolve them;<br /><br />
+        <table class="tabled">
+          <tr>
+            <td style="text-align: center">
+              premise: (¬A v B ∨ C) ^ (¬B v A) ^ (¬C v A) ^ ¬A
+            </td>
+            <td style="text-align: center">
+              picked clauses for resolution: (¬A v B ∨ C) &#38; (¬B v A)
+            </td>
+          </tr>
+          <tr>
+            <td colspan="2" style="text-align: center">
+              new clause(resolved): C
+            </td>
+          </tr>
+        </table>
+        <br />
+        Our new premise becomes, R2 below, ignoring the previous picked
+        clauses;<br /><br />
+        <div class="box">
+          <pre>
                                 <code class="code" id="acode">
                                     R2 = (¬C ∨ A) ∧ ¬A
                                 </code>
                             </pre>
-                        </div>
-                        <br />
-                        <b>Step 2:</b> Pick another clause to resolve that has literals which is complimentary to the new previously
-                        formed clause (C). i.e (¬C ∨ A).<br /><br />
-                        <table class="tabled">
-                            <tr>
-                                <td style="text-align:center;">premise: (¬C v A) ^ ¬A</td>
-                                <td style="text-align:center;">picked clauses for resolution: (¬C v A) &#38; (C)</td>
-                            </tr>
-                            <tr>
-                                <td colspan="2" style="text-align:center;">new clause(resolved): A</td>
-                            </tr>
-                        </table>
-                        <br />
-                        New premise; <br /><br />
-                        <div class="box">
-                            <pre>
+        </div>
+        <br />
+        <b>Step 2:</b> Pick another clause to resolve that has literals which is
+        complimentary to the new previously formed clause (C). i.e (¬C ∨ A).<br /><br />
+        <table class="tabled">
+          <tr>
+            <td style="text-align: center">premise: (¬C v A) ^ ¬A</td>
+            <td style="text-align: center">
+              picked clauses for resolution: (¬C v A) &#38; (C)
+            </td>
+          </tr>
+          <tr>
+            <td colspan="2" style="text-align: center">
+              new clause(resolved): A
+            </td>
+          </tr>
+        </table>
+        <br />
+        New premise; <br /><br />
+        <div class="box">
+          <pre>
                                 <code class="code" id="acode">
                                     R3 = (¬A)
                                 </code>
                             </pre>
-                        </div>
-                        <br />
-                        <b>Step 3:</b> Since we only have one last clause, we resolve it.<br /><br />
-                        <table class="tabled">
-                            <tr>
-                                <td style="text-align:center;">premise: (¬A)</td>
-                                <td style="text-align:center;">picked clauses for resolution: (¬A) &#38; (A)</td>
-                            </tr>
-                            <tr>
-                                <td colspan="2" style="text-align:center;">new clause(resolved): ()</td>
-                            </tr>
-                        </table>
-                        <br />
-                        Our resulting clause is an empty clause which means it is false. We then conclude
-                        based on proof by contradiction that there is a contradiction. Therefore,
-                        the sentence (R0 |= A) is true.<br /><br />
-                        <b><i>Resolution programmatically</i></b>
-                        <h4>Pseudo-code:</h4>
-                        <div class="box">
-                            <pre>
+        </div>
+        <br />
+        <b>Step 3:</b> Since we only have one last clause, we resolve it.<br /><br />
+        <table class="tabled">
+          <tr>
+            <td style="text-align: center">premise: (¬A)</td>
+            <td style="text-align: center">
+              picked clauses for resolution: (¬A) &#38; (A)
+            </td>
+          </tr>
+          <tr>
+            <td colspan="2" style="text-align: center">
+              new clause(resolved): ()
+            </td>
+          </tr>
+        </table>
+        <br />
+        Our resulting clause is an empty clause which means it is false. We then
+        conclude based on proof by contradiction that there is a contradiction.
+        Therefore, the sentence (R0 |= A) is true.<br /><br />
+        <b><i>Resolution programmatically</i></b>
+        <h4>Pseudo-code:</h4>
+        <div class="box">
+          <pre>
                                 <code class="code" id="acode">
                                     function RESOLUTION(KB, α) returns true or false
                                       inputs: KB, the knowledge base, a sentence in 
@@ -495,18 +550,17 @@
                                         clauses ← clauses ∪ new
                                 </code>
                             </pre>
-                        </div>
-                        <br />
-                        <h4>References</h4>
-                        <ul>
-                            <li>
-                                (Global Edition) Stuart J. Russell, Peter Norvig — Artificial Intelligence_
-                                A Modern Approach, 3rd Edition-Pearson Education (2016), pg 234
-                            </li>
-                        </ul>
-                    </p>
-                </div>
-            </div>
         </div>
-    </body>
-</html>
+        <br />
+        <h4>References</h4>
+        <ul>
+          <li>
+            (Global Edition) Stuart J. Russell, Peter Norvig — Artificial
+            Intelligence_ A Modern Approach, 3rd Edition-Pearson Education
+            (2016), pg 234
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>

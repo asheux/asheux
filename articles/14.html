@@ -1,62 +1,62 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="utf-8">
-        <title>Asheux @ Brian Mboya</title>
-    </head>
-    <body>
-        <div id="article" class="article">
-            <div><small style="color: green;">4 min read Apr 4, 2020</small></div>
-            <h1 class="article-header">
-                Lexicographic permutation generation
-            </h1>
-            <div class="article-content">
-                <div class="pcontent">
-                    <p>
-                        Let’s begin with the question ‘what is a permutation and lexicographic?’.
-                        It’s a two in one question. Suppose you have three distinct balls in
-                        color — red, green and blue and you want to arrange them in all possible
-                        ways so that every new arrangement is different from the previous output
-                        as in the following image.<br /><br />
-                        <div style="text-align: center;">
-                            <img width="150px" height="300px" src="/images/lexico.png" />
-                        </div>
-                        This is in some sense, permutation. In mathematics terms, it is the arrangement
-                        of elements of a set in a sequence. Lexicographic, on the other hand, is the
-                        generation of the way words are alphabetically ordered based on the alphabetical
-                        order of their component letters(borrowed from
-                        <a href="https://en.wikipedia.org/wiki/Lexicographical_order">Wikipedia</a> ).
-                        <br /><br />
-                        In this article, our focus is not on the theoretical part of these terms but
-                        rather on the practical bit and how they can be generated using algorithms in
-                        computer science.<br /><br />
-                        The concept of lexicographic generation is an interesting topic in combinatorics
-                        and we will look at how to generate them here. When generating permutations in
-                        lexicographical order, there are few things we need to keep in mind.<br /><br />
-                        <ul>
-                            <li>The number of distinct objects — balls in our case above (n).</li>
-                            <li>The number of permutations to generate, which is n factorial (n!).</li>
-                            <li>
-                                For the lexicographical order, given two sequence of the same length n,
-                                a1, a2, …, an and b1, b2, … , bn. The first one is smaller than the second,
-                                if ai &#60; bi (for 0 ≤ i &#60; n) for the first i where ai and bi are
-                                different members of the sequence.<br /><br />
-                            </li>
-                        </ul>
-                        With this in mind, let’s write an algorithm for this idea using one of the higher
-                        level programming languages (Python). We are going to write two algorithms. One
-                        will be a simple, less efficient and the second will be an elegant and faster
-                        version of the first. We’ll see how to analyze the two in terms of time complexity.
-                        <br /><br />
-                        We start with the first classical method for generating all permutations, visiting
-                        them in lexicographical order. We have n elements in a sequence {a1, a2, …, an}
-                        initially sorted so that a1 ≤ a2 ≤ … an.<br /><br />
-                        The algorithm will use {ABCD} as our test case. And a function name; lexicographic_perms()
-                        for the first algorithm and elexicographic_perms() for the second algorithm.<br /><br />
-                        <h4>Section 1: Algorithm 1</h4>
-                        [Step 1: Check n] Determine if n ≤ 1.
-                        <div class="box">
-                            <pre>
+<div id="article" class="article">
+  <div><small style="color: green">4 min read Apr 4, 2020</small></div>
+  <h1 class="article-header">Lexicographic permutation generation</h1>
+  <div class="article-content">
+    <div class="pcontent">
+      <div>
+        Let’s begin with the question ‘what is a permutation and
+        lexicographic?’. It’s a two in one question. Suppose you have three
+        distinct balls in color — red, green and blue and you want to arrange
+        them in all possible ways so that every new arrangement is different
+        from the previous output as in the following image.<br /><br />
+        <div style="text-align: center">
+          <img width="150px" height="300px" src="/images/lexico.png" />
+        </div>
+        This is in some sense, permutation. In mathematics terms, it is the
+        arrangement of elements of a set in a sequence. Lexicographic, on the
+        other hand, is the generation of the way words are alphabetically
+        ordered based on the alphabetical order of their component
+        letters(borrowed from
+        <a href="https://en.wikipedia.org/wiki/Lexicographical_order"
+          >Wikipedia</a
+        >
+        ). <br /><br />
+        In this article, our focus is not on the theoretical part of these terms
+        but rather on the practical bit and how they can be generated using
+        algorithms in computer science.<br /><br />
+        The concept of lexicographic generation is an interesting topic in
+        combinatorics and we will look at how to generate them here. When
+        generating permutations in lexicographical order, there are few things
+        we need to keep in mind.<br /><br />
+        <ul>
+          <li>The number of distinct objects — balls in our case above (n).</li>
+          <li>
+            The number of permutations to generate, which is n factorial (n!).
+          </li>
+          <li>
+            For the lexicographical order, given two sequence of the same length
+            n, a1, a2, …, an and b1, b2, … , bn. The first one is smaller than
+            the second, if ai &#60; bi (for 0 ≤ i &#60; n) for the first i where
+            ai and bi are different members of the sequence.<br /><br />
+          </li>
+        </ul>
+        With this in mind, let’s write an algorithm for this idea using one of
+        the higher level programming languages (Python). We are going to write
+        two algorithms. One will be a simple, less efficient and the second will
+        be an elegant and faster version of the first. We’ll see how to analyze
+        the two in terms of time complexity.
+        <br /><br />
+        We start with the first classical method for generating all
+        permutations, visiting them in lexicographical order. We have n elements
+        in a sequence {a1, a2, …, an} initially sorted so that a1 ≤ a2 ≤ …
+        an.<br /><br />
+        The algorithm will use {ABCD} as our test case. And a function name;
+        lexicographic_perms() for the first algorithm and elexicographic_perms()
+        for the second algorithm.<br /><br />
+        <h4>Section 1: Algorithm 1</h4>
+        [Step 1: Check n] Determine if n ≤ 1.
+        <div class="box">
+          <pre>
                                 <code id="acode" class="code">
                                     #! python
                                     def lexicographic_perms(a: str):
@@ -71,14 +71,14 @@
                                       yield ''.join(i for i in pool) 
                                 </code>
                             </pre>
-                        </div>
-                        [Step 2: Visit and Find j] Visit the permutation a1, a2 … an and find j.
-                        Set j = last -1. We are using last and not n because our algorithm uses
-                        zero indexing. If aj ≥ aj+1, we decrease j by 1 until j can satisfy
-                        aj &#60; aj+1. if j &#60; 0 that means we have visited all permutations
-                        and the algorithm terminates.<br /><br />
-                        <div class="box">
-                            <pre>
+        </div>
+        [Step 2: Visit and Find j] Visit the permutation a1, a2 … an and find j.
+        Set j = last -1. We are using last and not n because our algorithm uses
+        zero indexing. If aj ≥ aj+1, we decrease j by 1 until j can satisfy aj
+        &#60; aj+1. if j &#60; 0 that means we have visited all permutations and
+        the algorithm terminates.<br /><br />
+        <div class="box">
+          <pre>
                                 <code id="acode" class="code">
                                     while last:
                                       j = last - 1
@@ -91,12 +91,12 @@
                                         break
                                 </code>
                             </pre>
-                        </div>
-                        [Step 3: Increase aj] Having found j, we know that aj is the smallest subscript
-                        in the current permutation, therefore to get the next lexicographical permutation,
-                        aj has to be increased as follows.<br /><br />
-                        <div class="box">
-                            <pre>
+        </div>
+        [Step 3: Increase aj] Having found j, we know that aj is the smallest
+        subscript in the current permutation, therefore to get the next
+        lexicographical permutation, aj has to be increased as follows.<br /><br />
+        <div class="box">
+          <pre>
                                 <code id="acode" class="code">
                                     # Increase pool[j] by the smallest feasible amount
                                     # in this case pool[i] is the smallest element greater than
@@ -109,11 +109,12 @@
                                     pool[j], pool[i] = pool[i], pool[j]
                                 </code>
                             </pre>
-                        </div>
-                        [Step 4: Reverse aj+1 … an] Interchange aj+1 ← → an. Then finally out put the value.
-                        <br /><br />
-                        <div class="box">
-                            <pre>
+        </div>
+        [Step 4: Reverse aj+1 … an] Interchange aj+1 ← → an. Then finally out
+        put the value.
+        <br /><br />
+        <div class="box">
+          <pre>
                                 <code id="acode" class="code">
                                     # Reverse pool[j+1] ... pool[n]
                                     # Find the lexicographically least way to extend the new
@@ -128,10 +129,10 @@
                                     print(''.join(c for c in pool))
                                 </code>
                             </pre>
-                        </div>
-                        Simple output using out test case {ABCD};
-                        <div class="box">
-                            <pre>
+        </div>
+        Simple output using out test case {ABCD};
+        <div class="box">
+          <pre>
                                 <code id="acode" class="code">
                                     [
                                         'ABCD', 'ABDC', 'ACBD', 'ACDB', 'ADBC', 'ADCB',
@@ -141,15 +142,16 @@
                                     ]
                                 </code>
                             </pre>
-                        </div>
-                        The next section will focus on making the previous algorithm a bit faster
-                        on large n or just any n. Step 2 of the previous procedure finds j = last - 1
-                        half of the time when the elements are all different. Therefore, this special
-                        case will assist us in speeding up the algorithm in the next section.<br /><br />
-                        <h4>Section 2: Algorithm 2</h4>
-                        [Step 1: Is the same is the previous step]
-                        <div class="box">
-                            <pre>
+        </div>
+        The next section will focus on making the previous algorithm a bit
+        faster on large n or just any n. Step 2 of the previous procedure finds
+        j = last - 1 half of the time when the elements are all different.
+        Therefore, this special case will assist us in speeding up the algorithm
+        in the next section.<br /><br />
+        <h4>Section 2: Algorithm 2</h4>
+        [Step 1: Is the same is the previous step]
+        <div class="box">
+          <pre>
                                 <code id="acode" class="code">
                                     def lexico_permutations_fast(_w: str) -&#62; Generator:
                                         """
@@ -166,11 +168,11 @@
                                         yield ''.join(i for i in pool) 
                                 </code>
                             </pre>
-                        </div>
-                        [Step 2: Check and permute all n and n - 1; Easiest case] Set y = an-1,
-                        z = an and perform the check and interchange if y &#60; z.<br /><br />
-                        <div class="box">
-                            <pre>
+        </div>
+        [Step 2: Check and permute all n and n - 1; Easiest case] Set y = an-1,
+        z = an and perform the check and interchange if y &#60; z.<br /><br />
+        <div class="box">
+          <pre>
                                 <code id="acode" class="code">
                                     while last:
                                       j = last - 1
@@ -186,13 +188,14 @@
                                         continue # and continue finding the next permutation
                                 </code>
                             </pre>
-                        </div>
-                        [Step 3: Next easiest case when y ≥ z] Set x = an-2 (to the second last element)
-                        and check x against y. This step, we will handle the case where x ≥ y.
-                        <br /><br />
-                        [Step 3.1: find j] set j = last - 3 and update y with y = aj.<br /><br />
-                        <div class="box">
-                            <pre>
+        </div>
+        [Step 3: Next easiest case when y ≥ z] Set x = an-2 (to the second last
+        element) and check x against y. This step, we will handle the case where
+        x ≥ y.
+        <br /><br />
+        [Step 3.1: find j] set j = last - 3 and update y with y = aj.<br /><br />
+        <div class="box">
+          <pre>
                                 <code id="acode" class="code">
                                     x = pool[last - 2]
 
@@ -208,11 +211,11 @@
                                             y = pool[j] # increased j
                                 </code>
                             </pre>
-                        </div>
-                        [step 3.2: Easy increase] Check if the new y &#60; z. If so update aj with z
-                        and aj+1 with y an with x.<br /><br />
-                        <div class="box">
-                            <pre>
+        </div>
+        [step 3.2: Easy increase] Check if the new y &#60; z. If so update aj
+        with z and aj+1 with y an with x.<br /><br />
+        <div class="box">
+          <pre>
                                 <code id="acode" class="code">
                                     if y &#60; z:
                                       # update a[j], a[j + 1] and a[last] with z, y, x
@@ -226,12 +229,13 @@
                                       continue # continue to the next permutation
                                 </code>
                             </pre>
-                        </div>
-                        [Step 3: The else part] if x &#60; y then we perform this step. It basically does the
-                        interchange of an-2, an-1, an with the correct values of x, y, z as we will see below.
-                        <br /><br />
-                        <div class="box">
-                            <pre>
+        </div>
+        [Step 3: The else part] if x &#60; y then we perform this step. It
+        basically does the interchange of an-2, an-1, an with the correct values
+        of x, y, z as we will see below.
+        <br /><br />
+        <div class="box">
+          <pre>
                                 <code id="acode" class="code">
                                     if x &#62;= y:
                                       """
@@ -248,11 +252,11 @@
                                       continue
                                 </code>
                             </pre>
-                        </div>
-                        [Step 4: Begin the reverse] This happens just below the else block above.
-                        After all the above steps have run.<br /><br />
-                        <div class="box">
-                            <pre>
+        </div>
+        [Step 4: Begin the reverse] This happens just below the else block
+        above. After all the above steps have run.<br /><br />
+        <div class="box">
+          <pre>
                                 <code id="acode" class="code">
                                     # We repeatedly decrease m by 1 until  y &#60; a[m]
                                     m = last - 1
@@ -266,11 +270,11 @@
                                     pool[last], pool[j + 1] = pool[j + 1], z 
                                 </code>
                             </pre>
-                        </div>
-                        [Step 5: The last reverse] This ensures we have the correct lexicographic
-                        generated permute.<br /><br />
-                        <div class="box">
-                            <pre>
+        </div>
+        [Step 5: The last reverse] This ensures we have the correct
+        lexicographic generated permute.<br /><br />
+        <div class="box">
+          <pre>
                                 <code id="acode" class="code">
                                     # last reverse
                                     k = j + 2
@@ -282,16 +286,18 @@
                                     yield ''.join(i for i in pool)
                                 </code>
                             </pre>
-                        </div>
-                        At this point we have a complete algorithm that correctly generates all n! permutations
-                        in lexicographical order. Note, section 2 has the same output as section 1.
-                        <br /><br />
-                        Finally, let’s check how much faster does the second algorithm run. Based on the following
-                        output, we can infer that algorithm 2 is two times faster than algorithm 1. This is due
-                        to the observation we made earlier that j = last - 1 is performed half of the time,
-                        that is n!/2.<br /><br />
-                        <div class="box">
-                            <pre>
+        </div>
+        At this point we have a complete algorithm that correctly generates all
+        n! permutations in lexicographical order. Note, section 2 has the same
+        output as section 1.
+        <br /><br />
+        Finally, let’s check how much faster does the second algorithm run.
+        Based on the following output, we can infer that algorithm 2 is two
+        times faster than algorithm 1. This is due to the observation we made
+        earlier that j = last - 1 is performed half of the time, that is
+        n!/2.<br /><br />
+        <div class="box">
+          <pre>
                                 <code id="acode" class="code">
                                     Enter number of test cases: 4
                                     Enter value to permute: ABCD
@@ -321,24 +327,25 @@
                                     ------------------------------------------------------
                                 </code>
                             </pre>
-                        </div>
-                        <h4>References</h4>
-                        <ul>
-                            <li>
-                                <a href="https://en.wikipedia.org/wiki/Permutation">Permutation</a>
-                            </li>
-                            <li>
-                                <a href="https://en.wikipedia.org/wiki/Lexicographical_order">Lexicographical order</a>
-                            </li>
-                            <li>
-                                Donald E. Knuth — The Art of Computer Programming, Volume 4, Fascicle 2_ Generating
-                                All Tuples and Permutations-Addison-Wesley Professional (2005)
-                            </li>
-                            <li>Permutation Generation Methods by Robert Sedgewick</li>
-                        </ul>
-                    </p>
-                </div>
-            </div>
         </div>
-    </body>
-</html>
+        <h4>References</h4>
+        <ul>
+          <li>
+            <a href="https://en.wikipedia.org/wiki/Permutation">Permutation</a>
+          </li>
+          <li>
+            <a href="https://en.wikipedia.org/wiki/Lexicographical_order"
+              >Lexicographical order</a
+            >
+          </li>
+          <li>
+            Donald E. Knuth — The Art of Computer Programming, Volume 4,
+            Fascicle 2_ Generating All Tuples and Permutations-Addison-Wesley
+            Professional (2005)
+          </li>
+          <li>Permutation Generation Methods by Robert Sedgewick</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
