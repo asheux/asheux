@@ -4,6 +4,7 @@ cdn
 
 # Vim stuff
 *.sw?
+*.sv?
 
 # Bin
 .bin

@@ -36,7 +36,7 @@ function getnavitems() {
   var div = set_attribute("others", "g", "div");
   var aas = [create_element("a"), create_element("a")];
   var rs = ["/about", "/crawler"];
-  var names = ["About", "Project Crawl"];
+  var names = ["About Me", "Project Crawl"];
   for (var i = 0; i < aas.length; i++) {
     var r = rs[i];
     var name = names[i];
