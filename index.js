@@ -32,6 +32,8 @@ function _get_name() {
   return a;
 }
 
+const isMobile = window.innerWidth <= 981;
+
 function getnavitems() {
   var div = set_attribute("others", "g", "div");
   var aas = [create_element("a"), create_element("a")];
@@ -52,6 +54,8 @@ function getnavitems() {
 function get_theme_toggler() {
   var span = set_attribute("toggle", "theme-toggle", "span");
   var img = set_attribute("f", "theme-toggler", "img");
+  img.style.height = isMobile ? "40px" : "30px";
+  img.style.width = isMobile ? "40px" : "30px";
   var themetoggler = darktheme;
   if (is_dark()) {
     themetoggler = lighttheme;
@@ -168,7 +172,7 @@ function set_theme(e) {
   body_element.style.color = text_color;
   for (var i = 0; i < nav_items.length; i++) {
     nav_items[i].style.color = text_color;
-    nav_items[i].style.fontSize = "16px";
+    nav_items[i].style.fontSize = isMobile ? "30px" : "16px";
   }
 }
 
@@ -197,7 +201,7 @@ function write_links(data, title, key) {
   var out = data.get(key);
   var ul = document.getElementById("links");
   ul.classList.add("ul-links");
-  var h = create_element("h4");
+  var h = create_element(isMobile ? "h2" : "h4");
   h.textContent = title;
   ul.appendChild(h);
   for (var i = 0; i < out.length; i++) {
@@ -212,6 +216,7 @@ function write_links(data, title, key) {
     a.href = `/articles/${id}`;
     a.value = id;
     a.addEventListener("click", handle_routing);
+    a.style.fontSize = isMobile ? "24px" : "16px";
     for (var n = 1; n < tags.length; n++) {
       var small = create_element("small");
       var t = tags[n];
