@@ -142,7 +142,7 @@ function set_theme(e) {
   var ptext = document.getElementById("ptext");
   var nav_items = nav.getElementsByTagName("a");
 
-  if (is_dark()) {
+  if (!is_dark()) {
     if (e) {
       body_color = "#ffffff";
       navbar_color = "#fafafa";
