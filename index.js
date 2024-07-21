@@ -37,8 +37,8 @@ const isMobile = window.innerWidth <= 981;
 function getnavitems() {
   var div = set_attribute("others", "g", "div");
   var aas = [create_element("a"), create_element("a")];
-  var rs = ["/about", "/crawler"];
-  var names = ["About Me", "Project Crawl"];
+  var rs = ["/about", "/projects"];
+  var names = ["About Me", "Projects"];
   for (var i = 0; i < aas.length; i++) {
     var r = rs[i];
     var name = names[i];
@@ -310,6 +310,23 @@ function write_about_page(out) {
   prevent_routing(about);
 }
 
+function open_crawler(e) {
+  window.location.pathname = "/crawler";
+  router();
+}
+
+function write_projects_page(out) {
+  crawler.set_roots("reset");
+  window.scrollTo(0, 0);
+  var content = document.getElementById("content");
+  content.innerHTML = out;
+  var about = document.getElementById("projects");
+  prevent_routing(about);
+  var crawlerlink = document.getElementById("crawlerlink");
+  crawlerlink.addEventListener("click", open_crawler);
+  crawlerlink.textContent = "Project link";
+}
+
 function write_project_crawl() {
   window.scrollTo(0, 0);
   var content = document.getElementById("content");
@@ -385,13 +402,14 @@ function router() {
     route = route.slice(0, length - 1); // remove trailing slash
   }
   var content = document.getElementById("content");
-  var routes = ["/", "/about", "/crawler", "/view_cv"];
+  var routes = ["/", "/about", "/crawler", "/view_cv", "/projects"];
   var __func_mapper = {
     "/": write_home_page,
     "/about": write_about_page,
     "/crawler": write_project_crawl,
     article_route: write_article_page,
     "/view_cv": write_cv,
+    "/projects": write_projects_page,
   };
 
   if (routes.includes(route)) {
@@ -409,6 +427,8 @@ function router() {
       var response = _home.handle_route(id);
       if (route === "/about") {
         func(import_cache["./about.html"].default);
+      } else if (route === "/projects") {
+        func(import_cache["./projects.html"].default);
       } else if (route === "/") {
         func(response);
       } else {

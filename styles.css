@@ -93,6 +93,15 @@ html {
   padding: 0 30px 0 30px;
 }
 
+.projectlink {
+  cursor: pointer;
+  color: green;
+}
+
+.project-title {
+  color: green;
+}
+
 .button {
   display: block;
   margin-top: 1em;
@@ -181,6 +190,11 @@ ul a {
   margin-right: auto;
   overflow: hidden;
   width: 80%;
+}
+
+.projects {
+  margin-top: 2em;
+  margin-bottom: 2em;
 }
 
 .contact {
