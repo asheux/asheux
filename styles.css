@@ -437,14 +437,24 @@ body[data-theme="light"] .chip {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
+  align-items: center;
 }
 
 .tag {
-  padding: 5px 8px;
+  display: inline-flex;
+  align-items: center;
+  min-height: 32px;
+  padding: 6px 10px;
   border-radius: 8px;
   background: rgba(56, 189, 248, 0.1);
   color: var(--accent-2);
   font-size: 13px;
+  line-height: 1.2;
+  white-space: nowrap;
+  min-width: 0;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 body[data-theme="light"] .tag {
