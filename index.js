@@ -2,6 +2,7 @@ import { Main, Crawler } from "wasm-asheux";
 import "./styles.css";
 import portrait from "./images/asheux.jpg";
 import spiderImage from "./images/spider.png";
+import hljs from "highlight.js/lib/common";
 import cv from "./pdfs/cv.pdf";
 import lightIcon from "./images/lighttheme.svg";
 import darkIcon from "./images/darktheme.svg";
@@ -243,6 +244,7 @@ const socialLinks = [
   { name: "GitHub", href: "https://github.com/asheux" },
   { name: "X", href: "https://x.com/bm_asheuh" },
   { name: "LinkedIn", href: "https://www.linkedin.com/in/brian-a-007241135/" },
+  { name: "ORCID", href: "https://orcid.org/0009-0008-5238-660X" },
 ];
 
 function importAll(r) {
@@ -350,8 +352,7 @@ function renderShell() {
                   <p class="pill">Rust • WebAssembly • Applied research</p>
                   <h1>${HERO_NAME}</h1>
                   <p class="lead">
-                    Senior Software Engineer and Affiliate Researcher building fast wasm tools,
-                    web crawlers, and notes at the edge of computation and neuroscience.
+                    Studied BSc in computer science at Dedan Kimathi University of Technology in Kenya. He has experience in software engineering and mentorship. His research areas include computational neuroscience, and the bridge between complex systems and biological systems.
                   </p>
                   <div class="chip-row">
                     <span class="chip">Affiliate Researcher — Wolfram Institute</span>
@@ -762,6 +763,8 @@ function openArticle(id, source = "builtin", fromPop = false) {
   title.textContent = article.title;
   body.innerHTML = content;
   normalizeLinks(body);
+  formatReferences(body);
+  highlightArticleCode(body);
 
   modal.classList.add("open");
   state.selectedArticle = article;
@@ -819,6 +822,57 @@ function normalizeLinks(target) {
     anchor.target = "_blank";
     anchor.rel = "noreferrer";
   });
+}
+
+function formatReferences(target) {
+  const headings = Array.from(target.querySelectorAll("h2, h3, h4")).filter(
+    (h) => h.textContent.trim().toLowerCase() === "references",
+  );
+  headings.forEach((heading) => {
+    let list = heading.nextElementSibling;
+    while (list && !["UL", "OL"].includes(list.tagName)) {
+      list = list.nextElementSibling;
+    }
+    if (!list) return;
+
+    const items = Array.from(list.querySelectorAll("li"));
+    if (!items.length) return;
+
+    const ordered = document.createElement("ol");
+    ordered.className = "reference-list";
+
+    items.forEach((li) => {
+      const entry = document.createElement("li");
+      entry.className = "reference-list__item";
+      entry.innerHTML = li.innerHTML.trim();
+      ordered.appendChild(entry);
+    });
+
+    heading.classList.add("reference-heading");
+    list.replaceWith(ordered);
+  });
+}
+
+function highlightArticleCode(target) {
+  const blocks = target.querySelectorAll("pre code");
+  blocks.forEach((block) => {
+    block.textContent = dedentCode(block.textContent);
+    hljs.highlightElement(block);
+  });
+}
+
+function dedentCode(text) {
+  const lines = text.replace(/\t/g, "  ").split("\n");
+  while (lines.length && !lines[0].trim()) lines.shift();
+  while (lines.length && !lines[lines.length - 1].trim()) lines.pop();
+  const indents = lines
+    .filter((line) => line.trim())
+    .map((line) => {
+      const match = line.match(/^(\s*)/);
+      return match ? match[1].length : 0;
+    });
+  const minIndent = indents.length ? Math.min(...indents) : 0;
+  return lines.map((line) => line.slice(minIndent)).join("\n");
 }
 
 function escapeHtml(str) {

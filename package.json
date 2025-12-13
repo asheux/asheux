@@ -38,6 +38,7 @@
     "webpack-dev-server": "^4.15.1"
   },
   "dependencies": {
+    "highlight.js": "^11.11.1",
     "wasm-asheux": "file:../pkg"
   }
 }
