@@ -19,6 +19,7 @@ import flaskieImg from "./images/flaskie.png";
 import delocaImg from "./images/deloca.png";
 
 const importCache = {};
+const articleMetaCache = {};
 const wasmMain = new Main();
 const crawler = new Crawler();
 const STORAGE_KEY = "asheux-custom-articles";
@@ -622,11 +623,13 @@ function renderArticles() {
   sorted.forEach((article) => {
     const card = document.createElement("article");
     card.className = "article-card";
+    const dateLabel = getArticleDateLabel(article);
+    const metaLabel = `${article.category || "Article"} • ${dateLabel}`;
     const tags = article.tags && article.tags.length
       ? `<div class="tag-row">${article.tags.map((tag) => `<span class="tag">${tag}</span>`).join("")}</div>`
       : "";
     card.innerHTML = `
-      <div class="article-meta">${article.category || "Article"}</div>
+      <div class="article-meta">${metaLabel}</div>
       <h3>${article.title}</h3>
       <p class="article-meta">${article.summary || "No summary yet — open to read the full note."}</p>
       ${tags}
@@ -827,6 +830,41 @@ function loadHtmlArticle(id) {
   const res = importCache[key];
   if (res && res.default) return res.default;
   return "<p>Article not found.</p>";
+}
+
+function getArticleDateLabel(article) {
+  if (article.source === "custom") {
+    return formatShortDate(article.createdAt) || "Undated";
+  }
+
+  const meta = getBuiltinArticleMeta(article.id);
+  return meta && meta.date ? meta.date : "Undated";
+}
+
+function getBuiltinArticleMeta(id) {
+  const cached = articleMetaCache[id];
+  if (cached) return cached;
+
+  const html = loadHtmlArticle(id);
+  const match = html.match(/<small[^>]*>([^<]+)<\/small>/i);
+  if (!match) {
+    articleMetaCache[id] = { date: null, readTime: null, raw: null };
+    return articleMetaCache[id];
+  }
+
+  const raw = match[1].trim();
+  const parts = raw.match(/^(\d+\s*min\s*read)(?:\s+(.*))?$/i);
+  const readTime = parts ? parts[1].trim() : null;
+  const date = parts && parts[2] ? parts[2].trim() : null;
+  articleMetaCache[id] = { date, readTime, raw };
+  return articleMetaCache[id];
+}
+
+function formatShortDate(value) {
+  if (!value) return "";
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) return "";
+  return date.toLocaleDateString(undefined, { year: "numeric", month: "short", day: "numeric" });
 }
 
 function normalizeLinks(target) {
