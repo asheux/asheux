@@ -239,6 +239,7 @@ const articleSummaries = {
   "18": "Exploring self-identity and the question of existence.",
   "19": "Simulated worlds, belief, and the edges of consciousness.",
   "20": "Another pass at simulation and free will, in essay form.",
+  "22": "A poem on doors, pursuit, and uneasy freedom.",
   "6": "Imagination and consciousness through a poetic lens.",
   "7": "Memes, minds, and AI as carriers of ideas.",
   "8": "Love and consciousness intertwined in verse.",
