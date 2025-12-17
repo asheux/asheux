@@ -136,6 +136,10 @@ const researchInterests = [
 
 const publications = [
   {
+    title: "The CLICK Protocol: Solving AoC’s Secret Entrance with a Turing Machine",
+    link: "https://community.wolfram.com/groups/-/m/t/3592839",
+  },
+  {
     title: "Enumerating local rewriting rules for two-link network systems",
     link: "https://community.wolfram.com/groups/-/m/t/3420775",
   },
@@ -166,6 +170,14 @@ const summerSchools = [
 ];
 
 const liveVideos = [
+  {
+    title: "Live Science: Plasticity gating - Adaptive predictive coding",
+    description: "Plasticity gating walkthrough with adaptive predictive coding.",
+    videoId: "rybW6m8eycY",
+    link: "https://www.youtube.com/watch?v=rybW6m8eycY",
+    tags: ["Adaptive Predictive Coding", "Plasticity"],
+    status: "Recorded",
+  },
   {
     title: "Live Science: Event-modulated plasticity - Adaptive predictive coding",
     description: "Event-driven plasticity walkthrough with adaptive predictive coding.",
