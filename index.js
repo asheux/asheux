@@ -369,6 +369,7 @@ function renderShell() {
                     Studied BSc in computer science at Dedan Kimathi University of Technology in Kenya. He has experience in software engineering and mentorship. His research areas include computational neuroscience, and the bridge between complex systems and biological systems.
                   </p>
                   <div class="chip-row">
+                    <span class="chip">Research Fellow — Wolfram Institute</span>
                     <span class="chip">Affiliate Researcher — Wolfram Institute</span>
                     <span class="chip">Senior Software Engineer — Soapbox</span>
                     <span class="chip">Computational Neuroscience & Consciousness</span>
@@ -427,7 +428,11 @@ function renderShell() {
               <div class="surface">
                 <h4>Current Work</h4>
                 <p class="muted">
-                  Affiliate Researcher at the Wolfram Institute · Senior Software Engineer at Soapbox Inc.
+                  Research Fellow — Wolfram Institute · Affiliate Researcher — Wolfram Institute · Senior Software Engineer — Soapbox Inc.
+                </p>
+                <p class="muted">
+                  As a Research Fellow, I do computational research, write and/or assist with papers introducing Institute work
+                  to new audiences, and build tools (paclets, functions, and other public interfaces).
                 </p>
                 <h4>Contributions</h4>
                 <ul class="list">
