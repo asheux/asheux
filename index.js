@@ -270,7 +270,7 @@ function importAll(r) {
 importAll(require.context("./articles/", true, /\.html$/));
 
 function loadTheme() {
-  return localStorage.getItem("asheux-theme") || "dark";
+  return localStorage.getItem("asheux-theme") || "light";
 }
 
 function saveTheme(theme) {
