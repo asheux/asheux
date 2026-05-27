@@ -17,6 +17,7 @@ import forestImg from "./images/forest.png";
 import killshotImg from "./images/killshot.png";
 import flaskieImg from "./images/flaskie.png";
 import delocaImg from "./images/deloca.png";
+import nitImg from "./images/nit.png";
 
 const importCache = {};
 const articleMetaCache = {};
@@ -38,6 +39,14 @@ const state = {
 };
 
 const projectShowcase = [
+  {
+    title: "nit — Neural Interface Terminal",
+    blurb:
+      "AI agents ship code faster than any programmer can keep up with, and the code decays faster than anyone can refactor it. nit is a vim-keyed TUI that watches every edit an agent makes and runs it through Conway's Game of Life as a fitness function for scoring. Code that scores well propagates and survives, but code that scores badly dies out. Experimental — we don't yet know if GoL is a better quality measure for code written by everyone, not just agents.",
+    link: "https://nit.tools",
+    image: nitImg,
+    tags: ["Rust", "TUI", "Agents", "Experimental"],
+  },
   {
     title: "Network Systems Paclet",
     blurb:
@@ -136,6 +145,10 @@ const researchInterests = [
 ];
 
 const publications = [
+  {
+    title: "Neural interface terminal: a living system for AI-orchestrated work",
+    link: "https://community.wolfram.com/groups/-/m/t/3720941",
+  },
   {
     title: "The CLICK Protocol: Solving AoC’s Secret Entrance with a Turing Machine",
     link: "https://community.wolfram.com/groups/-/m/t/3592839",
@@ -257,7 +270,7 @@ const articleSummaries = {
 const socialLinks = [
   { name: "GitHub", href: "https://github.com/asheux" },
   { name: "X", href: "https://x.com/bm_asheuh" },
-  { name: "LinkedIn", href: "https://www.linkedin.com/in/brian-a-007241135/" },
+  { name: "LinkedIn", href: "https://www.linkedin.com/in/brian-m-007241135/" },
   { name: "ORCID", href: "https://orcid.org/0009-0008-5238-660X" },
 ];
 
@@ -270,7 +283,7 @@ function importAll(r) {
 importAll(require.context("./articles/", true, /\.html$/));
 
 function loadTheme() {
-  return localStorage.getItem("asheux-theme") || "light";
+  return localStorage.getItem("asheux-theme") || "dark";
 }
 
 function saveTheme(theme) {
@@ -336,11 +349,12 @@ function renderShell() {
     <div class="page">
       <header class="nav-shell">
         <div class="mui-container nav-bar">
-          <div class="brand">
+          <a class="brand" href="#hero" aria-label="Home">
             <span class="dot"></span>
-            <span>Asheux</span>
+            <span>asheux</span>
+            <span class="brand-sep">/</span>
             <span class="muted">${HERO_NAME}</span>
-          </div>
+          </a>
           <button class="nav-toggle" id="nav-toggle" aria-label="Toggle navigation">
             Menu
           </button>
@@ -360,53 +374,62 @@ function renderShell() {
       <main>
         <section id="hero" class="section hero">
           <div class="mui-container hero-grid">
-            <div class="surface hero-card">
-              <div class="hero-head">
-                <div class="hero-intro">
-                  <p class="pill">Rust • WebAssembly • Applied research</p>
-                  <h1>${HERO_NAME}</h1>
-                  <p class="lead">
-                    Studied BSc in computer science at Dedan Kimathi University of Technology in Kenya. He has experience in software engineering and mentorship. His research areas include computational neuroscience, and the bridge between complex systems and biological systems.
-                  </p>
-                  <div class="chip-row">
-                    <span class="chip">Research Fellow — Wolfram Institute</span>
-                    <span class="chip">Affiliate Researcher — Wolfram Institute</span>
-                    <span class="chip">Senior Software Engineer — Soapbox</span>
-                    <span class="chip">Computational Neuroscience & Consciousness</span>
-                  </div>
+            <div class="hero-head">
+              <div class="hero-intro">
+                <div class="hero-prompt">
+                  <span>~/asheux</span> · whoami<span class="cursor"></span>
                 </div>
-                <div class="hero-inline-portrait">
-                  <div class="hero-portrait-frame">
+                <div class="hero-tag">research · software · computation</div>
+                <p class="lead">
+                  Studied BSc in computer science at Dedan Kimathi University of Technology in Kenya. Experience in software engineering and mentorship. Research areas include computational neuroscience, and the bridge between complex systems and biological systems.
+                </p>
+                <div class="chip-row">
+                  <span class="chip accent">Research Fellow — Wolfram Institute</span>
+                  <span class="chip">Affiliate Researcher — Wolfram Institute</span>
+                  <span class="chip">Senior Software Engineer — Soapbox</span>
+                  <span class="chip">Comp. Neuroscience &amp; Consciousness</span>
+                </div>
+                <div class="cta-row">
+                  <a class="btn primary" href="#articles">$ read articles</a>
+                  <a class="btn" href="${cv}" target="_blank" rel="noreferrer">$ download cv</a>
+                  <a class="btn ghost" href="mailto:brian.mboya@protonmail.com">$ email</a>
+                </div>
+                <div class="social-row">
+                  ${socialLinks
+                    .map(
+                      (s) =>
+                        `<a class="social-link" href="${s.href}" target="_blank" rel="noreferrer">${s.name}</a>`,
+                    )
+                    .join("")}
+                </div>
+              </div>
+              <div class="hero-inline-portrait">
+                <div class="term-frame portrait-card">
+                  <div class="term-frame__bar">
+                    <div class="dots"><span></span><span></span><span></span></div>
+                    <span class="title">~/portrait.jpg</span>
+                  </div>
+                  <div class="term-frame__body">
                     <img src="${portrait}" alt="${HERO_NAME}" />
                   </div>
                 </div>
               </div>
-              <div class="cta-row">
-                <a class="btn primary" href="#articles">Read articles</a>
-                <a class="btn" href="${cv}" target="_blank" rel="noreferrer">Download CV</a>
-                <a class="btn ghost" href="mailto:brian.mboya@protonmail.com">Email me</a>
+            </div>
+            <div class="stat-row">
+              <div class="stat">
+                <span class="num">[01]</span>
+                <strong>Rust · WebAssembly</strong>
+                <p>Fast experiments, zero-compromise bundles.</p>
               </div>
-              <div class="social-row">
-                ${socialLinks
-                  .map(
-                    (s) =>
-                      `<a class="social-link" href="${s.href}" target="_blank" rel="noreferrer">${s.name}</a>`,
-                  )
-                  .join("")}
+              <div class="stat">
+                <span class="num">[02]</span>
+                <strong>Research &amp; Writing</strong>
+                <p>Notes on AI, attention, and systems that evolve.</p>
               </div>
-              <div class="stat-row">
-                <div class="stat">
-                  <strong>Rust • WebAssembly</strong>
-                  Blazingly fast experiments, zero-compromise bundles.
-                </div>
-                <div class="stat">
-                  <strong>Research & Writing</strong>
-                  Notes on AI, attention, and systems that evolve.
-                </div>
-                <div class="stat">
-                  <strong>Builder</strong>
-                  From network paclets to resilient crawlers.
-                </div>
+              <div class="stat">
+                <span class="num">[03]</span>
+                <strong>Builder</strong>
+                <p>From network paclets to resilient crawlers.</p>
               </div>
             </div>
           </div>
@@ -416,11 +439,10 @@ function renderShell() {
           <div class="mui-container">
             <div class="section-header">
               <div>
-                <p class="pill">Profile</p>
-                <h2>About & Focus</h2>
+                <span class="eyebrow">01 · Profile</span>
+                <h2>About <em>&amp;</em> focus</h2>
                 <p>
-                  Shipping production software at Soapbox, researching complex systems with the Wolfram Institute,
-                  and teaching Python + ML with TReND. I study attention, memory, and the computational stories brains tell.
+                  Shipping production software at Soapbox, researching complex systems with the Wolfram Institute, and teaching Python + ML with TReND. I study attention, memory, and the computational stories brains tell.
                 </p>
               </div>
             </div>
@@ -431,8 +453,7 @@ function renderShell() {
                   Research Fellow — Wolfram Institute · Affiliate Researcher — Wolfram Institute · Senior Software Engineer — Soapbox Inc.
                 </p>
                 <p class="muted">
-                  As a Research Fellow, I do computational research, write and/or assist with papers introducing Institute work
-                  to new audiences, and build tools (paclets, functions, and other public interfaces).
+                  As a Research Fellow, I do computational research, write and/or assist with papers introducing Institute work to new audiences, and build tools (paclets, functions, and other public interfaces).
                 </p>
                 <h4>Contributions</h4>
                 <ul class="list">
@@ -461,7 +482,7 @@ function renderShell() {
                   <li>What are minimal rules for complex, emergent behavior?</li>
                 </ul>
                 <p class="muted">
-                  Let’s collaborate: <a href="mailto:brian.mboya@protonmail.com">brian.mboya@protonmail.com</a>
+                  Let's collaborate: <a href="mailto:brian.mboya@protonmail.com">brian.mboya@protonmail.com</a>
                 </p>
               </div>
             </div>
@@ -472,8 +493,8 @@ function renderShell() {
           <div class="mui-container">
             <div class="section-header">
               <div>
-                <p class="pill">Writing</p>
-                <h2>Articles & Essays</h2>
+                <span class="eyebrow">02 · Writing</span>
+                <h2>Articles <em>&amp;</em> essays</h2>
                 <p>Long-form thinking on programming, AI, poetry, and consciousness. Powered by Rust + wasm for instant loads.</p>
               </div>
               <div class="filters" id="article-filters">
@@ -484,8 +505,8 @@ function renderShell() {
               </div>
             </div>
             <div id="article-grid" class="article-grid"></div>
-            <div class="composer surface">
-              <h4>Post a new article</h4>
+            <div class="composer">
+              <h4>// post a new article</h4>
               <p class="muted">
                 Save drafts locally before you publish them. They will appear alongside the wasm-powered posts above.
               </p>
@@ -519,48 +540,72 @@ function renderShell() {
 
         <section id="videos" class="section">
           <div class="mui-container">
-            <p class="pill">Livestreams</p>
-            <h2>AI & Computational Neuroscience Live</h2>
-            <p>Recent and upcoming streams, demos, and research sessions.</p>
+            <div class="section-header">
+              <div>
+                <span class="eyebrow">03 · Livestreams</span>
+                <h2>AI &amp; computational <em>neuroscience</em> live</h2>
+                <p>Recent and upcoming streams, demos, and research sessions.</p>
+              </div>
+            </div>
             <div id="video-grid" class="video-grid"></div>
           </div>
         </section>
 
         <section id="projects" class="section">
           <div class="mui-container">
-            <p class="pill">Selected work</p>
-            <h2>Projects & Experiments</h2>
-            <p>Hands-on builds across research, education, and fast Rust/WebAssembly utilities.</p>
+            <div class="section-header">
+              <div>
+                <span class="eyebrow">04 · Selected work</span>
+                <h2>Projects <em>&amp;</em> experiments</h2>
+                <p>Hands-on builds across research, education, and fast Rust/WebAssembly utilities.</p>
+              </div>
+            </div>
             <div id="project-grid" class="project-grid"></div>
           </div>
         </section>
 
         <section id="lab" class="section">
           <div class="mui-container">
-            <p class="pill">Labs</p>
-            <h2>Web Assembly Playground</h2>
-            <p>Kick off a wasm-powered crawl in a couple of seconds. Built for quick reconnaissance.</p>
-            <div class="lab-grid">
-              <div class="surface">
-                <form id="crawler-form">
-                  <div class="field">
-                    <label for="crawler-input">Domains to crawl</label>
-                    <input id="crawler-input" type="text" placeholder="asheux.com, example.org, xkcd.com" />
-                    <small class="helper">Comma separated. We queue, filter, and fetch concurrently in Rust + wasm.</small>
-                  </div>
-                  <div class="cta-row">
-                    <button class="btn primary" type="submit" id="crawl-btn">Queue crawl</button>
-                    <span class="pill" id="crawler-status">Idle</span>
-                  </div>
-                </form>
-                <ul class="result-list" id="crawl-results"></ul>
+            <div class="section-header">
+              <div>
+                <span class="eyebrow">05 · Labs</span>
+                <h2>WebAssembly <em>playground</em></h2>
+                <p>Kick off a wasm-powered crawl in a couple of seconds. Built for quick reconnaissance.</p>
               </div>
-              <div class="surface">
-                <div class="project-thumb">
-                  <img src="${spiderImage}" alt="Crawler illustration" />
+            </div>
+            <div class="lab-grid">
+              <div class="surface term-frame">
+                <div class="term-frame__bar">
+                  <div class="dots"><span></span><span></span><span></span></div>
+                  <span class="title">crawler — rust + wasm</span>
                 </div>
-                <p class="muted">Crawling happens inside WebAssembly with small, efficient requests.</p>
-                <div id="crawl-stats" class="stat-row"></div>
+                <div class="term-frame__body">
+                  <form id="crawler-form">
+                    <div class="field">
+                      <label for="crawler-input">Domains to crawl</label>
+                      <input id="crawler-input" type="text" placeholder="asheux.com, example.org, xkcd.com" />
+                      <small class="helper">Comma separated. We queue, filter, and fetch concurrently in Rust + wasm.</small>
+                    </div>
+                    <div class="cta-row">
+                      <button class="btn primary" type="submit" id="crawl-btn">Queue crawl</button>
+                      <span class="pill" id="crawler-status">Idle</span>
+                    </div>
+                  </form>
+                  <ul class="result-list" id="crawl-results"></ul>
+                </div>
+              </div>
+              <div class="surface term-frame">
+                <div class="term-frame__bar">
+                  <div class="dots"><span></span><span></span><span></span></div>
+                  <span class="title">spider.wasm</span>
+                </div>
+                <div class="term-frame__body">
+                  <div class="project-thumb" style="aspect-ratio: 16/12;">
+                    <img src="${spiderImage}" alt="Crawler illustration" />
+                  </div>
+                  <p class="muted" style="margin-top: 14px;">Crawling happens inside WebAssembly with small, efficient requests.</p>
+                  <div id="crawl-stats" class="stat-row"></div>
+                </div>
               </div>
             </div>
           </div>
@@ -569,7 +614,7 @@ function renderShell() {
 
       <footer class="footer">
         <div class="mui-container">
-          Built with Rust, WebAssembly, and a little MUI polish. <a href="mailto:brian.mboya@protonmail.com">Say hello.</a>
+          Built with Rust, WebAssembly &amp; care. <a href="mailto:brian.mboya@protonmail.com">Say hello.</a>
         </div>
       </footer>
     </div>
@@ -578,7 +623,7 @@ function renderShell() {
       <div class="article-dialog">
         <div class="article-dialog__header">
           <div>
-            <p class="pill">Article</p>
+            <span class="eyebrow">Article</span>
             <strong id="article-title">${HERO_NAME}</strong>
           </div>
           <button class="close-btn" id="close-article">Close</button>
@@ -659,11 +704,13 @@ function renderProjects() {
   if (!grid) return;
   grid.innerHTML = "";
 
-  projectShowcase.forEach((project) => {
+  projectShowcase.forEach((project, idx) => {
     const card = document.createElement("article");
     card.className = "project-card";
     const tags = project.tags.map((tag) => `<span class="chip">${tag}</span>`).join("");
+    const num = String(idx + 1).padStart(2, "0");
     card.innerHTML = `
+      <span class="project-num">[${num}]</span>
       <div class="project-thumb">
         <img src="${project.image}" alt="${project.title}" />
       </div>
