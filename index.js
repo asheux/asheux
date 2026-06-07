@@ -270,7 +270,7 @@ const articleSummaries = {
 const socialLinks = [
   { name: "GitHub", href: "https://github.com/asheux" },
   { name: "X", href: "https://x.com/bm_asheuh" },
-  { name: "LinkedIn", href: "https://www.linkedin.com/in/brian-m-007241135/" },
+  { name: "LinkedIn", href: "https://www.linkedin.com/in/brian-a-007241135/" },
   { name: "ORCID", href: "https://orcid.org/0009-0008-5238-660X" },
 ];
 
